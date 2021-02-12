@@ -1125,3 +1125,26 @@ if (! mysqli_num_rows($actua)) {
 
   mysqli_query($db_con, "INSERT INTO `actualizacion` (`modulo`, `fecha`) VALUES ('Tabla para registrar correos', NOW())");
 }
+
+/*
+  @descripcion: Actualización campo horas en tabla ausencias
+  @fecha: 12 de febrero de 2021
+*/
+$actua = mysqli_query($db_con, "SELECT `modulo` FROM `actualizacion` WHERE `modulo` = 'Actualización campo horas en tabla ausencias'");
+if (! mysqli_num_rows($actua)) {
+  
+  mysqli_query($db_con, "ALTER TABLE `ausencias` CHANGE `horas` `horas` VARCHAR(100) NOT NULL DEFAULT '0';");
+  
+  $result = mysqli_query($db_con, "SELECT id, horas FROM ausencias");
+  while ($row = mysqli_fetch_array($result)) {
+    $hora_string = (string)$row['horas'];
+    $hora_guardar = '';
+    for ($i=0;$i<strlen($hora_string);$i++) {
+      $hora_guardar .= $hora_string[$i].',';
+    }
+    $hora_guardar = trim($hora_guardar, ',');
+    mysqli_query($db_con, "UPDATE `ausencias` SET `horas` = '$hora_guardar' WHERE `id` = ".$row['id']);
+  }
+  
+  mysqli_query($db_con, "INSERT INTO `actualizacion` (`modulo`, `fecha`) VALUES ('Actualización campo horas en tabla ausencias', NOW())");
+}
