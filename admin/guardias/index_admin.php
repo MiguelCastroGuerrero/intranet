@@ -142,7 +142,7 @@ include 'menu.php';
 					    				<?php while ($tramo = mysqli_fetch_array($result_tramos)): ?>
 					    				<?php $i++; ?>
 					    				<?php if (strpos('R', $tramo['hora']) === false && strpos('Rn', $tramo['hora']) === false): ?>
-					    				<option value="<?php echo $i; ?>" <?php echo ($i == $hora) ? 'selected' : ''; ?>><?php echo $tramo['hora']; ?>ª hora - De <?php echo substr($tramo['hora_inicio'], 0, 5); ?> a <?php echo substr($tramo['hora_fin'], 0, 5); ?></option><
+					    				<option value="<?php echo $tramo['hora']; ?>" <?php echo ($i == $hora) ? 'selected' : ''; ?>><?php echo $tramo['hora']; ?>ª hora - De <?php echo substr($tramo['hora_inicio'], 0, 5); ?> a <?php echo substr($tramo['hora_fin'], 0, 5); ?></option><
 					    				<?php endif; ?>
 					    				<?php endwhile; ?>
 					    			</select>
