@@ -11,19 +11,27 @@ if (isset($_GET['tareas'])) {$tareas = $_GET['tareas'];}elseif (isset($_POST['ta
 if (isset($_GET['horas'])) {$horas = $_GET['horas'];}elseif (isset($_POST['horas'])) {$horas = $_POST['horas'];}else{$horas="";}
 if (isset($_GET['id'])) {$id = $_GET['id'];}elseif (isset($_POST['id'])) {$id = $_POST['id'];}else{$id="";}
 if (isset($_GET['pra'])) {$pra = $_GET['pra'];}elseif (isset($_POST['pra'])) {$pra = $_POST['pra'];}else{$pra="";}
-if (isset($_GET['hora1'])) {$hora1 = $_GET['hora1'];}elseif (isset($_POST['hora1'])) {$hora1 = $_POST['hora1'];}else{$hora1="";}
-if (isset($_GET['hora2'])) {$hora2 = $_GET['hora2'];}elseif (isset($_POST['hora2'])) {$hora2 = $_POST['hora2'];}else{$hora2="";}
-if (isset($_GET['hora3'])) {$hora3 = $_GET['hora3'];}elseif (isset($_POST['hora3'])) {$hora3 = $_POST['hora3'];}else{$hora3="";}
-if (isset($_GET['hora4'])) {$hora4 = $_GET['hora4'];}elseif (isset($_POST['hora4'])) {$hora4 = $_POST['hora4'];}else{$hora4="";}
-if (isset($_GET['hora5'])) {$hora5 = $_GET['hora5'];}elseif (isset($_POST['hora5'])) {$hora5 = $_POST['hora5'];}else{$hora5="";}
-if (isset($_GET['hora6'])) {$hora6 = $_GET['hora6'];}elseif (isset($_POST['hora6'])) {$hora6 = $_POST['hora6'];}else{$hora6="";}
-if (isset($_GET['hora7'])) {$hora7 = $_GET['hora7'];}elseif (isset($_POST['hora7'])) {$hora7 = $_POST['hora7'];}else{$hora7="";}
-if (isset($_GET['hora8'])) {$hora8 = $_GET['hora8'];}elseif (isset($_POST['hora8'])) {$hora8 = $_POST['hora8'];}else{$hora8="";}
-if (isset($_GET['hora9'])) {$hora9 = $_GET['hora9'];}elseif (isset($_POST['hora9'])) {$hora9 = $_POST['hora9'];}else{$hora9="";}
-if (isset($_GET['hora10'])) {$hora10 = $_GET['hora10'];}elseif (isset($_POST['hora10'])) {$hora10 = $_POST['hora10'];}else{$hora10="";}
-if (isset($_GET['hora11'])) {$hora11 = $_GET['hora11'];}elseif (isset($_POST['hora11'])) {$hora11 = $_POST['hora11'];}else{$hora11="";}
-if (isset($_GET['hora12'])) {$hora11 = $_GET['hora12'];}elseif (isset($_POST['hora12'])) {$hora12 = $_POST['hora12'];}else{$hora12="";}
-if (isset($_GET['hora13'])) {$hora11 = $_GET['hora13'];}elseif (isset($_POST['hora13'])) {$hora13 = $_POST['hora13'];}else{$hora13="";}
+
+$result_tramos = mysqli_query($db_con, "SELECT `hora`, `hora_inicio`, `hora_fin` FROM `tramos` WHERE `hora` <> 'R' AND `hora` <> 'Rn' ORDER BY `horini` ASC");
+$total_tramos = mysqli_num_rows($result_tramos);
+$num_horas=0;
+$horas_seleccionadas = array();
+$tramos = array();
+while ($row = mysqli_fetch_array($result_tramos)) {
+	$tramos[] = array(
+		'hora' => $row['hora'],
+		'hora_inicio' => $row['hora_inicio'],
+		'hora_fin' => $row['hora_fin']
+	);
+	if (isset($_GET['hora'.$row['hora']])) { 
+		//${hora.$row['hora']} = $_GET['hora'.$row['hora']];
+		$horas_seleccionadas[] = $_GET['hora'.$row['hora']];
+	} elseif (isset($_POST['hora'.$row['hora']])) {
+		//${hora.$row['hora']}  = $_POST['hora'.$row['hora']];
+		$horas_seleccionadas[] = $_POST['hora'.$row['hora']];
+	}
+	$num_horas++;
+}
 
 $PLUGIN_DATATABLES = 1;
 
@@ -89,10 +97,15 @@ include("menu.php");
     	$fech2=explode("-",$fin);
     	$inicio1 = "$fech1[2]-$fech1[1]-$fech1[0]";
     	$fin1 = "$fech2[2]-$fech2[1]-$fech2[0]";
+		
     	//Horas
-    	for ($i=1;$i<9;$i++)
-    		$horas .= ${hora.$i};
-
+    	//for ($i=1;$i<=$num_horas;$i++) $horas .= ${hora.$i};
+	$horas = '';
+	foreach ($horas_seleccionadas as $hora_select) {
+		$horas .= $hora_select.',';
+	}
+	$horas = trim($horas, ',');
+		
 	    // Comprobamos datos enviados
 	    if ($profesor and $inicio and $fin)
         {
@@ -132,7 +145,13 @@ include("menu.php");
 
 			    if ($ok)
                 {
-				    $inserta = mysqli_query($db_con, "insert into ausencias VALUES ('', '$profesor', '$inicio1', '$fin1', '$horas', '$tareas', NOW(), '$nombre_archivo', '$observaciones')");
+					
+					if ($horas=='') {
+						$inserta = mysqli_query($db_con, "insert into ausencias (profesor, inicio, fin, tareas, ahora, archivo, Observaciones) VALUES ('$profesor', '$inicio1', '$fin1', '$tareas', NOW(), '$nombre_archivo', '$observaciones')");
+					} else {
+						$inserta = mysqli_query($db_con, "insert into ausencias (profesor, inicio, fin, horas, tareas, ahora, archivo, Observaciones) VALUES ('$profesor', '$inicio1', '$fin1', '$horas', '$tareas', NOW(), '$nombre_archivo', '$observaciones')");
+					}
+					
 				    echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Los datos se han registrado correctamente.</div>';
 			    }
 		    }
@@ -226,14 +245,11 @@ include("menu.php");
 
 				        <div class="row">
 				        <?php
-				        $result_tramos = mysqli_query($db_con, "SELECT `hora`, `hora_inicio`, `hora_fin` FROM `tramos` WHERE `hora` <> 'R' AND `hora` <> 'Rn' ORDER BY `horini` ASC");
-				        $total_tramos = mysqli_num_rows($result_tramos);
-
-				        while ($row = mysqli_fetch_array($result_tramos))
-                        {
-				            $hor = mysqli_query($db_con,"select horas from ausencias where inicio='$inicio1' and fin='$fin1' and profesor='$profesor' and horas like '%".$row['hora']."%'");
-				            $hori = mysqli_fetch_array($hor);
-				            if (strlen($hori[0]) > 0) {
+				        $hor_sql = mysqli_query($db_con,"select horas from ausencias where inicio='$inicio1' and fin='$fin1' and profesor='$profesor' LIMIT 1");							
+						$hor_row = mysqli_fetch_array($hor_sql);
+						$hor_array = explode(',',$hor_row[0]);
+						foreach ($tramos as $tramo) {
+							if (in_array($tramo['hora'], $hor_array)) {
 						        $extra_hor=" checked";
 					        }
 					        else
@@ -244,8 +260,8 @@ include("menu.php");
 				        	<div class="col-sm-6">
 				            <div class="checkbox">
                                 <label>
-                                	<input name="<?php echo "hora".$row['hora'];?>" type="checkbox" value="<?php echo $row['hora'];?>" <?php echo $extra_hor;?>>
-                                	<?php echo "<span class=\"label label-default\">".$row['hora']."</span> - ".substr($row['hora_inicio'], 0, 5)." a ".substr($row['hora_fin'],0 , 5); ?>
+                                	<input name="<?php echo "hora".$tramo['hora'];?>" type="checkbox" value="<?php echo $tramo['hora'];?>" <?php echo $tramo['hora'];?> <?php echo $extra_hor;?>>
+                                	<?php echo "<span class=\"label label-default\">".$tramo['hora']."</span> - ".substr($tramo['hora_inicio'], 0, 5)." a ".substr($tramo['hora_fin'],0 , 5); ?>
 				            	</label>
 				            </div>
 				            </div>
@@ -307,13 +323,15 @@ include("menu.php");
 							<td nowrap><?php echo $row['fin']; ?></td>
 							<td>
 							<?php
-                            if ($row['horas'] != '0')
-                            {
-							    $hr = str_split($row['horas']);
-							    foreach ($hr as $hora){
-								    echo $hora."ª ";
-							    }
+							$horas_array = explode(",",$row['horas']);
+							foreach ($horas_array as $data) {
+								if ($data != 0) {
+									echo $data."ª ";	
+								} else {
+									echo '<b>Día completo</b>';
+								}
 							}
+                            
                             ?>
 							</td>
 						</tr>
@@ -365,13 +383,14 @@ include("menu.php");
 							        <td nowrap><?php echo $row['fin']; ?></td>
 							        <td nowrap>
 							        <?php
-                                    if ($row['horas'] != '0')
-                                    {
-							            $hr = str_split($row['horas']);
-							            foreach ($hr as $hora) {
-								            echo $hora."ª ";
-							            }
-							        }
+										if ($row['horas'] == 0) {
+											echo '<b>Día completo</b>';
+										} else {
+											$hr = explode(",",$row['horas']);
+											foreach ($hr as $data) {
+												echo $data."ª ";
+											}
+										}
                                     ?>
 							        </td>
 							        <td>
