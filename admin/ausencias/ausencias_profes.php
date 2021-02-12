@@ -3,6 +3,14 @@ require('../../bootstrap.php');
 include("../../menu.php");
 include("menu.php");
 
+$result_tramos = mysqli_query($db_con, "SELECT `hora` FROM `tramos` WHERE `hora` <> 'R' AND `hora` <> 'Rn' ORDER BY `horini` ASC");
+$total_tramos = mysqli_num_rows($result_tramos);
+$tramos = "";
+while ($row = mysqli_fetch_array($result_tramos)) {
+	$tramos .= $row['hora'].',';
+}
+$tramos = trim($tramos, ',');
+
 ?>
 <script src="../../js/ChartJS/Chart.min.js"></script>
 
@@ -62,12 +70,12 @@ window.chartColors = {
 			$horas = "";
 			$dias = "";
 		?>
-			<?php $result1 = mysqli_query($db_con, "SELECT horas FROM ausencias where profesor = '$profe' and (horas = '0' or horas = '123456')");
+			<?php $result1 = mysqli_query($db_con, "SELECT horas FROM ausencias where profesor = '$profe' and (horas = '0' or horas = '{$tramos}')");
 				$dias = mysqli_num_rows($result1);
 				if($dias==0) $dias="";
 			?>
 
-			<?php $result2 = mysqli_query($db_con, "SELECT horas FROM ausencias where profesor = '$profe' and horas not like '0' and horas not like '123456'");
+			<?php $result2 = mysqli_query($db_con, "SELECT horas FROM ausencias where profesor = '$profe' and horas not like '0' and horas not like '{$tramos}'");
 				$horas = mysqli_num_rows($result2);
 				if($horas==0) $horas="";
 				while ($sueltas = mysqli_fetch_array($result2)) {
