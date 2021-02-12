@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `ausencias` (
   `profesor` varchar(64) NOT NULL DEFAULT '',
   `inicio` date NOT NULL DEFAULT '0000-00-00',
   `fin` date NOT NULL DEFAULT '0000-00-00',
-  `horas` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `horas` varchar(100) NOT NULL DEFAULT '0',
   `tareas` mediumtext NOT NULL,
   `ahora` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `archivo` varchar(186) NOT NULL,
