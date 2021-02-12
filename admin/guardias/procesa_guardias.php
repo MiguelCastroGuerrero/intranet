@@ -166,11 +166,13 @@ else {
 				
 				$row = mysqli_fetch_array($result);
 				$horas = $row['horas'];
-				
-				if ($horas != 0 && $horas != '' && strstr($horas, $hora) == FALSE) {
-					$horas = $horas.$hora;
-					
-					mysqli_query($db_con, "UPDATE ausencias SET horas = '$horas' WHERE id = '".$row['id']."'");
+				$horas_array = explode(",",$row['horas']);
+				if ($horas != 0 && $horas != '' && !in_array($hora, $horas_array)) {
+					$horas_array[] = $hora;
+					asort($horas_array);
+					$horas_string = implode(',', $horas_array);
+					//$horas = $horas.$hora;
+					mysqli_query($db_con, "UPDATE ausencias SET horas = '$horas_string' WHERE id = '".$row['id']."'");
 				}
 			}
 			else {
