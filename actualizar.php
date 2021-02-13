@@ -1133,6 +1133,8 @@ if (! mysqli_num_rows($actua)) {
 $actua = mysqli_query($db_con, "SELECT `modulo` FROM `actualizacion` WHERE `modulo` = 'Actualización campo horas en tabla ausencias'");
 if (! mysqli_num_rows($actua)) {
   
+  mysqli_query($db_con,"CREATE TABLE ausencias_seg SELECT * from ausencias");
+
   mysqli_query($db_con, "ALTER TABLE `ausencias` CHANGE `horas` `horas` VARCHAR(100) NOT NULL DEFAULT '0';");
   
   $result = mysqli_query($db_con, "SELECT id, horas FROM ausencias");
