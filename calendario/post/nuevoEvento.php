@@ -32,6 +32,7 @@ $observaciones_evento = mysqli_real_escape_string($db_con, $_POST['cmp_observaci
 $unidades_evento = $_POST['cmp_unidades'];
 $profesorreg_evento = mysqli_real_escape_string($db_con, $_SESSION['ide']);
 $fechareg_evento = date('Y-m-d');
+$doble = count($unidad_asignatura_evento);
 
 
 // Limpiamos espacios innecesarios
@@ -215,12 +216,21 @@ else {
 						$extra_asig = "";
 					}
 
-					$result_columnas = mysqli_query($db_con, "SELECT MAX(orden) FROM notas_cuaderno WHERE profesor = '".$_SESSION['profi']."' AND curso='$string_unidades' AND (asignatura='$asignatura1' $extra_asig)");
-					$numcolumna = mysqli_fetch_array($result_columnas);
-					$orden = $numcolumna[0] + 1;
+					if ($doble==1) {
+						$result_columnas = mysqli_query($db_con, "SELECT MAX(orden) FROM notas_cuaderno WHERE profesor = '".$_SESSION['profi']."' AND curso='$string_unidades' AND (asignatura='$asignatura1' $extra_asig)");
+						$numcolumna = mysqli_fetch_array($result_columnas);
+						$orden = $numcolumna[0] + 1;
 
-					$tipo="Números";
-					mysqli_query($db_con, "INSERT INTO notas_cuaderno (profesor, fecha, nombre, texto , asignatura, curso, orden, visible_nota, Tipo, color) VALUES ('".$_SESSION['profi']."', '$fechareg_evento', '$nombre_evento', '$descripcion_evento', '$asignatura1', '$string_unidades', '$orden', '0', '$tipo', '#FFFFFF')") or die (mysqli_error($db_con));
+						$tipo="Números";
+						mysqli_query($db_con, "INSERT INTO notas_cuaderno (profesor, fecha, nombre, texto , asignatura, curso, orden, visible_nota, Tipo, color) VALUES ('".$_SESSION['profi']."', '$fechareg_evento', '$nombre_evento', '$descripcion_evento', '$asignatura1', '$string_unidades', '$orden', '0', '$tipo', '#FFFFFF')") or die (mysqli_error($db_con));
+						header('Location:'.'http://'.$config['dominio'].'/intranet/calendario/index.php?mes='.$_GET['mes'].'&anio='.$_GET['anio'].'');
+						exit();
+					}
+					else{
+						header('Location:'.'http://'.$config['dominio'].'/intranet/calendario/index.php?mes='.$_GET['mes'].'&anio='.$_GET['anio'].'');
+						exit();
+					}
+					
 				}
 
 				header('Location:'.'http://'.$config['dominio'].'/intranet/calendario/index.php?mes='.$_GET['mes'].'&anio='.$_GET['anio'].'');
