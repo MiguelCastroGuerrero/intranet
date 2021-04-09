@@ -153,27 +153,27 @@ window.chartColors = {
                                 $result = mysqli_fetch_assoc(mysqli_query($db_con, $SQL));
                                 $num_muygraves3 = $result['total'];
                                 
-                                $SQL = "select count(*) as total from Fechoria where expulsion > '0' and month(fecha) >='09' and fecha <= '$minNavidad'";
+                                $SQL = "select count(*) as total from Fechoria where expulsion > '0' and month(fecha) >='09' and fecha <= '$minNavidad' and asunto not like '%covid%'";
                                 $result = mysqli_fetch_assoc(mysqli_query($db_con, $SQL));
                                 $num_expulsion1 = $result['total'];
                                 
-                                $SQL = "select count(*) as total from Fechoria where expulsion > '0' and fecha >= '$maxNavidad' and fecha <= '$minSanta'";
+                                $SQL = "select count(*) as total from Fechoria where expulsion > '0' and fecha >= '$maxNavidad' and fecha <= '$minSanta' and asunto not like '%covid%'";
                                 $result = mysqli_fetch_assoc(mysqli_query($db_con, $SQL));
                                 $num_expulsion2 = $result['total'];
                                 
-                                $SQL = "select count(*) as total from Fechoria where expulsion > '0' and fecha >='$maxSanta' and fecha <= '".$config['curso_fin']."'";
+                                $SQL = "select count(*) as total from Fechoria where expulsion > '0' and fecha >='$maxSanta' and fecha <= '".$config['curso_fin']."' and asunto not like '%covid%'";
                                 $result = mysqli_fetch_assoc(mysqli_query($db_con, $SQL));
                                 $num_expulsion3 = $result['total'];
                                 
-                                $SQL = "select count(distinct claveal) as total from Fechoria where expulsion > '0' and month(fecha) >='09' and fecha <= '$minNavidad'";
+                                $SQL = "select count(distinct claveal) as total from Fechoria where expulsion > '0' and month(fecha) >='09' and fecha <= '$minNavidad' and asunto not like '%covid%'";
                                 $result = mysqli_fetch_assoc(mysqli_query($db_con, $SQL));
                                 $num_expulsados1 = $result['total'];
                                 
-                                $SQL = "select count(distinct claveal) as total from Fechoria where expulsion > '0' and fecha >= '$maxNavidad' and fecha <= '$minSanta'";
+                                $SQL = "select count(distinct claveal) as total from Fechoria where expulsion > '0' and fecha >= '$maxNavidad' and fecha <= '$minSanta' and asunto not like '%covid%'";
                                 $result = mysqli_fetch_assoc(mysqli_query($db_con, $SQL));
                                 $num_expulsados2 = $result['total'];
                                 
-                                $SQL = "select count(distinct claveal) as total from Fechoria where expulsion > '0' and fecha >='$maxSanta' and fecha <= '".$config['curso_fin']."'";
+                                $SQL = "select count(distinct claveal) as total from Fechoria where expulsion > '0' and fecha >='$maxSanta' and fecha <= '".$config['curso_fin']."' and asunto not like '%covid%'";
                                 $result = mysqli_fetch_assoc(mysqli_query($db_con, $SQL));
                                 $num_expulsados3 = $result['total'];
                                 
