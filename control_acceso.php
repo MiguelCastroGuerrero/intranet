@@ -365,7 +365,7 @@ if ($config['mod_notificaciones']) {
 				}
 
 			// De lo contrario, enviamos un correo
-			else{
+			elseif($config['mod_sms']<>1 or strlen($movil)<>9 or $reg_faltas == 1){
 
 				//Buscamos correo del profe
 				$mail0=mysqli_query($db_con, "SELECT correo, PROFESOR FROM c_profes WHERE idea='$profe_sms'");
@@ -416,14 +416,15 @@ if ($config['mod_notificaciones']) {
 				$mail->Subject = utf8_decode('Comunicación de tareas pendientes en el Centro');
 				$mail->AltBody = utf8_decode($texto);
 				$mail->AddAddress($direccion, utf8_decode($nombre_profe));
-				$mail->Send();
+				if($mail->Send()){
 
 				$correo_ya = mysqli_query($db_con,"select * from correos where correo = '$direccion' and texto = '$texto' and date(fecha) = '$hoy'");
 				if (!mysqli_num_rows($correo_ya)>0) {
 					mysqli_query($db_con,"INSERT INTO correos (destino, correo, fecha, texto) VALUES ('$nombre', '$direccion', NOW(), '$texto')");
-					}			
-				}
+					}
+				}			
 			}
+		}
 
 		// Registramos la fecha para no volver a repetir
 		mysqli_query($db_con,"INSERT INTO acceso_dias (fecha, numero) VALUES ('$hoy', '$num')");
