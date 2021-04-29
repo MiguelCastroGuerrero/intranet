@@ -23,8 +23,8 @@ if (strstr($_SESSION['cargo'],'2')==TRUE and strstr($_SESSION['cargo'],'8')==FAL
 	$tut=$_SESSION['profi'];
 	$tutor=mysqli_query($db_con, "select unidad from FTUTORES where tutor='$tut'");
 	$d_tutor=mysqli_fetch_array($tutor);
-	$mas=" and absentismo.unidad='$d_tutor[0]' and tutoria IS NULL ";
-	$mas2=" and tutoria IS NULL ";
+	$mas=" and absentismo.unidad='$d_tutor[0]' and tutoria like '' ";
+	$mas2=" and tutoria like '' ";
 	$titulo="Tutor: $d_tutor[0]";
 	$upd=" tutoria='$texto' ";
 }
@@ -78,7 +78,7 @@ $datos=mysqli_fetch_array($al);
 if (strstr($_SESSION['cargo'],'1')==TRUE) {$obs=$datos[5];$obs2=$datos[8];$obs3=$datos[6];$obs4=$datos[7];}elseif (strstr($_SESSION['cargo'],'8')==TRUE){$obs=$datos[6];$obs2=$datos[8];$obs3=$datos[6];$obs4=$datos[7];$obs5=$datos[5];}else {$obs=$datos[7];}
 ?>
 
-<?
+<?php
 echo  "<table class='table' style='width:auto' align=center><tr><th align='center'> ALUMNO </th><th align='center'> CURSO </th>
 <th align='center'> MES </th><th align='center'> Nº FALTAS </th></tr>
 <tr class='h4'><td align='center'>$datos[0], $datos[1]</td><td id='' align='center'>$datos[2]</td><td id='' align='center'>$mes</td><td id='' align='center'>$datos[4]</td></tr></table><br />";
