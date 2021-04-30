@@ -124,7 +124,7 @@ while ($salida = mysqli_fetch_array($Recordset1)){
 		$datos2=mysqli_fetch_array($datos);
 		$nota_evaluacion=$datos2[0];
 		if(strlen($nota_evaluacion)>0) {}else{$nota_evaluacion="";}
-		echo "<td><input type='number' step='1' min='0' max='10' name='$i-$claveal-$asig_pendiente-$abrev_pendiente' value='$nota_evaluacion' style='max-width:40px;'></td>";
+		echo "<td><input type='number' step='1' min='1' max='10' name='$i-$claveal-$asig_pendiente-$abrev_pendiente' value='$nota_evaluacion' style='max-width:40px;'></td>";
 	}
 	
 	echo"<td>";
