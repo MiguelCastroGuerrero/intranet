@@ -82,10 +82,9 @@ WHERE event1 = '' and event2 = ''  and event3 = ''  and event4 = ''  and event5
 	} else {
 		//INSERT
 		$postQuery = "INSERT INTO `reservas`
-(eventdate,dia,event1,event2,event3,event4,event5,event6,event7,event8,event9,event10,event11,event12,event13,event14,html, servicio) VALUES
+(eventdate,dia,event1,event2,event3,event4,event5,event6,event7,event8,event9,event10,event11,event12,event13,event14, servicio) VALUES
 ('$sql_date','$numero_dia','".$day_event1."','".$day_event2."','".$day_event3."'
-,'".$day_event4."','".$day_event5."','".$day_event6."','".$day_event7."','".$day_event8."','".$day_event9."','".$day_event10."','".$day_event11."','".$day_event12."','".$day_event13."','".$day_event14."',
-'$show_html', '$servicio')";
+,'".$day_event4."','".$day_event5."','".$day_event6."','".$day_event7."','".$day_event8."','".$day_event9."','".$day_event10."','".$day_event11."','".$day_event12."','".$day_event13."','".$day_event14."', '$servicio')";
 		 //echo $postQuery;
 		$postExec = mysqli_query($db_con, $postQuery) or die('Error al insertar la información de reservas. MySQL Error: '.mysqli_error($db_con));
 
@@ -340,8 +339,7 @@ $sql_date = "$year-$month-$today";
 $semana = date( mktime(0, 0, 0, $month, $today, $year));
 $hoy = getdate($semana);
 $numero_dia = $hoy['wday'];
-$eventQuery = "SELECT event1, event2, event3, event4, event5, event6, event7, event8, event9, event10, event11, event12, event13, event14,
-html FROM `reservas` WHERE eventdate = '$sql_date' and servicio='$servicio'";
+$eventQuery = "SELECT event1, event2, event3, event4, event5, event6, event7, event8, event9, event10, event11, event12, event13, event14 FROM `reservas` WHERE eventdate = '$sql_date' and servicio='$servicio'";
 $eventExec = mysqli_query($db_con, $eventQuery);
 while($row = mysqli_fetch_array($eventExec)) {
 	$event_event1 = stripslashes($row["event1"]);

@@ -1148,3 +1148,14 @@ if (! mysqli_num_rows($actua)) {
   
   mysqli_query($db_con, "INSERT INTO `actualizacion` (`modulo`, `fecha`) VALUES ('Actualización campo horas en tabla ausencias', NOW())");
 }
+
+
+/*
+  @descripcion: Eliminado campo html en tabla reservas
+  @fecha: 30 de abril de 2021
+*/
+$actua = mysqli_query($db_con, "SELECT `modulo` FROM `actualizacion` WHERE `modulo` = 'Eliminado campo html en tabla reservas'");
+if (! mysqli_num_rows($actua)) {
+  mysqli_query($db_con, "ALTER TABLE `reservas` DROP `html`");
+  mysqli_query($db_con, "INSERT INTO `actualizacion` (`modulo`, `fecha`) VALUES ('Eliminado campo html en tabla reservas', NOW())");
+}

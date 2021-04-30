@@ -37,6 +37,7 @@ if(isset($_POST['c_escolar'])){$c_escolar = $_POST['c_escolar'];}elseif(isset($_
 if(isset($_POST['apellido'])){$APELLIDOS = $_POST['apellido'];}elseif(isset($_GET['apellido'])){$APELLIDOS = $_GET['apellido'];}else{ $APELLIDOS=""; }
 if(isset($_POST['nombre'])){$NOMBRE = $_POST['nombre'];}elseif(isset($_GET['nombre'])){$NOMBRE = $_GET['nombre'];}else{ $NOMBRE=""; }
 if(isset($_POST['dia'])){$DIA = $_POST['dia'];}elseif(isset($_GET['dia'])){$DIA = $_GET['dia'];}else{ $DIA=""; }
+if(isset($_POST['dia_hasta'])){$DIA_HASTA = $_POST['dia_hasta'];}elseif(isset($_GET['dia_hasta'])){$DIA_HASTA = $_GET['dia_hasta'];}else{ $DIA_HASTA=""; }
 if(isset($_POST['mes'])){$MES = $_POST['mes'];}elseif(isset($_GET['mes'])){$MES = $_GET['mes'];}else{ $MES=""; }
 if(isset($_POST['clase'])){$clase = $_POST['clase'];}elseif(isset($_GET['clase'])){$clase = $_GET['clase'];}else{ $clase=""; }
 if(isset($_POST['confirma'])){$confirma = $_POST['confirma'];}elseif(isset($_GET['confirma'])){$confirma = $_GET['confirma'];}else{ $confirma=""; }
@@ -123,8 +124,14 @@ exit();
     }
     else
     {
-    $DIA = cambia_fecha($DIA);
-    $AUXSQL .= " and (date(Fechoria.fecha)) = '$DIA'";
+      $DIA = cambia_fecha($DIA);
+      $DIA_HASTA = cambia_fecha($DIA_HASTA);
+      if (! empty($DIA) && ! empty($DIA_HASTA)) {
+        $AUXSQL .= " and (date(Fechoria.fecha)) between '$DIA' and '$DIA_HASTA'";
+      }
+      else {
+         $AUXSQL .= " and (date(Fechoria.fecha)) = '$DIA'";
+      }
     }
 
     if  (TRIM("$unidad")=="")
@@ -182,7 +189,7 @@ $query0 = "select alma.apellidos, alma.nombre, alma.unidad, alma.claveal, Fechor
   $result = mysqli_query($db_con, $query0);
  echo "<br /><center>
  <form action='fechorias.php' method='post' name='cnf'>
- <div class='table-responsive'>
+
  <table class='table table-bordered' style='width:auto' align='center'><tr><td class='expulsion-centro'>Expulsión del Centro</td><td class='amonestacion-escrita'>Amonestación escrita</td><td class='expulsion-aula'>Expulsión del aula</td><td class='aula-convivencia-jefatura'>Aula de convivencia (Jefatura)</td><td class='aula-convivencia-profesor'>Aula de convivencia (Profesor)</td></tr></table><br />";
 		echo "<center><form action='fechorias.php' method='post' name='cnf'>
 		<table class='table table-bordered table-striped table-vcentered datatable'>";
@@ -320,7 +327,7 @@ if(mb_strtolower($_SESSION['profi'])==mb_strtolower($row[6]) or stristr($_SESSIO
 
 		echo "</td></tr>";
         }
-        echo "</tbody></table></div>
+        echo "</tbody></table>
         <input type='hidden' name='confirma' value='si' />
         </form></center>\n";
 

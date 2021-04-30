@@ -14,7 +14,7 @@ if (strstr($_SERVER['REQUEST_URI'],'expulsados.php')==TRUE){ $activo4 = ' class=
 if (strstr($_SERVER['REQUEST_URI'],'convivencia.php')==TRUE){ $activo5 = ' class="active" ';}
 if (strstr($_SERVER['REQUEST_URI'],'lfechorias3')==TRUE){ $activo6 = ' class="active" ';}
 ?>
-<div class="container">
+<div class="container hidden-print">
 
 	<?php if (acl_permiso($carg, array('1'))): ?>
 	<a href="preferencias.php" class="btn btn-sm btn-default pull-right"><span class="fas fa-cog fa-lg"></span></a>
