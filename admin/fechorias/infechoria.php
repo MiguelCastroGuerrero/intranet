@@ -386,7 +386,7 @@ sido <u>expulsado</u> del aula </label></div>
 <br>
 
 <?php
-if ($id) {
+if ($id && (stristr($_SESSION['cargo'],'1') == TRUE OR stristr($_SESSION['cargo'],'b') == TRUE)) {
 	?>
 
 <div class="form-group"><label for="informa">Profesor</label> <select

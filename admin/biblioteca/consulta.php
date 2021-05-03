@@ -66,7 +66,7 @@ function seleccionar_todo(){
 			echo '<span class="fa fa-comment fa-fw fa-lg" data-bs="tooltip" title="Se ha enviado SMS de advertencia"></span>';
 		}
 		if ($list[5]=='SI') {
-			echo '<span class="fa fa-bolt fa-fw fa-lg" data-bs="tooltip" title="Se ha registrado una amonestación"></span>';
+			echo '<span class="fa fa-bolt fa-fw fa-lg" data-bs="tooltip" title="Se ha registrado una amonestaciÃ³n"></span>';
 		}
 
 		$ya_sms=mysqli_query($db_con, "select * from sms where (telefono like (select telefono from alma where apellidos = '$list[1]' and nombre = '$list[2]' and unidad = '$list[0]' limit 1) or telefono like (select telefonourgencia from alma where apellidos = '$list[1]' and nombre = '$list[2]' and unidad = '$list[0]' limit 1)) and mensaje like '%material de la Biblioteca%'");
@@ -82,7 +82,7 @@ function seleccionar_todo(){
 		</td>
 
 	</tr>
-	<?	
+	<?php	
 	}
 	?>
 	</tbody>
@@ -113,14 +113,14 @@ function seleccionar_todo(){
 	  		
 	  		"language": {
 	  		            "lengthMenu": "_MENU_",
-	  		            "zeroRecords": "No se ha encontrado ningún resultado con ese criterio.",
-	  		            "info": "Página _PAGE_ de _PAGES_",
+	  		            "zeroRecords": "No se ha encontrado ningÃºn resultado con ese criterio.",
+	  		            "info": "PÃ¡gina _PAGE_ de _PAGES_",
 	  		            "infoEmpty": "No hay resultados disponibles.",
 	  		            "infoFiltered": "(filtrado de _MAX_ resultados)",
 	  		            "search": "Buscar: ",
 	  		            "paginate": {
 	  		                  "first": "Primera",
-	  		                  "next": "Última",
+	  		                  "next": "Ãšltima",
 	  		                  "next": "",
 	  		                  "previous": ""
 	  		                }

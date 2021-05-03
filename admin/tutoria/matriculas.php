@@ -57,7 +57,8 @@ $result = mysqli_query($db_con, $SQL);
 			<th>Alumno/a</th>
 	        <th>Enfermedades</th>
 	        <th>Situación Familiar</th>
-	        <th>Autorización fotos</th>";
+	        <th>Autorización fotos</th>
+	        <th>Analgésicos</th>";
 	echo "</tr></thead><tbody>";
 
 while($row = mysqli_fetch_array($result))
@@ -69,7 +70,7 @@ while($row = mysqli_fetch_array($result))
 		$tabla_mtr = 'matriculas';
 	}
 
-	$mtr = mysqli_query($db_con,"select enfermedad, otraenfermedad, divorcio, foto, id from $tabla_mtr where claveal = '".$row['claveal']."'");
+	$mtr = mysqli_query($db_con,"select enfermedad, otraenfermedad, divorcio, foto, id, analgesicos from $tabla_mtr where claveal = '".$row['claveal']."'");
 	$dato_mtr = mysqli_fetch_array($mtr);
 	if (strlen($dato_mtr['otraenfermedad'])>1) {
 		$enfermo = $dato_mtr['enfermedad'].": ".$dato_mtr['otraenfermedad'];
@@ -86,7 +87,13 @@ while($row = mysqli_fetch_array($result))
 	else{
 		$aut_foto = "NO";
 	}
+	
 	$id = $dato_mtr['id'];
+
+	if ($dato_mtr['analgesicos']==0) {
+		$analgesicos = "NO";
+	}
+
 
 	if (strlen($enfermo)>0 or strlen($divorcio)>0 or strlen($aut_foto)>0) {
 			
@@ -101,7 +108,8 @@ while($row = mysqli_fetch_array($result))
 	echo '<td><a href="../matriculas/'.$tabla_mtr.'.php?id='. $id.'" target="_blank">'.$alumno.'</a></td>';
 	echo "<td>$enfermo</td>
 		<td>$divorcio</td>
-		<td>$aut_foto</td><tr>";
+		<td>$aut_foto</td>
+		<td>$analgesicos</td><tr>";
 		
 		} 
 	}

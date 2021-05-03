@@ -24,10 +24,6 @@ include("../../menu.php");
 				<?php
 				if($archivo1 and $archivo2){
 
-					// Copia de Seguridad
-					mysqli_query($db_con, "DROP TABLE alma_seg") ;
-					mysqli_query($db_con, "create table alma_seg select * from alma");
-
 					// Importamos los datos del fichero CSV (todos_alumnos.csv) en la tabña alma2.
 
 					$fp = fopen ($_FILES['archivo1']['tmp_name'] , "r" ) or die('<div align="center"><div class="alert alert-danger alert-block fade in">
@@ -38,56 +34,61 @@ include("../../menu.php");
 			<div align="center">
 			  <input type="button" value="Volver atrás" name="boton" onClick="history.back(2)" class="btn btn-inverse" />
 			</div>');
-					while (!feof($fp))
-					{
-						$num_linea++;
-						$linea=fgets($fp);
-						$tr=explode("|",$linea);
-						if ($num_linea == 7) {
-							$num_col = count($tr);
-							break;
-						}
-					}
+			while (!feof($fp))
+			{
+				$num_linea++;
+				$linea=fgets($fp);
+				$tr=explode("|",$linea);
+				if ($num_linea == 7) {
+					$num_col = count($tr);
+					break;
+				}
+			}
 
-					$n_col_tabla=0;
-					$contar_c = mysqli_query($db_con,"show columns from alma");
-					while($contar_col = mysqli_fetch_array($contar_c)){
-						$n_col_tabla++;
-					}
+			$n_col_tabla=0;
+			$contar_c = mysqli_query($db_con,"show columns from alma");
+			while($contar_col = mysqli_fetch_array($contar_c)){
+				$n_col_tabla++;
+			}
 
-					if (($n_col_tabla - 1) != $num_col) {
+			if (($n_col_tabla - 1) != $num_col) {
 
-						// Detenemos la operación porque Séneca ha modificado la estructura de RegAlum.txt
+				// Detenemos la operación porque Séneca ha modificado la estructura de RegAlum.txt
 
-						echo '<br><div align="center"><div class="alert alert-danger alert-block fade in">
-			            <button type="button" class="close" data-dismiss="alert">&times;</button>
-						<h5>ATENCIÓN:</h5>
-						No se han podido importar los datos de los alumnos porque Séneca ha modificado la estructura del archivo RegAlum.txt, bien porque ha añadido algún campo bien porque lo ha eliminado. Ahora mismo el archivo tiene '.$num_col.' campos de datos mientras que la tabla tiene '.$n_col_tabla.' columnas.
-						<br>Se mantienen las tablas tal como estaban mientras actualizas la aplicación o lo comunicas a los desarrolladores para que estos puedan arreglar el asunto.
-						</div></div><br />
-						<div align="center">
-						  <input type="button" value="Volver atrás" name="boton" onClick="history.back(2)" class="btn btn-inverse" />
-						</div>';
-						?>
-									</div><!-- /.well -->
+				echo '<br><div align="center"><div class="alert alert-danger alert-block fade in">
+	            <button type="button" class="close" data-dismiss="alert">&times;</button>
+				<h5>ATENCIÓN:</h5>
+				No se han podido importar los datos de los alumnos porque Séneca ha modificado la estructura del archivo RegAlum.txt, bien porque ha añadido algún campo bien porque lo ha eliminado. Ahora mismo el archivo tiene '.$num_col.' campos de datos mientras que la tabla tiene '.$n_col_tabla.' columnas.
+				<br>Se mantienen las tablas tal como estaban mientras actualizas la aplicación o lo comunicas a los desarrolladores para que estos puedan arreglar el asunto.
+				</div></div><br />
+				<div align="center">
+				  <input type="button" value="Volver atrás" name="boton" onClick="history.back(2)" class="btn btn-inverse" />
+				</div>';
 
-							</div><!-- /.col-sm-8 -->
+				?>
+							</div><!-- /.well -->
 
-						</div><!-- /.row -->
+					</div><!-- /.col-sm-8 -->
 
-					</div><!-- /.container -->
+				</div><!-- /.row -->
 
-					<?php include("../../pie.php");	?>
-					<?php
-					exit();
-					}
+			</div><!-- /.container -->
 
-					// Creamos Base de datos y enlazamos con ella.
-					$base0 = "DROP TABLE `alma`";
-					mysqli_query($db_con, $base0);
+			<?php include("../../pie.php");	?>
+			<?php
+				exit();
+			}
+			
+			// Copia de Seguridad
+			mysqli_query($db_con, "DROP TABLE alma_seg") ;
+			mysqli_query($db_con, "create table alma_seg select * from alma");
 
-					// Creación de la tabla alma
-					$alumnos = "CREATE TABLE  `alma` (
+			// Creamos Base de datos y enlazamos con ella.
+			$base0 = "DROP TABLE `alma`";
+			mysqli_query($db_con, $base0);
+
+			// Creación de la tabla alma
+			$alumnos = "CREATE TABLE  `alma` (
 			 `Alumno/a` varchar( 255 ) default NULL ,
 			 `ESTADOMATRICULA` varchar( 255 ) default NULL ,
 			 `CLAVEAL` varchar( 12 ) ,

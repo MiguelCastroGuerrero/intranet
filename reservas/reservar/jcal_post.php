@@ -105,7 +105,7 @@ mysqli_close($conn);
 
 } else {
   //INSERT
-    $postQuery = "INSERT INTO `reservas` (eventdate,dia,event1,event2,event3,event4,event5,event6,event7,event8,event9,event10,event11,event12,event13,event14,html,servicio) VALUES ('$sql_date','$numero_dia','".$day_event_safe1."','".$day_event_safe2."','".$day_event_safe3."','".$day_event_safe4."','".$day_event_safe5."','".$day_event_safe6."','".$day_event_safe7."','".$day_event_safe8."','".$day_event_safe9."','".$day_event_safe10."','".$day_event_safe11."','".$day_event_safe12."','".$day_event_safe13."','".$day_event_safe14."','$show_html', '$servicio')";
+    $postQuery = "INSERT INTO `reservas` (eventdate,dia,event1,event2,event3,event4,event5,event6,event7,event8,event9,event10,event11,event12,event13,event14,servicio) VALUES ('$sql_date','$numero_dia','".$day_event_safe1."','".$day_event_safe2."','".$day_event_safe3."','".$day_event_safe4."','".$day_event_safe5."','".$day_event_safe6."','".$day_event_safe7."','".$day_event_safe8."','".$day_event_safe9."','".$day_event_safe10."','".$day_event_safe11."','".$day_event_safe12."','".$day_event_safe13."','".$day_event_safe14."', '$servicio')";
 
     $postExec = mysqli_query($db_con, $postQuery) or die('Error: '.mysqli_error($db_con));
     mysqli_query($db_con, "DELETE FROM `reservas` WHERE event1 = '' and event2 = ''  and event3 = ''  and event4 = ''  and event5 = ''  and event6 = ''  and event7 = '' and event8 = '' and event9 = '' and event10 = '' and event11 = '' and event12 = '' and event13 = '' and event14 = '' and servicio = '$servicio'");

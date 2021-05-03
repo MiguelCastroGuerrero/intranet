@@ -106,7 +106,11 @@ if (!$claveal) {
 			<h3><?php echo $apellido.', '.$nombrepil; ?></h3>
 		</div>
 
-		<?php $result = mysqli_query($db_con, "select distinct claveal, DNI, fecha, domicilio, localidad, provinciaresidencia, telefono, padre, matriculas, telefonourgencia, paisnacimiento, correo, nacionalidad, edad, curso, unidad, numeroexpediente, dnitutor, dnitutor2, nsegsocial from alma where claveal= '$claveal'"); ?>
+		<?php 
+		$nssocial = "";
+		$seg_social = mysqli_query($db_con,"select nsegsocial from alma");
+		if (mysqli_num_rows($seg_social)>0) { $nssocial = ", nsegsocial";	}
+		$result = mysqli_query($db_con, "select distinct claveal, DNI, fecha, domicilio, localidad, provinciaresidencia, telefono, padre, matriculas, telefonourgencia, paisnacimiento, correo, nacionalidad, edad, curso, unidad, numeroexpediente, dnitutor, dnitutor2". $nssocial." from alma where claveal= '$claveal'"); ?>
 
 		<?php if ($row = mysqli_fetch_array($result)):
 		$nivel_alumno = $row['curso'];

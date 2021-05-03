@@ -194,7 +194,7 @@ $sql_date = "$year-$month-$today";
 $semana = date( mktime(0, 0, 0, $month, $today, $year));
 $hoy = getdate($semana);
 $numero_dia = $hoy['wday'];
-$eventQuery = "SELECT event1, event2, event3, event4, event5, event6, event7, event8, event9, event10, event11, event12, event13, event14, html FROM reservas WHERE eventdate = '$sql_date' and servicio='$servicio'";
+$eventQuery = "SELECT event1, event2, event3, event4, event5, event6, event7, event8, event9, event10, event11, event12, event13, event14 FROM reservas WHERE eventdate = '$sql_date' and servicio='$servicio'";
 $eventExec = mysqli_query($db_con, $eventQuery);
 while($row = mysqli_fetch_array($eventExec)) {
   $event_event1 = stripslashes($row["event1"]);

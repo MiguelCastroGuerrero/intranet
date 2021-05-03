@@ -111,16 +111,24 @@ include("menu.php");
 							<div class="col-sm-5">
 
 								<div class="form-group" id="datetimepicker1">
-								  <label for="dia">Fecha</label>
+								  <label for="dia">Fecha desde</label>
 								  <div class="input-group">
-								  	<input type="text" class="form-control" name="dia" id="dia" placeholder="Fecha" data-date-format="DD-MM-YYYY">
+								  	<input type="text" class="form-control" name="dia" id="dia" placeholder="Fecha desde" data-date-format="DD-MM-YYYY">
+								  	<span class="input-group-addon"><span class="far fa-calendar"></span></span>
+								  </div>
+								</div>
+
+								<div class="form-group" id="datetimepicker2">
+								  <label for="dia">Fecha hasta</label>
+								  <div class="input-group">
+								  	<input type="text" class="form-control" name="dia_hasta" id="dia_hasta" placeholder="Fecha hasta" data-date-format="DD-MM-YYYY">
 								  	<span class="input-group-addon"><span class="far fa-calendar"></span></span>
 								  </div>
 								</div>
 
 								<div class="form-group">
 									<label for="clase">Otros criterios</label>
-									<select class="form-control" id="clase" name="clase[]" multiple size="7">
+									<select class="form-control" id="clase" name="clase[]" multiple size="5">
 										<option value="Expulsion del Centro">Expulsión del centro</option>
 										<option value="Expulsion del Aula">Expulsión del aula</option>
 										<?php if ($config['mod_convivencia']==1) { ?>
@@ -161,6 +169,11 @@ include("menu.php");
 	$(function ()
 	{
 		$('#datetimepicker1').datetimepicker({
+			language: 'es',
+			pickTime: false
+		})
+
+		$('#datetimepicker2').datetimepicker({
 			language: 'es',
 			pickTime: false
 		})
