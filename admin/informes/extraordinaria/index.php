@@ -253,7 +253,7 @@ include("menu.php");
 
 							<div class="row">
 			
-								<div class="col-sm-6">
+								<div class="col-sm-12">
 
 									<div class="form-group datetimepicker1">
 										<label for="fecha_hora">Fecha y hora de la prueba</label>
@@ -265,7 +265,11 @@ include("menu.php");
 
 								</div><!-- /.col-sm-6 -->
 
-								<div class="col-sm-6">
+							</div>
+
+							<div class="row">
+
+								<div class="col-sm-12">
 
 									<div class="form-group">
 										<label for="modalidad">Modalidad</label>
