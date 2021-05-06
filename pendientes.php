@@ -546,14 +546,14 @@ if (strstr($_SESSION['cargo'],'2')==TRUE) {
 	$tut=$_SESSION['profi'];
 	$tutor=mysqli_query($db_con, "select unidad from FTUTORES where tutor='$tut'");
 	$d_tutor=mysqli_fetch_array($tutor);
-	$mas=" and absentismo.unidad='$d_tutor[0]' and tutoria = '' ";
+	$mas=" and absentismo.unidad='$d_tutor[0]' and (tutoria IS NULL or tutoria = '')";
 }
 if (strstr($_SESSION['cargo'],'1')==TRUE) {
 	$mas=" and (jefatura IS NULL or jefatura = '')";
 	$limite = "LIMIT 5";
 }
 if (strstr($_SESSION['cargo'],'8')==TRUE) {
-	$mas=" and orientacion = ''";
+	$mas=" and (orientacion IS NULL or orientacion = '')";
 }
 if (strstr($_SESSION['cargo'],'1')==TRUE or strstr($_SESSION['cargo'],'2')==TRUE or strstr($_SESSION['cargo'],'8')==TRUE) {
 	$SQL0 = "SELECT absentismo.CLAVEAL, apellidos, nombre, absentismo.unidad, alma.matriculas, numero, mes FROM absentismo, alma WHERE alma.claveal = absentismo.claveal $mas order by unidad $limite";

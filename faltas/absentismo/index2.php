@@ -23,8 +23,8 @@ if (strstr($_SESSION['cargo'],'2')==TRUE and strstr($_SESSION['cargo'],'8')==FAL
 	$tut=$_SESSION['profi'];
 	$tutor=mysqli_query($db_con, "select unidad from FTUTORES where tutor='$tut'");
 	$d_tutor=mysqli_fetch_array($tutor);
-	$mas=" and absentismo.unidad='$d_tutor[0]' and tutoria like '' ";
-	$mas2=" and tutoria like '' ";
+	$mas=" and absentismo.unidad='$d_tutor[0]' and (tutoria IS NULL or tutoria = '') ";
+	$mas2=" and (tutoria IS NULL or tutoria = '') ";
 	$titulo="Tutor: $d_tutor[0]";
 	$upd=" tutoria='$texto' ";
 }
