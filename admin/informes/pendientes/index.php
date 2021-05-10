@@ -241,10 +241,6 @@ include("menu.php");
 								</select>
 							</div>
 
-							<div class="row">
-			
-								<div class="col-sm-6">
-
 									<div class="form-group datetimepicker1">
 										<label for="fecha_hora">Fecha y hora de la prueba</label>
 										<div class="input-group">
@@ -252,10 +248,6 @@ include("menu.php");
 											<span class="input-group-addon"><span class="far fa-calendar">
 										</div>
 									</div>
-
-								</div><!-- /.col-sm-6 -->
-
-								<div class="col-sm-6">
 
 									<div class="form-group">
 										<label for="modalidad">Modalidad</label>
@@ -265,10 +257,6 @@ include("menu.php");
 											<?php endforeach; ?>
 										</select>
 									</div>
-
-								</div><!-- /.col-sm-6 -->
-
-							</div><!-- /.row -->
 
 							<br>
 

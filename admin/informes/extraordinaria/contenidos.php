@@ -111,7 +111,7 @@ include("menu.php");
 ?>
 	
 	<div class="container page-header">
-		<h2>Informe individual de evaluación (extraordinaria o materias pendientes)  <small><br><?php echo $datos_informe['asignatura']; ?><br><?php echo $datos_informe['unidad']; ?></small></h2>
+		<h2>Informe individual de evaluación extraordinaria  <small><br><?php echo $datos_informe['asignatura']; ?><br><?php echo $datos_informe['unidad']; ?></small></h2>
 	</div>
 
 	<div class="container-fluid">
