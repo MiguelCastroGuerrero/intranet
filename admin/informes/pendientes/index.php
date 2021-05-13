@@ -241,22 +241,22 @@ include("menu.php");
 								</select>
 							</div>
 
-									<div class="form-group datetimepicker1">
-										<label for="fecha_hora">Fecha y hora de la prueba</label>
-										<div class="input-group">
-											<input type="text" class="form-control" id="fecha_hora" name="fecha_hora" value="<?php if($edita==1 OR isset($fecha_hora)){ echo $fecha_hora;} else{ echo '01/09/'.date('Y').' 08:00';} ?>" data-date-format="DD/MM/YYYY HH:mm" required>
-											<span class="input-group-addon"><span class="far fa-calendar">
-										</div>
-									</div>
+								<div class="form-group">
+									<label for="modalidad">Modalidad</label>
+									<select id="modalidad" name="modalidad" class="form-control">
+										<?php foreach ($modalidades as $modalidad_cmp): ?>
+										<option value="<?php echo $modalidad_cmp; ?>" <?php echo ($modalidad_cmp == $modalidad ) ? 'selected': ''; ?>><?php echo $modalidad_cmp; ?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
 
-									<div class="form-group">
-										<label for="modalidad">Modalidad</label>
-										<select id="modalidad" name="modalidad" class="form-control">
-											<?php foreach ($modalidades as $modalidad_cmp): ?>
-											<option value="<?php echo $modalidad_cmp; ?>" <?php echo ($modalidad_cmp == $modalidad ) ? 'selected': ''; ?>><?php echo $modalidad_cmp; ?></option>
-											<?php endforeach; ?>
-										</select>
+								<div class="form-group datetimepicker1">
+									<label for="fecha_hora">Fecha y hora de la prueba</label>
+									<div class="input-group">
+										<input type="text" class="form-control" id="fecha_hora" name="fecha_hora" value="<?php if($edita==1 OR isset($fecha_hora)){ echo $fecha_hora;} else{ echo '01/09/'.date('Y').' 08:00';} ?>" data-date-format="DD/MM/YYYY HH:mm" required>
+										<span class="input-group-addon"><span class="far fa-calendar">
 									</div>
+								</div>
 
 							<br>
 
