@@ -3,6 +3,7 @@ require('../../../bootstrap.php');
 
 //PROCESAR DATOS ENVIADOS
 if (isset($_POST['enviar_datos'])) {
+	$enviado = 1;
 	$id_informe = $_POST['id_informe'];
 	mysqli_query($db_con,"delete from informe_pendientes_alumnos where id_informe = '".$id_informe."' and claveal='".$_POST['claveal']."'");
 	foreach ($_POST as $clave => $val) {
@@ -22,7 +23,7 @@ if (isset($_POST['enviar_datos'])) {
 					$msg_error = "No se ha podido guardar algún elemento del informe. O bien has borrado todos los datos de un alumno e informe";
 				}
 				else{
-					$msg_acierto = "Se han actualizado correctamente los datos del informe";
+					$msg_acierto = "Se han actualizado correctamente los datos del informe. Puedes volver a la página de evaluación de pendientes para continuar.";
 				}
 			}
 		
@@ -63,6 +64,7 @@ include("menu.php");
 		</div>
 		<?php endif; ?>
 
+		<?php if($enviado <> 1) { ?>
 		<div class="row">
 			
 			<div class="col-sm-12">
@@ -141,7 +143,7 @@ include("menu.php");
 
 		</div><!-- /.row -->
 		
-
+	<?php } ?>
 
 	</div>
 
