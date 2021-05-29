@@ -7,6 +7,56 @@ acl_acceso($_SESSION['cargo'], array('z', '1'));
 if (isset($_FILES['archivo1'])) {$archivo1 = $_FILES['archivo1'];}
 if (isset($_FILES['archivo2'])) {$archivo2 = $_FILES['archivo2'];}
 
+// Creación de la tabla alma
+$alumnos = "CREATE TABLE  `alma` (
+ `Alumno/a` varchar( 255 ) default NULL ,
+ `ESTADOMATRICULA` varchar( 255 ) default NULL ,
+ `CLAVEAL` varchar( 12 ) ,
+ `DNI` varchar( 10 ) default NULL ,
+ `DOMICILIO` varchar( 255 ) default NULL ,
+ `CODPOSTAL` varchar( 255 ) default NULL ,
+ `LOCALIDAD` varchar( 255 ) default NULL ,
+ `FECHA` varchar( 255 ) default NULL ,
+ `PROVINCIARESIDENCIA` varchar( 255 ) default NULL ,
+ `TELEFONO` varchar( 255 ) default NULL ,
+ `TELEFONOPERSONAL` varchar( 255 ) default NULL ,
+ `TELEFONOURGENCIA` varchar( 255 ) default NULL ,
+ `CORREOPERSONAL` varchar( 255 ) default NULL ,
+ `CORREO` varchar( 64 ) default NULL ,
+ `CURSO` varchar( 255 ) default NULL ,
+ `NUMEROEXPEDIENTE` varchar( 255 ) default NULL ,
+ `UNIDAD` varchar( 255 ) default NULL ,
+ `apellido1` varchar( 255 ) default NULL ,
+ `apellido2` varchar( 255 ) default NULL ,
+ `NOMBRE` varchar( 30 ) default NULL ,
+ `DNITUTOR` varchar( 255 ) default NULL ,
+ `PRIMERAPELLIDOTUTOR` varchar( 255 ) default NULL ,
+ `SEGUNDOAPELLIDOTUTOR` varchar( 255 ) default NULL ,
+ `NOMBRETUTOR` varchar( 255 ) default NULL ,
+ `CORREOTUTOR` varchar( 255 ) default NULL ,
+ `TELEFONOTUTOR` char( 9 ) default NULL ,
+ `SEXOPRIMERTUTOR` varchar( 255 ) default NULL ,
+ `DNITUTOR2` varchar( 255 ) default NULL ,
+ `PRIMERAPELLIDOTUTOR2` varchar( 255 ) default NULL ,
+ `SEGUNDOAPELLIDOTUTOR2` varchar( 255 ) default NULL ,
+ `CORREOTUTOR2` varchar( 255 ) default NULL ,
+ `NOMBRETUTOR2` varchar( 255 ) default NULL ,
+ `TELEFONOTUTOR2` char( 9 ) default NULL ,
+ `SEXOTUTOR2` varchar( 255 ) default NULL ,
+ `LOCALIDADNACIMIENTO` varchar( 255 ) default NULL ,
+ `ANOMATRICULA` varchar( 4 ) default NULL ,
+ `MATRICULAS` varchar( 255 ) default NULL ,
+ `OBSERVACIONES` varchar( 255 ) default NULL,
+ `PROVINCIANACIMIENTO` varchar( 255 ) default NULL ,
+ `PAISNACIMIENTO` varchar( 255 ) default NULL ,
+ `EDAD` varchar( 2 ) default NULL ,
+ `NACIONALIDAD` varchar( 32 ) default NULL,
+ `SEXO` varchar( 1 ) default NULL ,
+ `FECHAMATRICULA` varchar( 255 ) default NULL,
+ `NSEGSOCIAL` varchar( 15 ) default NULL,
+ PRIMARY KEY (`CLAVEAL`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci ";
+
 include("../../menu.php");
 ?>
 
@@ -21,14 +71,18 @@ include("../../menu.php");
 		<div class="col-sm-8 col-sm-offset-2">
 
 			<div class="well">
-				<?php
-				if($archivo1 and $archivo2){
 
-					// Importamos los datos del fichero CSV (todos_alumnos.csv) en la tabña alma2.
+				<?php  if($archivo1 and $archivo2){
 
-					$fp = fopen ($_FILES['archivo1']['tmp_name'] , "r" ) or die('<div align="center"><div class="alert alert-danger alert-block fade in">
-			            <button type="button" class="close" data-dismiss="alert">&times;</button>
-						<h5>ATENCIÓN:</h5>
+			// Copia de Seguridad
+			mysqli_query($db_con, "DROP TABLE alma_seg") ;
+			mysqli_query($db_con, "create table alma_seg select * from alma");
+
+			// Importamos los datos del fichero CSV (todos_alumnos.csv) en la tabña alma2.
+			$fp = fopen ($_FILES['archivo1']['tmp_name'] , "r" ) or die('<div align="center">
+			<div class="alert alert-danger alert-block fade in">
+	        <button type="button" class="close" data-dismiss="alert">&times;</button>
+			<h5>ATENCIÓN:</h5>
 			No se ha podido abrir el archivo RegAlum.txt. O bien te has olvidado de enviarlo o el archivo está corrompido.
 			</div></div><br />
 			<div align="center">
@@ -51,7 +105,32 @@ include("../../menu.php");
 				$n_col_tabla++;
 			}
 
-			if (($n_col_tabla - 1) != $num_col) {
+			if (($n_col_tabla -1) != $num_col) {
+				// Creamos Base de datos y enlazamos con ella.
+			$base0 = "DROP TABLE `alma`";
+			mysqli_query($db_con, $base0);
+
+			mysqli_query($db_con, $alumnos) or die ('<div align="center"><div class="alert alert-danger alert-block fade in">
+	        <button type="button" class="close" data-dismiss="alert">&times;</button>
+			<h5>ATENCIÓN:</h5>
+			No se ha podido crear la tabla <strong>Alma</strong>. Ponte en contacto con quien pueda resolver el problema.
+			</div></div><br />
+			<div align="center">
+			  <input type="button" value="Volver atrás" name="boton" onClick="history.back(2)" class="btn btn-inverse" />
+			</div>');
+
+			$n_col_tabla=0;
+			$contar_c = mysqli_query($db_con,"show columns from alma");
+			while($contar_col = mysqli_fetch_array($contar_c)){
+				$n_col_tabla++;
+			}
+
+			if ($n_col_tabla != $num_col) {
+
+				// Restauraciónb de Copia de Seguridad
+				mysqli_query($db_con, "DROP TABLE alma") ;
+				mysqli_query($db_con, "create table alma select * from alma_seg");
+				mysqli_query($db_con,"ALTER TABLE `alma` ADD PRIMARY KEY(`CLAVEAL`);");
 
 				// Detenemos la operación porque Séneca ha modificado la estructura de RegAlum.txt
 
@@ -77,63 +156,12 @@ include("../../menu.php");
 			<?php include("../../pie.php");	?>
 			<?php
 				exit();
+				}
 			}
-			
-			// Copia de Seguridad
-			mysqli_query($db_con, "DROP TABLE alma_seg") ;
-			mysqli_query($db_con, "create table alma_seg select * from alma");
 
 			// Creamos Base de datos y enlazamos con ella.
 			$base0 = "DROP TABLE `alma`";
 			mysqli_query($db_con, $base0);
-
-			// Creación de la tabla alma
-			$alumnos = "CREATE TABLE  `alma` (
-			 `Alumno/a` varchar( 255 ) default NULL ,
-			 `ESTADOMATRICULA` varchar( 255 ) default NULL ,
-			 `CLAVEAL` varchar( 12 ) ,
-			 `DNI` varchar( 10 ) default NULL ,
-			 `DOMICILIO` varchar( 255 ) default NULL ,
-			 `CODPOSTAL` varchar( 255 ) default NULL ,
-			 `LOCALIDAD` varchar( 255 ) default NULL ,
-			 `FECHA` varchar( 255 ) default NULL ,
-			 `PROVINCIARESIDENCIA` varchar( 255 ) default NULL ,
-			 `TELEFONO` varchar( 255 ) default NULL ,
-			 `TELEFONOURGENCIA` varchar( 255 ) default NULL ,
-			 `CORREO` varchar( 64 ) default NULL ,
-			 `CURSO` varchar( 255 ) default NULL ,
-			 `NUMEROEXPEDIENTE` varchar( 255 ) default NULL ,
-			 `UNIDAD` varchar( 255 ) default NULL ,
-			 `apellido1` varchar( 255 ) default NULL ,
-			 `apellido2` varchar( 255 ) default NULL ,
-			 `NOMBRE` varchar( 30 ) default NULL ,
-			 `DNITUTOR` varchar( 255 ) default NULL ,
-			 `PRIMERAPELLIDOTUTOR` varchar( 255 ) default NULL ,
-			 `SEGUNDOAPELLIDOTUTOR` varchar( 255 ) default NULL ,
-			 `NOMBRETUTOR` varchar( 255 ) default NULL ,
-			 `CORREOTUTOR` varchar( 255 ) default NULL ,
-			 `TELEFONOTUTOR` char( 9 ) default NULL ,
-			 `SEXOPRIMERTUTOR` varchar( 255 ) default NULL ,
-			 `DNITUTOR2` varchar( 255 ) default NULL ,
-			 `PRIMERAPELLIDOTUTOR2` varchar( 255 ) default NULL ,
-			 `SEGUNDOAPELLIDOTUTOR2` varchar( 255 ) default NULL ,
-			 `CORREOTUTOR2` varchar( 255 ) default NULL ,
-			 `NOMBRETUTOR2` varchar( 255 ) default NULL ,
-			 `SEXOTUTOR2` varchar( 255 ) default NULL ,
-			 `TELEFONOTUTOR2` char( 9 ) default NULL ,
-			 `LOCALIDADNACIMIENTO` varchar( 255 ) default NULL ,
-			 `ANOMATRICULA` varchar( 4 ) default NULL ,
-			 `MATRICULAS` varchar( 255 ) default NULL ,
-			 `OBSERVACIONES` varchar( 255 ) default NULL,
-			 `PROVINCIANACIMIENTO` varchar( 255 ) default NULL ,
-			 `PAISNACIMIENTO` varchar( 255 ) default NULL ,
-			 `EDAD` varchar( 2 ) default NULL ,
-			 `NACIONALIDAD` varchar( 32 ) default NULL,
-			 `SEXO` varchar( 1 ) default NULL ,
-			 `FECHAMATRICULA` varchar( 255 ) default NULL,
-			 `NSEGSOCIAL` varchar( 15 ) default NULL,
-			 PRIMARY KEY (`CLAVEAL`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci ";
 
 					mysqli_query($db_con, $alumnos) or die ('<div align="center"><div class="alert alert-danger alert-block fade in">
 			            <button type="button" class="close" data-dismiss="alert">&times;</button>
