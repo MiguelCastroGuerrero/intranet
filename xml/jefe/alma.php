@@ -7,6 +7,11 @@ acl_acceso($_SESSION['cargo'], array('z', '1'));
 if (isset($_FILES['archivo1'])) {$archivo1 = $_FILES['archivo1'];}
 if (isset($_FILES['archivo2'])) {$archivo2 = $_FILES['archivo2'];}
 
+$campos = array("Alumno/a"=>"Alumno/a", "Estado Matrícula"=>"ESTADOMATRICULA", "Nº Id. Escolar"=>"CLAVEAL", "DNI/Pasaporte"=>"DNI", "Dirección"=>"DOMICILIO", "Código postal"=>"CODPOSTAL", "Localidad de residencia"=>"LOCALIDAD", "Fecha de nacimiento"=>"FECHA", "Provincia de residencia"=>"PROVINCIARESIDENCIA", "Teléfono"=>"TELEFONO", "Teléfono personal alumno/a"=>"TELEFONOPERSONAL", "Teléfono de urgencia"=>"TELEFONOURGENCIA", "Correo electrónico personal alumno/a" => "CORREOPERSONAL", "Correo Electrónico"=>"CORREO", "Curso"=>"CURSO", "Nº del expediente del centro"=>"NUMEROEXPEDIENTE", "Unidad"=>"UNIDAD", "Primer apellido"=>"apellido1", "Segundo apellido"=>"apellido2", "Nombre"=>"NOMBRE", "DNI/Pasaporte Primer turor"=>"DNITUTOR", "Primer apellido Primer tutor"=>"PRIMERAPELLIDOTUTOR", "Segundo apellido Primer tutor"=>"SEGUNDOAPELLIDOTUTOR", "Nombre Primer tutor"=>"NOMBRETUTOR", "Correo Electrónico Primer tutor"=>"CORREOTUTOR", "Teléfono Primer tutor"=>"TELEFONOTUTOR", "Sexo Primer tutor"=>"SEXOPRIMERTUTOR", "DNI/Pasaporte Segundo tutor"=>"DNITUTOR2", "Primer apellido Segundo tutor"=>"PRIMERAPELLIDOTUTOR2", "Segundo apellido Segundo tutor"=>"SEGUNDOAPELLIDOTUTOR2", "Correo Electrónico Segundo tutor"=>"CORREOTUTOR2", "Nombre Segundo tutor"=>"NOMBRETUTOR2", "Teléfono Segundo tutor"=>"TELEFONOTUTOR2", "Sexo Segundo tutor"=>"SEXOTUTOR2", "Localidad de nacimiento"=>"LOCALIDADNACIMIENTO", "Año de la matrícula"=>"ANOMATRICULA", "Nº de matrículas en este curso"=>"MATRICULAS", "Observaciones de la matrícula"=>"OBSERVACIONES", "Provincia nacimiento"=>"PROVINCIANACIMIENTO", "País de nacimiento"=>"PAISNACIMIENTO", "Edad a 31/12 del año de matrícula"=>"EDAD", "Nacionalidad"=>"NACIONALIDAD", "Sexo"=>"SEXO", "Fecha de matrícula"=>"FECHAMATRICULA", "NºSeg.Social"=>"NSEGSOCIAL");
+
+//
+// 
+
 // Creación de la tabla alma
 $alumnos = "CREATE TABLE  `alma` (
  `Alumno/a` varchar( 255 ) default NULL ,
@@ -77,6 +82,17 @@ include("../../menu.php");
 			// Copia de Seguridad
 			mysqli_query($db_con, "DROP TABLE alma_seg") ;
 			mysqli_query($db_con, "create table alma_seg select * from alma");
+			
+			mysqli_query($db_con, "DROP TABLE alma");
+			mysqli_query($db_con, $alumnos)  or die('<div align="center">
+			<div class="alert alert-danger alert-block fade in">
+	        <button type="button" class="close" data-dismiss="alert">&times;</button>
+			<h5>ATENCIÓN:</h5>
+			No se ha podido crear la tabla <b>alma</b> en la base de datos. Busca ayuda...
+			</div></div><br />
+			<div align="center">
+			  <input type="button" value="Volver atrás" name="boton" onClick="history.back(2)" class="btn btn-inverse" />
+			</div>');
 
 			// Importamos los datos del fichero CSV (todos_alumnos.csv) en la tabña alma2.
 			$fp = fopen ($_FILES['archivo1']['tmp_name'] , "r" ) or die('<div align="center">
@@ -93,136 +109,121 @@ include("../../menu.php");
 				$num_linea++;
 				$linea=fgets($fp);
 				$tr=explode("|",$linea);
-				if ($num_linea == 7) {
+				if ($num_linea == 7) {						
 					$num_col = count($tr);
-					break;
-				}
-			}
-
-			$n_col_tabla=0;
-			$contar_c = mysqli_query($db_con,"show columns from alma");
-			while($contar_col = mysqli_fetch_array($contar_c)){
-				$n_col_tabla++;
-			}
-
-			if (($n_col_tabla -1) != $num_col) {
-				// Creamos Base de datos y enlazamos con ella.
-			$base0 = "DROP TABLE `alma`";
-			mysqli_query($db_con, $base0);
-
-			mysqli_query($db_con, $alumnos) or die ('<div align="center"><div class="alert alert-danger alert-block fade in">
-	        <button type="button" class="close" data-dismiss="alert">&times;</button>
-			<h5>ATENCIÓN:</h5>
-			No se ha podido crear la tabla <strong>Alma</strong>. Ponte en contacto con quien pueda resolver el problema.
-			</div></div><br />
-			<div align="center">
-			  <input type="button" value="Volver atrás" name="boton" onClick="history.back(2)" class="btn btn-inverse" />
-			</div>');
-
-			$n_col_tabla=0;
-			$contar_c = mysqli_query($db_con,"show columns from alma");
-			while($contar_col = mysqli_fetch_array($contar_c)){
-				$n_col_tabla++;
-			}
-
-			if ($n_col_tabla != $num_col) {
-
-				// Restauraciónb de Copia de Seguridad
-				mysqli_query($db_con, "DROP TABLE alma") ;
-				mysqli_query($db_con, "create table alma select * from alma_seg");
-				mysqli_query($db_con,"ALTER TABLE `alma` ADD PRIMARY KEY(`CLAVEAL`);");
-
-				// Detenemos la operación porque Séneca ha modificado la estructura de RegAlum.txt
-
-				echo '<br><div align="center"><div class="alert alert-danger alert-block fade in">
-	            <button type="button" class="close" data-dismiss="alert">&times;</button>
-				<h5>ATENCIÓN:</h5>
-				No se han podido importar los datos de los alumnos porque Séneca ha modificado la estructura del archivo RegAlum.txt, bien porque ha añadido algún campo bien porque lo ha eliminado. Ahora mismo el archivo tiene '.$num_col.' campos de datos mientras que la tabla tiene '.$n_col_tabla.' columnas.
-				<br>Se mantienen las tablas tal como estaban mientras actualizas la aplicación o lo comunicas a los desarrolladores para que estos puedan arreglar el asunto.
-				</div></div><br />
-				<div align="center">
-				  <input type="button" value="Volver atrás" name="boton" onClick="history.back(2)" class="btn btn-inverse" />
-				</div>';
-
-				?>
-							</div><!-- /.well -->
-
-					</div><!-- /.col-sm-8 -->
-
-				</div><!-- /.row -->
-
-			</div><!-- /.container -->
-
-			<?php include("../../pie.php");	?>
-			<?php
-				exit();
-				}
-			}
-
-			// Creamos Base de datos y enlazamos con ella.
-			$base0 = "DROP TABLE `alma`";
-			mysqli_query($db_con, $base0);
-
-					mysqli_query($db_con, $alumnos) or die ('<div align="center"><div class="alert alert-danger alert-block fade in">
-			            <button type="button" class="close" data-dismiss="alert">&times;</button>
-						<h5>ATENCIÓN:</h5>
-			No se ha podido crear la tabla <strong>Alma</strong>. Ponte en contacto con quien pueda resolver el problema.
-			</div></div><br />
-			<div align="center">
-			  <input type="button" value="Volver atrás" name="boton" onClick="history.back(2)" class="btn btn-inverse" />
-			</div>');
-
-
-
-					//echo $num_linea++; // Si todo va bien, el valor de $num_linea en esta línea es 7
-
-					while (!feof($fp))
-					{
-						$num_linea++;
-
-						$linea="";
-						$lineasalto="";
-						$dato="";
-						$linea=fgets($fp);
-
-						// En la línea 9 es donde comienza el listado de alumnos
-						if ($num_linea > 8) {
-							$tr=explode("|",$linea);
-							$lineasalto = "INSERT INTO alma VALUES (";
-								foreach ($tr as $valor){
-									$dato.= "\"". mysqli_real_escape_string($db_con, trim(utf8_encode($valor))) . "\", ";
-								}
-							$dato=substr($dato,0,strlen($dato)-2);
-							$lineasalto.=$dato;
-							$lineasalto.=");";
-							$consulta=explode(',',$lineasalto);
-							//Comprobamos que la matrícula no haya sido anulada o trasladada para añadirla
-							if (!preg_match('*Anulada*', $consulta[2]) and !preg_match('*Trasladada*',$consulta[2])){
-								mysqli_query($db_con, $lineasalto);
+					foreach ($tr as $key => $value) {
+						$value = trim(utf8_encode($value));
+						$campos_seneca[] = $value;
+						foreach ($campos as $key2 => $value2) {
+							if($value == $key2){
+								$val_ok[] = $key;								
 							}
 						}
 					}
+				break;
+				}
+			}
 
-					fclose($fp);
-
-					// Descomprimimos el zip de las calificaciones en el directorio exporta/
-					include('../../lib/pclzip.lib.php');
-					// Borramos archivos antiguos
-					$files = glob('../exporta/*');
-						foreach($files as $file)
-						{
-  						if(is_file($file) and stristr($file, "index")==FALSE)
-    						unlink($file);
+			// Comprobación de campos añadidos por Séneca
+			$msg_error="";
+			$num=1;
+			foreach ($val_ok as $key_ok => $value_ok) {
+				if ($key_ok != $value_ok) {
+					foreach ($campos as $key => $value) {
+						$num++;						
+						if ($num==$value_ok) {
+							$clave_dato = $key_ok+1;
+							$msg_error .=  "El siguiente campo ha sido añadido por Séneca y debe ser creado en la tabla <b>Alma</b>:<br><em> -- " .$clave_dato.": ".$campos_seneca[$key_ok]." -- <em><br>";
 						}
-
-					$archive = new PclZip($_FILES['archivo2']['tmp_name']);
-					if ($archive->extract(PCLZIP_OPT_PATH, '../exporta') == 0)
-					{
-						die("Error : ".$archive->errorInfo(true));
 					}
+				}
+			}
 
-					// Procesamos los datos de RegAlum para crear la tabla alma
-					$crear = "ALTER TABLE  alma
+			if ($clave_dato > 0) {
+				echo '<div align="center">
+				<div class="alert alert-warning alert-block fade in">
+		        <button type="button" class="close" data-dismiss="alert">&times;</button>
+				<h5>ATENCIÓN:</h5>'.$msg_error.'
+				</div></div><br /><br>';
+			}
+			
+
+			while (!feof($fp))
+			{
+
+				$num_linea++;
+
+				$linea="";
+				$lineasalto="";
+				$dato="";
+				$linea=fgets($fp);
+
+				// En la línea 9 es donde comienza el listado de alumnos
+				if ($num_linea > 7) {
+					$tr=explode("|",$linea);
+					$lineasalto = "INSERT INTO alma VALUES (";
+					$n_dato="";
+						foreach ($tr as $valor){
+							$n_dato++;
+							if ($n_dato <> $clave_dato) {
+								$dato.= "\"". mysqli_real_escape_string($db_con, trim(utf8_encode($valor))) . "\", ";
+							}									
+						}
+					$dato=substr($dato,0,strlen($dato)-2);
+					$lineasalto.=$dato;
+					$lineasalto.=");";
+
+					$consulta=explode(',',$lineasalto);
+					//Comprobamos que la matrícula no haya sido anulada o trasladada para añadirla
+					if (!preg_match('*Anulada*', $consulta[2]) and !preg_match('*Trasladada*',$consulta[2])){
+						mysqli_query($db_con, $lineasalto);
+					}
+				}
+			}
+
+			fclose($fp);
+
+			// Comprobación de seguridad
+			$spv = mysqli_query($db_con, "select * from alma");
+			if (mysqli_num_rows($spv)<9) {
+
+				echo '<div align="center">
+				<div class="alert alert-warning alert-block fade in">
+		        <button type="button" class="close" data-dismiss="alert">&times;</button>
+				<h5>ATENCIÓN:</h5>
+				Parece que hemos tenido un problema al importar los datos de los alumnos. Vamos a dejar las cosas como estaban antes de iniciar la actualización, pero debes buscar ayuda.
+				</div></div><br />
+				<div align="center">
+				  <input type="button" value="Volver atrás" name="boton" onClick="history.back(2)" class="btn btn-inverse" />
+				</div><br>';
+
+				mysqli_query($db_con,"drop table alma");
+				mysqli_query($db_con,"create table alma Select * from alma_seg");
+				mysqli_query($db_con,"ALTER TABLE `alma` ADD PRIMARY KEY(`CLAVEAL`)");	?>
+
+				<?php include("../../pie.php");	?>
+				<?php exit(); ?>
+
+			<?php }
+
+			// Descomprimimos el zip de las calificaciones en el directorio exporta/
+			include('../../lib/pclzip.lib.php');
+			// Borramos archivos antiguos
+			$files = glob('../exporta/*');
+				foreach($files as $file)
+				{
+					if(is_file($file) and stristr($file, "index")==FALSE)
+					unlink($file);
+				}
+
+			$archive = new PclZip($_FILES['archivo2']['tmp_name']);
+			if ($archive->extract(PCLZIP_OPT_PATH, '../exporta') == 0)
+			{
+				die("Error : ".$archive->errorInfo(true));
+			}
+
+			// Procesamos los datos de RegAlum para crear la tabla alma
+			$crear = "ALTER TABLE  alma
 			ADD  `COMBASI` VARCHAR( 250 ) NULL FIRST ,
 			ADD  `APELLIDOS` VARCHAR( 40 ) NULL AFTER  `UNIDAD`,
 			ADD  `CLAVEAL1` VARCHAR( 8 ) NULL AFTER  `CLAVEAL`,
