@@ -147,11 +147,11 @@ $an = substr($config['curso_actual'],0,4);
 $an1 = $an+1;
 $hoy = formatea_fecha(date('Y-m-d'));
 $titulo_documentacion = "DOCUMENTACIÓN NECESARIA PARA LA MATRICULACIÓN";
-$documentacion = "1. Fotocopia del D.N.I. Obligatorio por ley para todo alumnado mayor de 14 años. Si el alumnado es menor de 14 años y no se dispone de D.N.I., se admitirá una fotocopia del Libro de Familia o Certificado de Nacimiento.
+/*$documentacion = "1. Fotocopia del D.N.I. Obligatorio por ley para todo alumnado mayor de 14 años. Si el alumnado es menor de 14 años y no se dispone de D.N.I., se admitirá una fotocopia del Libro de Familia o Certificado de Nacimiento.
 2. El alumnado procedente de otros Institutos o de Colegios no adscritos a nuestro Centro deben aportar el Certificado de expediente académico..
 3. Los alumnos que se matriculen a partir de 3º de ESO tienen que abonar 2 euros para la cuota obligatoria del Seguro Escolar.
 4. Cuota voluntaria de 15 euros para la Asociación de Padres y Madres del Centro.
-";
+";*/
 $datos_junta = "PROTECCIÓN DE DATOS.\n En cumplimiento de lo dispuesto en la Ley Orgánica 15/1999, de 13 de Diciembre, de Protección de Datos de Carácter Personal, la Consejería de Educación y Deporte le informa que los datos personales obtenidos mediante la cumplimentación de este formulario y demás documentación que se adjunta van a ser incorporados, para su tratamiento, al fichero 'Séneca. Datos personales y académicos del alumnado', con la finalidad de recoger los datos personales y académicos del alumnado que cursa estudios en centros dependientes de la Conserjería de Educación, así como de las respectivas unidades familiares.\n De acuerdo con lo previsto en la Ley, puede ejercer los derechos de acceso, rectificación, cancelación y oposición dirigiendo un escrito a la Secretaría General Técnica de la Conserjería de Educación de la Junta de Andalucía en Avda. Juan Antonio de Vizarrón, s/n, Edificio Torretriana 41071 SEVILLA";
 
 // Normas de telefonía móvil
@@ -316,7 +316,7 @@ for($i=1;$i<3;$i++){
 	$MiPDF->SetFillColor(230,230,230);
 	$MiPDF->Image ( '../../img/encabezado2.jpg', 10, 10, 180, '', 'jpg' );
 	$MiPDF->Ln ( 12 );
-	$MiPDF->Multicell ( 0, 4, $titulo_documentacion, 0, 'C', 0 );
+	/*$MiPDF->Multicell ( 0, 4, $titulo_documentacion, 0, 'C', 0 );
 	$MiPDF->Ln ( 4 );
 	$MiPDF->SetFont ( 'Times', '', 10  );
 	$MiPDF->SetTextColor ( 0, 0, 0 );
@@ -325,7 +325,7 @@ for($i=1;$i<3;$i++){
 	$MiPDF->Ln ( 5 );
 
 	$MiPDF->Multicell ( 0, 6, "------------------------------------------------------------------------------------------------------------------------------------------", 0, 'L', 0 );
-	$MiPDF->Ln ( 8 );
+	$MiPDF->Ln ( 8 );*/
 	$MiPDF->SetFont ( 'Times', 'B', 11  );
 	$MiPDF->SetTextColor ( 0, 0, 0 );
 	$MiPDF->SetFillColor(230,230,230);

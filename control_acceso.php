@@ -324,7 +324,7 @@ if ($config['mod_notificaciones']) {
 		$text_6 = " hace varios días que no registras en la Intranet las faltas de asistencia de tus alumnos. Contacta con Jefatura si estás teniendo algún problema para hacerlo.";
 
 		$texto = $text_0;
-		$reg_faltas = '0';
+		$reg_faltas = 0;
 
 		if (strstr($clase,"1")==TRUE) { $texto.= $text_1; }
 		if (strstr($clase,"2")==TRUE) { $texto.= $text_2; }

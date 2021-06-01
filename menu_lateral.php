@@ -42,6 +42,12 @@ $menu = array(
 				'titulo' => 'Administración de la Intranet',
 			),
 			array(
+				'href'   => 'admin/matriculas/index.php',
+				'titulo' => 'Matriculación de alumnos',
+				'modulo'  => $config['mod_matriculacion'],
+				'meses'	 => array(6, 7, 8, 9),
+			),
+			array(
 				'href'   => 'admin/jefatura/index.php',
 				'titulo' => 'Intervenciones',
 			),
@@ -343,7 +349,7 @@ $menu_alumnos = array(
 				'href'   => 'admin/matriculas/index.php',
 				'titulo' => 'Matriculación',
 				'modulo'  => $config['mod_matriculacion'],
-				'cargos' => array(1,7),
+				'cargos' => array(7),
 				)
 			)
 		)
