@@ -49,7 +49,9 @@ include '../../menu.php';
 			 `FECHA` varchar( 255 ) default NULL ,
 			 `PROVINCIARESIDENCIA` varchar( 255 ) default NULL ,
 			 `TELEFONO` varchar( 255 ) default NULL ,
+			 `TELEFONOPERSONAL` varchar( 255 ) default NULL ,
 			 `TELEFONOURGENCIA` varchar( 255 ) default NULL ,
+			 `CORREOPERSONAL` varchar( 255 ) default NULL ,
 			 `CORREO` varchar( 64 ) default NULL ,
 			 `CURSO` varchar( 255 ) default NULL ,
 			 `NUMEROEXPEDIENTE` varchar( 255 ) default NULL ,
@@ -83,7 +85,7 @@ include '../../menu.php';
 			 `FECHAMATRICULA` varchar( 255 ) default NULL,
 			 `NSEGSOCIAL` varchar( 15 ) default NULL,
 			 PRIMARY KEY (`CLAVEAL`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci";
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci ";
 
 					// echo $alumnos;
 					mysqli_query($db_con, $alumnos) or die ('<div align="center"><div class="alert alert-danger alert-block fade in">

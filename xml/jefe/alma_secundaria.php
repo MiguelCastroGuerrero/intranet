@@ -30,7 +30,9 @@ if($_FILES['archivo1']){
 `FECHA` varchar( 255 ) default NULL ,
 `PROVINCIARESIDENCIA` varchar( 255 ) default NULL ,
 `TELEFONO` varchar( 255 ) default NULL ,
+`TELEFONOPERSONAL` varchar( 255 ) default NULL ,
 `TELEFONOURGENCIA` varchar( 255 ) default NULL ,
+`CORREOPERSONAL` varchar( 64 ) default NULL ,
 `CORREO` varchar( 64 ) default NULL ,
 `CURSO` varchar( 255 ) default NULL ,
 `NUMEROEXPEDIENTE` varchar( 255 ) default NULL ,
@@ -50,8 +52,8 @@ if($_FILES['archivo1']){
 `SEGUNDOAPELLIDOTUTOR2` varchar( 255 ) default NULL ,
 `CORREOTUTOR2` varchar( 255 ) default NULL ,
 `NOMBRETUTOR2` varchar( 255 ) default NULL ,
-`SEXOTUTOR2` varchar( 255 ) default NULL ,
 `TELEFONOTUTOR2` char( 9 ) default NULL ,
+`SEXOTUTOR2` varchar( 255 ) default NULL ,
 `LOCALIDADNACIMIENTO` varchar( 255 ) default NULL ,
 `ANOMATRICULA` varchar( 4 ) default NULL ,
 `MATRICULAS` varchar( 255 ) default NULL ,
@@ -67,7 +69,6 @@ if($_FILES['archivo1']){
  PRIMARY KEY (`CLAVEAL`)
  ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci ";
 
- 
  //echo $alumnos;
 mysqli_query($db_con, $alumnos) or die ('<div align="center"><div class="alert alert-danger alert-block fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -131,6 +132,7 @@ $row = 1;
     
     foreach ($tr as $valor){ 
       $dato.= "\"". trim(utf8_encode($valor)) . "\", ";
+      $num++;
         }
     $dato=substr($dato,0,strlen($dato)-2); 
     $lineasalto.=$dato; 
@@ -141,15 +143,11 @@ $row = 1;
 }
 fclose($fp);
 
-
-
-
       }
       
    }
    closedir($handle);
 }  
- 
 // Procesamos datos
 $crear = "ALTER TABLE  alma_secundaria
 ADD  `APELLIDOS` VARCHAR( 40 ) NULL AFTER  `UNIDAD` ,
@@ -186,7 +184,7 @@ ELSE{
 	$unidad_cole = "4E-A";
 } 	
 $trozounidad0 = explode("-",$unidad_cole);
-$actualiza= "UPDATE alma_secundaria SET UNIDAD = '$unidad_cole', NIVEL = '$trozounidad0[0]', GRUPO = '$trozounidad0[1]' where CLAVEAL = '$row0[1]'";
+$actualiza= "UPDATE alma_secundaria SET UNIDAD = '$unidad_cole' where CLAVEAL = '$row0[1]'";
 mysqli_query($db_con, $actualiza);
  }
 
