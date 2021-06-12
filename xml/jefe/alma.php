@@ -3,66 +3,16 @@ require('../../bootstrap.php');
 
 acl_acceso($_SESSION['cargo'], array('z', '1'));
 
-
 if (isset($_FILES['archivo1'])) {$archivo1 = $_FILES['archivo1'];}
 if (isset($_FILES['archivo2'])) {$archivo2 = $_FILES['archivo2'];}
 
-$campos = array("Alumno/a"=>"Alumno/a", "Estado Matrícula"=>"ESTADOMATRICULA", "Nº Id. Escolar"=>"CLAVEAL", "DNI/Pasaporte"=>"DNI", "Dirección"=>"DOMICILIO", "Código postal"=>"CODPOSTAL", "Localidad de residencia"=>"LOCALIDAD", "Fecha de nacimiento"=>"FECHA", "Provincia de residencia"=>"PROVINCIARESIDENCIA", "Teléfono"=>"TELEFONO", "Teléfono personal alumno/a"=>"TELEFONOPERSONAL", "Teléfono de urgencia"=>"TELEFONOURGENCIA", "Correo electrónico personal alumno/a" => "CORREOPERSONAL", "Correo Electrónico"=>"CORREO", "Curso"=>"CURSO", "Nº del expediente del centro"=>"NUMEROEXPEDIENTE", "Unidad"=>"UNIDAD", "Primer apellido"=>"apellido1", "Segundo apellido"=>"apellido2", "Nombre"=>"NOMBRE", "DNI/Pasaporte Primer turor"=>"DNITUTOR", "Primer apellido Primer tutor"=>"PRIMERAPELLIDOTUTOR", "Segundo apellido Primer tutor"=>"SEGUNDOAPELLIDOTUTOR", "Nombre Primer tutor"=>"NOMBRETUTOR", "Correo Electrónico Primer tutor"=>"CORREOTUTOR", "Teléfono Primer tutor"=>"TELEFONOTUTOR", "Sexo Primer tutor"=>"SEXOPRIMERTUTOR", "DNI/Pasaporte Segundo tutor"=>"DNITUTOR2", "Primer apellido Segundo tutor"=>"PRIMERAPELLIDOTUTOR2", "Segundo apellido Segundo tutor"=>"SEGUNDOAPELLIDOTUTOR2", "Correo Electrónico Segundo tutor"=>"CORREOTUTOR2", "Nombre Segundo tutor"=>"NOMBRETUTOR2", "Teléfono Segundo tutor"=>"TELEFONOTUTOR2", "Sexo Segundo tutor"=>"SEXOTUTOR2", "Localidad de nacimiento"=>"LOCALIDADNACIMIENTO", "Año de la matrícula"=>"ANOMATRICULA", "Nº de matrículas en este curso"=>"MATRICULAS", "Observaciones de la matrícula"=>"OBSERVACIONES", "Provincia nacimiento"=>"PROVINCIANACIMIENTO", "País de nacimiento"=>"PAISNACIMIENTO", "Edad a 31/12 del año de matrícula"=>"EDAD", "Nacionalidad"=>"NACIONALIDAD", "Sexo"=>"SEXO", "Fecha de matrícula"=>"FECHAMATRICULA", "NºSeg.Social"=>"NSEGSOCIAL");
-
-//
-// 
-
 // Creación de la tabla alma
-$alumnos = "CREATE TABLE  `alma` (
- `Alumno/a` varchar( 255 ) default NULL ,
- `ESTADOMATRICULA` varchar( 255 ) default NULL ,
- `CLAVEAL` varchar( 12 ) ,
- `DNI` varchar( 10 ) default NULL ,
- `DOMICILIO` varchar( 255 ) default NULL ,
- `CODPOSTAL` varchar( 255 ) default NULL ,
- `LOCALIDAD` varchar( 255 ) default NULL ,
- `FECHA` varchar( 255 ) default NULL ,
- `PROVINCIARESIDENCIA` varchar( 255 ) default NULL ,
- `TELEFONO` varchar( 255 ) default NULL ,
- `TELEFONOPERSONAL` varchar( 255 ) default NULL ,
- `TELEFONOURGENCIA` varchar( 255 ) default NULL ,
- `CORREOPERSONAL` varchar( 255 ) default NULL ,
- `CORREO` varchar( 64 ) default NULL ,
- `CURSO` varchar( 255 ) default NULL ,
- `NUMEROEXPEDIENTE` varchar( 255 ) default NULL ,
- `UNIDAD` varchar( 255 ) default NULL ,
- `apellido1` varchar( 255 ) default NULL ,
- `apellido2` varchar( 255 ) default NULL ,
- `NOMBRE` varchar( 30 ) default NULL ,
- `DNITUTOR` varchar( 255 ) default NULL ,
- `PRIMERAPELLIDOTUTOR` varchar( 255 ) default NULL ,
- `SEGUNDOAPELLIDOTUTOR` varchar( 255 ) default NULL ,
- `NOMBRETUTOR` varchar( 255 ) default NULL ,
- `CORREOTUTOR` varchar( 255 ) default NULL ,
- `TELEFONOTUTOR` char( 9 ) default NULL ,
- `SEXOPRIMERTUTOR` varchar( 255 ) default NULL ,
- `DNITUTOR2` varchar( 255 ) default NULL ,
- `PRIMERAPELLIDOTUTOR2` varchar( 255 ) default NULL ,
- `SEGUNDOAPELLIDOTUTOR2` varchar( 255 ) default NULL ,
- `CORREOTUTOR2` varchar( 255 ) default NULL ,
- `NOMBRETUTOR2` varchar( 255 ) default NULL ,
- `TELEFONOTUTOR2` char( 9 ) default NULL ,
- `SEXOTUTOR2` varchar( 255 ) default NULL ,
- `LOCALIDADNACIMIENTO` varchar( 255 ) default NULL ,
- `ANOMATRICULA` varchar( 4 ) default NULL ,
- `MATRICULAS` varchar( 255 ) default NULL ,
- `OBSERVACIONES` varchar( 255 ) default NULL,
- `PROVINCIANACIMIENTO` varchar( 255 ) default NULL ,
- `PAISNACIMIENTO` varchar( 255 ) default NULL ,
- `EDAD` varchar( 2 ) default NULL ,
- `NACIONALIDAD` varchar( 32 ) default NULL,
- `SEXO` varchar( 1 ) default NULL ,
- `FECHAMATRICULA` varchar( 255 ) default NULL,
- `NSEGSOCIAL` varchar( 15 ) default NULL,
- PRIMARY KEY (`CLAVEAL`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci ";
 
 include("../../menu.php");
+
+if (file_exists('config_alma.php')) {
+	include('config_alma.php');
+}
 ?>
 
 <div class="container">
@@ -79,21 +29,6 @@ include("../../menu.php");
 
 				<?php  if($archivo1 and $archivo2){
 
-			// Copia de Seguridad
-			mysqli_query($db_con, "DROP TABLE alma_seg") ;
-			mysqli_query($db_con, "create table alma_seg select * from alma");
-			
-			mysqli_query($db_con, "DROP TABLE alma");
-			mysqli_query($db_con, $alumnos)  or die('<div align="center">
-			<div class="alert alert-danger alert-block fade in">
-	        <button type="button" class="close" data-dismiss="alert">&times;</button>
-			<h5>ATENCIÓN:</h5>
-			No se ha podido crear la tabla <b>alma</b> en la base de datos. Busca ayuda...
-			</div></div><br />
-			<div align="center">
-			  <input type="button" value="Volver atrás" name="boton" onClick="history.back(2)" class="btn btn-inverse" />
-			</div>');
-
 			// Importamos los datos del fichero CSV (todos_alumnos.csv) en la tabña alma2.
 			$fp = fopen ($_FILES['archivo1']['tmp_name'] , "r" ) or die('<div align="center">
 			<div class="alert alert-danger alert-block fade in">
@@ -104,6 +39,7 @@ include("../../menu.php");
 			<div align="center">
 			  <input type="button" value="Volver atrás" name="boton" onClick="history.back(2)" class="btn btn-inverse" />
 			</div>');
+
 			while (!feof($fp))
 			{
 				$num_linea++;
@@ -112,11 +48,15 @@ include("../../menu.php");
 				if ($num_linea == 7) {						
 					$num_col = count($tr);
 					foreach ($tr as $key => $value) {
+						//echo "$key ==> $value<br>";
 						$value = trim(utf8_encode($value));
 						$campos_seneca[] = $value;
 						foreach ($campos as $key2 => $value2) {
 							if($value == $key2){
-								$val_ok[] = $key;								
+								//echo "$value -->> $key2<br>";
+								$val_ok[] = $key;
+								//echo $key."<br>";
+								$campo = $value2;							
 							}
 						}
 					}
@@ -124,20 +64,83 @@ include("../../menu.php");
 				}
 			}
 
-			// Comprobación de campos añadidos por Séneca
+			// Comprobación de campos añadidos por Séneca			
 			$msg_error="";
 			$num=1;
+
 			foreach ($val_ok as $key_ok => $value_ok) {
 				if ($key_ok != $value_ok) {
+					$valor_campo = $key_ok;
+
 					foreach ($campos as $key => $value) {
-						$num++;						
+						
+						$num++;	
+
 						if ($num==$value_ok) {
+							foreach ($campos as $key2 => $value2) {
+								$num2++;
+								if ($num2==($value_ok-1)) {
+									$anterior = $value2;
+									break;
+								}
+							}
+
 							$clave_dato = $key_ok+1;
-							$msg_error .=  "El siguiente campo ha sido añadido por Séneca y debe ser creado en la tabla <b>Alma</b>:<br><em> -- " .$clave_dato.": ".$campos_seneca[$key_ok]." -- <em><br>";
+							$msg_error .=  "El siguiente campo ha sido añadido por Séneca y va a ser creado en la tabla <b>Alma</b>:<br><em> (".$campos_seneca[$key_ok].")</em><br><u>Debes recargar la página o volver a enviar los archivos para actualizar la tabla.</u> Si Séneca ha añadido varios campos, este mensaje volverá a aparecer.";
+
+								$extra_alma = 'ALTER TABLE `alma` ADD `'.$campos_seneca[$clave_dato-1].'` varchar(255) NULL AFTER `'.$anterior.'`';
+
+								$mystring = $campos_texto;
+								$findme   = '"'.$key.'"=>"'.$value.'", ';								
+								$extra = strlen($findme);
+								$pos = strrpos($mystring, $findme)+$extra;
+
+								$nuevo_texto = substr($campos_texto, 0,$pos);
+								$nuevo_texto .= '"'.$campos_seneca[$key_ok].'"=>"'.$campos_seneca[$key_ok].'", ';
+								$nuevo_texto .= substr($campos_texto, $pos,strlen($campos_texto));
+
+
+								// CREACIÓN DEL ARCHIVO DE CONFIGURACIÓN
+								if($file = fopen('config_alma.php', 'w+'))
+								{
+									fwrite($file, "<?php \r\n");
+
+									fwrite($file, "\r\n// CONFIGURACIÓN MÓDULO DE ACTUALIZACIÓN DE ALUMNOS\r\n");
+
+									fwrite($file, "\$campos\t= array($nuevo_texto);\r\n");
+									fwrite($file, "\$campos_texto\t= '$nuevo_texto';\r\n");
+
+									if(stristr($alumnos, $extra_alma)==FALSE){ 
+										fwrite($file, "\$alumnos\t= '$alumnos\r\n$extra_alma;';\r\n");
+									}
+
+									fwrite($file, "\r\n\r\n// Fin del archivo de configuración");
+
+									fclose($file);
+								}
+
+							}
+
 						}
+
 					}
+
 				}
+
+			// Copia de Seguridad
+
+			mysqli_query($db_con, "DROP TABLE alma_seg") ;
+			mysqli_query($db_con, "create table alma_seg select * from alma");		
+			mysqli_query($db_con, "drop TABLE alma");
+
+			$tr_al = explode(";", $alumnos);
+			$num_cols = count($tr_al);
+
+			for ($i=0; $i < $num_cols; $i++) { 
+				mysqli_query($db_con, $tr_al[$i]);
 			}
+
+			mysqli_query($db_con,$extra_alma);
 
 			if ($clave_dato > 0) {
 				echo '<div align="center">
@@ -145,8 +148,14 @@ include("../../menu.php");
 		        <button type="button" class="close" data-dismiss="alert">&times;</button>
 				<h5>ATENCIÓN:</h5>'.$msg_error.'
 				</div></div><br /><br>';
+
+				echo "</div></div></div></div>";
+				
+				include("../../pie.php");
+				
+				exit();
+
 			}
-			
 
 			while (!feof($fp))
 			{
@@ -165,9 +174,7 @@ include("../../menu.php");
 					$n_dato="";
 						foreach ($tr as $valor){
 							$n_dato++;
-							if ($n_dato <> $clave_dato) {
 								$dato.= "\"". mysqli_real_escape_string($db_con, trim(utf8_encode($valor))) . "\", ";
-							}									
 						}
 					$dato=substr($dato,0,strlen($dato)-2);
 					$lineasalto.=$dato;
@@ -177,6 +184,7 @@ include("../../menu.php");
 					//Comprobamos que la matrícula no haya sido anulada o trasladada para añadirla
 					if (!preg_match('*Anulada*', $consulta[2]) and !preg_match('*Trasladada*',$consulta[2])){
 						mysqli_query($db_con, $lineasalto);
+						//echo "$lineasalto<br>";
 					}
 				}
 			}
@@ -201,6 +209,7 @@ include("../../menu.php");
 				mysqli_query($db_con,"create table alma Select * from alma_seg");
 				mysqli_query($db_con,"ALTER TABLE `alma` ADD PRIMARY KEY(`CLAVEAL`)");	?>
 
+				<?php echo "</div></div></div></div>"; ?>
 				<?php include("../../pie.php");	?>
 				<?php exit(); ?>
 
