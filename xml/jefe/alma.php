@@ -86,7 +86,7 @@ if (file_exists('config_alma.php')) {
 							}
 
 							$clave_dato = $key_ok+1;
-							$msg_error .=  "El siguiente campo ha sido añadido por Séneca y va a ser creado en la tabla <b>Alma</b>:<br><em> (".$campos_seneca[$key_ok].")</em><br><u>Debes recargar la página o volver a enviar los archivos para actualizar la tabla.</u> Si Séneca ha añadido varios campos, este mensaje volverá a aparecer.";
+							$msg_error .=  "El siguiente campo ha sido añadido por Séneca y va a ser creado en la tabla <b>Alma</b>:<br><em> (".$campos_seneca[$key_ok].")</em><br><u>Debes recargar la página o volver a enviar los archivos para actualizar los nuevos datos.</u> Si Séneca ha añadido varios campos, este mensaje volverá a aparecer.";
 
 								$extra_alma = 'ALTER TABLE `alma` ADD `'.$campos_seneca[$clave_dato-1].'` varchar(255) NULL AFTER `'.$anterior.'`';
 
