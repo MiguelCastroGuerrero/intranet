@@ -1022,14 +1022,13 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 						$nombre_optativa = "";
 						$nom_opt.= "<span style='font-weight:bold;color:#9d261d;'>Itinerario $i </span>";
 						foreach (${it4.$i} as $nombre_opt => $valor){
-							if(stristr($valor,"(")==TRUE and stristr($valor,"Tecnolo")==FALSE) {
-								$nombre_optativa=$valor;
-								$nom_opt.="<span class='text-warning'>".$valor.": </span> ";
-							}
-							else{
+							$n_it++;
+							if ($n_it > 1):
+							
 								$nombre_optativa=$nombre_optativa+1;
 								$nom_opt.="<span style='color:#08c;'>Opt".$nombre_optativa."</span> = ".$valor."; ";
-							}
+							
+						endif;
 						//echo substr($nom_opt,0,-2);
 						
 					}

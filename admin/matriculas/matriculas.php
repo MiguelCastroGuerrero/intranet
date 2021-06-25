@@ -1115,14 +1115,14 @@ exit();
 			<p class="form-control-static"><?php echo ${it4.$i}[3]; ?></p>
 			<div class="form-group">
 			<div class="radio"><label> <input type="radio" id="r2"
-				class="itinerario<?php echo $i; ?>" name="optativas4" value="Matemáticas para la vida"
+				class="itinerario<?php echo $i; ?>" name="optativas4" value="Matemáticas para la Vida"
 				<?php echo ($optativas4 == 'Matemáticas para la vida') ? 'checked' : '' ; ?>>
 				<?php echo ${it4.$i}[4]; ?>
 			</label></div>
 			</div>
 			<div class="form-group">
 			<div class="radio"><label> <input type="radio" id="r2"
-				class="itinerario<?php echo $i; ?>" name="optativas4" value="Comentario de texto"
+				class="itinerario<?php echo $i; ?>" name="optativas4" value="Comentario de Textos"
 				<?php echo ($optativas4 == 'Comentario de texto') ? 'checked' : '' ; ?>>
 				<?php echo ${it4.$i}[5]; ?>
 			</label></div>
@@ -1140,8 +1140,8 @@ exit();
 			</div>
 			<div class="form-group">
 			<div class="radio"><label> <input type="radio" id="r2"
-				class="itinerario<?php echo $i; ?>" name="optativas4" value="Iniciación Act. Emprend."
-				<?php echo ($optativas4 == 'Iniciación Act. Emprend.') ? 'checked' : '' ; ?>>
+				class="itinerario<?php echo $i; ?>" name="optativas4" value="Iniciación a la Actividad Emprendedora y Empresarial"
+				<?php echo ($optativas4 == 'Iniciación a la Actividad Emprendedora y Empresarial') ? 'checked' : '' ; ?>>
 				<?php echo ${it4.$i}[4]; ?>
 			</label></div>
 			</div>
