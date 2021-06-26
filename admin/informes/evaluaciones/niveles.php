@@ -17,6 +17,7 @@ else {
         case 2: $evaluacion_seleccionada = '1ev'; break;
         case 3: $evaluacion_seleccionada = '2ev'; break;
         case 4: $evaluacion_seleccionada = 'ord'; break;
+        case 5: $evaluacion_seleccionada = 'ext'; break;
     }
 }
 //echo 'EVALUACION seleccionada: '.$evaluacion_seleccionada;
@@ -161,10 +162,10 @@ if ($existenNotas) {
 				// Comprobamos si repite curso o no
 				if ($alumno['matriculas'] > 1) $unidades['repiten_alumnos']++;
 
-				if ($evaluacion_seleccionada=="ord" AND (stristr($curso, 'E.S.O.') == TRUE and stristr($curso, '4º de E.S.O.')==FALSE) and stristr($alumno['estadomatricula'], "Promociona")==TRUE) {
+				if (($evaluacion_seleccionada=="ord" OR $evaluacion_seleccionada=="ext") AND (stristr($curso, 'E.S.O.') == TRUE and stristr($curso, '4º de E.S.O.')==FALSE) and stristr($alumno['estadomatricula'], "Promociona")==TRUE) {
 					$unidades['titulan']++;
 				}
-				elseif($evaluacion_seleccionada=="ord" AND (stristr($curso, '4º de E.S.O.') == TRUE OR (stristr($curso, '2') == TRUE AND stristr($curso, 'E.S.O.') == FALSE)) and stristr($alumno['estadomatricula'], "Obtiene Título")==TRUE) {
+				elseif(($evaluacion_seleccionada=="ord" OR $evaluacion_seleccionada=="ext") AND (stristr($curso, '4º de E.S.O.') == TRUE OR (stristr($curso, '2') == TRUE AND stristr($curso, 'E.S.O.') == FALSE)) and stristr($alumno['estadomatricula'], "Obtiene Título")==TRUE) {
 					$unidades['titulan']++; $unidades['promocionan']++;
 				}
 				else{
