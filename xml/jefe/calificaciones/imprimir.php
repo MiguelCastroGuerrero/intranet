@@ -192,13 +192,13 @@ elseif (isset($_POST['grupo']) && ! empty($_POST['grupo'])) {
 // OBTENEMOS LOS ALUMNOS DE LOS CURSOS Y UNIDADES SELECCIONADAS
 $alumnos = array();
 if ($curso == "Todos los cursos") {
-    $result = mysqli_query($db_con, "SELECT `curso`, `unidad`, `apellidos`, `nombre`, `claveal`, `claveal1`, `numeroexpediente`, `combasi`, `primerapellidotutor`, `segundoapellidotutor`, `nombretutor`, `sexoprimertutor`, `domicilio`, `codpostal`, `localidad`, `provinciaresidencia`, `sexo` FROM `alma` ORDER BY `curso` ASC, `unidad` ASC, `apellidos` ASC, `nombre` ASC") or die (mysqli_error($db_con));
+    $result = mysqli_query($db_con, "SELECT `curso`, `unidad`, `apellidos`, `nombre`, `claveal`, `claveal1`, `numeroexpediente`, `combasi`, `primerapellidotutor`, `segundoapellidotutor`, `nombretutor`, `sexoprimertutor`, `domicilio`, `codpostal`, `localidad`, `provinciaresidencia`, `sexo`, `estadomatricula` FROM `alma` ORDER BY `curso` ASC, `unidad` ASC, `apellidos` ASC, `nombre` ASC") or die (mysqli_error($db_con));
 }
 elseif (isset($curso) && ! isset($grupo)) {
-    $result = mysqli_query($db_con, "SELECT `curso`, `unidad`, `apellidos`, `nombre`, `claveal`, `claveal1`, `numeroexpediente`, `combasi`, `primerapellidotutor`, `segundoapellidotutor`, `nombretutor`, `sexoprimertutor`, `domicilio`, `codpostal`, `localidad`, `provinciaresidencia`, `sexo` FROM `alma` WHERE `curso` = '$curso' ORDER BY `curso` ASC, `unidad` ASC, `apellidos` ASC, `nombre` ASC");
+    $result = mysqli_query($db_con, "SELECT `curso`, `unidad`, `apellidos`, `nombre`, `claveal`, `claveal1`, `numeroexpediente`, `combasi`, `primerapellidotutor`, `segundoapellidotutor`, `nombretutor`, `sexoprimertutor`, `domicilio`, `codpostal`, `localidad`, `provinciaresidencia`, `sexo`, `estadomatricula` FROM `alma` WHERE `curso` = '$curso' ORDER BY `curso` ASC, `unidad` ASC, `apellidos` ASC, `nombre` ASC");
 }
 else {
-    $result = mysqli_query($db_con, "SELECT `curso`, `unidad`, `apellidos`, `nombre`, `claveal`, `claveal1`, `numeroexpediente`, `combasi`, `primerapellidotutor`, `segundoapellidotutor`, `nombretutor`, `sexoprimertutor`, `domicilio`, `codpostal`, `localidad`, `provinciaresidencia`, `sexo` FROM `alma` WHERE `curso` = '$curso' AND `unidad` = '$grupo' ORDER BY `curso` ASC, `unidad` ASC, `apellidos` ASC, `nombre` ASC");
+    $result = mysqli_query($db_con, "SELECT `curso`, `unidad`, `apellidos`, `nombre`, `claveal`, `claveal1`, `numeroexpediente`, `combasi`, `primerapellidotutor`, `segundoapellidotutor`, `nombretutor`, `sexoprimertutor`, `domicilio`, `codpostal`, `localidad`, `provinciaresidencia`, `sexo`, `estadomatricula` FROM `alma` WHERE `curso` = '$curso' AND `unidad` = '$grupo' ORDER BY `curso` ASC, `unidad` ASC, `apellidos` ASC, `nombre` ASC");
 }
 
 while ($row = mysqli_fetch_array($result)) {
@@ -221,6 +221,7 @@ while ($row = mysqli_fetch_array($result)) {
         'tutorlegal'  => trim($tutor_legal),
         'direccion1'  => $row['domicilio'],
         'direccion2'  => $row['localidad'].' - '.$row['codpostal'].' ('.$row['provinciaresidencia'].')',
+        'promociona'  => $row['estadomatricula'],
     );
 
     array_push($alumnos, $alumno);
@@ -578,8 +579,12 @@ foreach ($alumnos as $alumno) {
         }
 
         $MiPDF->SetFont('Noto Sans HK', 'B', 8.5);
+        $MiPDF->Cell(0, 5, 'Decisión de la promoción: '.$alumno['promociona'].':', 0, 1, 'L', 0);
+        $MiPDF->SetFont('Noto Sans HK', '', 8.5);
+
+        $MiPDF->SetFont('Noto Sans HK', 'B', 8.5);
         $MiPDF->Cell(0, 5, 'Resumen de faltas de asistencia desde '.(strftime('%d/%m/%Y', strtotime($fecha_inicio_faltas))).' hasta '.(strftime('%d/%m/%Y', strtotime($fecha_fin_faltas))).':', 0, 1, 'L', 0);
-        $MiPDF->SetFont('Noto Sans HK', '', 8.5);;
+        $MiPDF->SetFont('Noto Sans HK', '', 8.5);
 
         $total_dias_justificadas = 0;
         $result_dias_faltas_justificadas = mysqli_query($db_con, "SELECT `fecha`, COUNT(`hora`) AS 'horas' FROM `FALTAS` WHERE `claveal` = '".$alumno['claveal']."' AND `falta` = 'J' GROUP BY `fecha` HAVING `horas` = 6 ORDER BY `fecha` ASC, `hora` ASC");
