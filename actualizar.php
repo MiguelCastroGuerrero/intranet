@@ -1161,14 +1161,14 @@ if (! mysqli_num_rows($actua)) {
 }
 
 /*
-  @descripcion: Actualizacion tabla  matriculas
+  @descripcion: Actualizacion tabla matriculas
   @fecha: 18 de mayo de 2021
 */
 $actua = mysqli_query($db_con, "SELECT `modulo` FROM `actualizacion` WHERE `modulo` = 'Actualizacion tabla matriculas 2021'");
 if (! mysqli_num_rows($actua)) {
-  mysqli_query($db_con, "ALTER TABLE `matriculas` ADD `optativa8` TINYINT(1) NULL AFTER `analgesicos`, ADD `optativa9` TINYINT(1) NULL AFTER `optativa8`; ");
-  mysqli_query($db_con,"ALTER TABLE `matriculas` ADD `optativa28` TINYINT(1) NULL AFTER `optativa9`, ADD `optativa29` TINYINT(1) NULL AFTER `optativa28`;");
-  mysqli_query($db_con,"ALTER TABLE `matriculas` ADD `cuenta` TINYINT(1) NULL AFTER `optativa29`;");
-  mysqli_query($db_con,"ALTER TABLE `matriculas_bach` ADD `salida` TINYINT(1) NULL AFTER `optativa29`;");
+  mysqli_query($db_con, "ALTER TABLE `matriculas` ADD `optativa8` TINYINT(1) NULL AFTER `analgesicos`, ADD `optativa9` TINYINT(1) NULL AFTER `optativa8`;");
+  mysqli_query($db_con, "ALTER TABLE `matriculas` ADD `optativa28` TINYINT(1) NULL AFTER `optativa9`, ADD `optativa29` TINYINT(1) NULL AFTER `optativa28`;");
+  mysqli_query($db_con, "ALTER TABLE `matriculas` ADD `cuenta` TINYINT(1) NULL AFTER `optativa29`;");
+  mysqli_query($db_con, "ALTER TABLE `matriculas_bach` ADD `salida` TINYINT(1) NULL AFTER `optativa29`;");
   mysqli_query($db_con, "INSERT INTO `actualizacion` (`modulo`, `fecha`) VALUES ('Actualizacion tabla matriculas 2021', NOW())");
 }
