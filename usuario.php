@@ -80,9 +80,9 @@ if (! isset($_SESSION['session_seneca']) || isset($_SESSION['session_seneca']) &
 	if (isset($_POST['registrarClave'])) {
 		if (checkToken()) {
 			if ((isset($_POST['password']) && ! empty($_POST['password'])) && (isset($_POST['new_password']) && ! empty($_POST['new_password'])) && (isset($_POST['repeat_password']) && ! empty($_POST['repeat_password']))) {
-				$cmp_password = limpiarInput(trim($_POST['password']), 'alphanumericspecial');
-				$cmp_new_password = limpiarInput(trim($_POST['new_password']), 'alphanumericspecial');
-				$cmp_repeat_password = limpiarInput(trim($_POST['repeat_password']), 'alphanumericspecial');
+				$cmp_password = limpiarInput(trim($_POST['password']), 'password');
+				$cmp_new_password = limpiarInput(trim($_POST['new_password']), 'password');
+				$cmp_repeat_password = limpiarInput(trim($_POST['repeat_password']), 'password');
 
 				// Obtenemos el hash de la contraseña actual
 				$result = mysqli_query($db_con, "SELECT `pass` FROM `c_profes` WHERE `idea` = '".$_SESSION['ide']."' LIMIT 1");

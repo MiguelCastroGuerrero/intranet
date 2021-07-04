@@ -76,6 +76,14 @@ function limpiarInput($input, $type = 'alphanumeric') {
 
 			break;
 
+		// ALLOW PASSWORD
+		case 'password':
+			$output = preg_replace('([^A-Za-z0-9 !"#$%&\'()*+,-./:;»=>?@[\]^_`{|}~])', '', $input);
+			if (! preg_match("((?=.*\d)(?=.*[a-z])(?=.*[A-z])(?=.*[!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]).{8,20})", $output)) {
+				$output = '';
+			}
+			break;
+
 		// ALLOW ALPHANUMERIC AND SPECIAL CHARS: space,  !"#$%&'()*+,-./:;»=>?@[\]^_`{|}~
 		case 'alphanumericspecial':
 		default:
