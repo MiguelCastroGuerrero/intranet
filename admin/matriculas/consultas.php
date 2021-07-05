@@ -298,20 +298,8 @@ if ($diversificacio=="Si") { $extra.=" and diversificacion = '1'";	}elseif ($div
 if ($exencio=="Si") { $extra.=" and exencion = '1'";	}elseif ($exencio=="No") { $extra.=" and exencion = '0'"; }
 if ($promocion=="Promociona") { $extra.=" and promociona = '1'";	}elseif($promocion=="Repite"){$extra.=" and promociona = '2'";}
 
-if ($n_curso=='4') {
-	if ($optativ) {
-		$op41=substr($optativ, -1);
-		$extra.=" and optativa1 = '$op41'";
-	}
-	if ($optativ2) {
-		$op42=substr($optativ2, -1);
-		$extra.=" and optativa2 = '$op42'";
-	}
-}
-else{
 	if ($optativ) { $extra.=" and $optativ = '1'";}
 	if ($optativ2) { $extra.=" and $optativ2 = '2'";}
-}
 
 if ($religio) { $extra.=" and religion = '$religio'";}
 if ($letra_grup) { $extra.=" and letra_grupo = '$letra_grup'";}
@@ -386,6 +374,7 @@ if (!($orden)) {
 		$sql.=", optativa$i";
 	}
 	$sql.=" from matriculas where ". $extra ." order by ". $orden ." apellidos, nombre, curso, grupo_actual";
+	//echo $sql;
 	$cons = mysqli_query($db_con, $sql);
 	if(mysqli_num_rows($cons) < 1){
 		echo '<div align="center"><div class="alert alert-warning alert-block fade in" style="max-width:500px;">
@@ -621,7 +610,6 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 			echo "<td align='center' style='background-color:#efdefd;'>";
 			$num_opt = count(${opt.$n_curso});
 			$i=0;
-			if ($n_curso<4) {
 				foreach (${opt.$n_cur} as $key=>$val) {
 				$i++;
 
@@ -629,81 +617,23 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 
 				if (${optativa.$i}=="1") {
 					$a_opt1 = iniciales($val);
-					$wrd1 = explode(" ", $val);
-					$num_w = count($wrd1);
-					if ($num_w>1) {
-						$acr1 = "";
-						$acr1 = $a_opt1;					
-					}
-					else{
-						$acr1 = strtoupper(substr($val,0,3));
-						}
-				}
-			}
-			}
-			else{
-				foreach (${opt.$n_cur} as $key=>$val) {
-				$i++;
-				if ($optativa1 == '0' or $optativa1  == '') {$optativa1 =""; $acr1="";}
-				if ($optativa1==$i) {
-					$a_opt1 = iniciales($val);
-					$wrd1 = explode(" ", $val);
-					$num_w = count($wrd1);
-					if ($num_w>1) {
-						$acr1 = "";
-						$acr1 = $a_opt1;
-					}
-					else{
-						$acr1 = strtoupper(substr($val,0,3));
-						}
-					}
 				}
 			}
 			
-			echo $acr1."</td>";
+			echo $a_opt1."</td>";
 
 			echo "<td align='center'>";
 			$num_opt = count(${opt.$n_curso});
 			$i=0;
-			if ($n_curso<4) {
 				foreach (${opt.$n_cur} as $key=>$val) {
 				$i++;
 				if (${optativa.$i} == '0' or ${optativa.$i} == '') {${optativa.$i}=""; $acr2="";}
-
 				if (${optativa.$i}=="2") {
 					$a_opt2 = iniciales($val);
-					$wrd2 = explode(" ", $val);
-					$num_w = count($wrd2);
-					if ($num_w>1) {
-						$acr2 = "";
-						$acr2 = $a_opt2;
-					}
-					else{
-						$acr2 = strtoupper(substr($val,0,3));
-					}
-				}
-			}
-			}
-			else{
-				foreach (${opt.$n_cur} as $key=>$val) {
-				$i++;
-				if ($optativa2 == '0' or $optativa2  == '') {$optativa2 =""; $acr2="";}
-				if ($optativa2==$i) {
-					$a_opt2 = iniciales($val);
-					$wrd2 = explode(" ", $val);
-					$num_w = count($wrd2);
-					if ($num_w>1) {
-						$acr2 = "";
-						$acr2 = $a_opt2;
-					}
-					else{
-						$acr2 = strtoupper(substr($val,0,3));
-						}
-					}
 				}
 			}
 			
-			echo $acr2."</td>";
+			echo $a_opt2."</td>";
 
 
 			if ($n_curso<4) {
@@ -744,20 +674,20 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 			$curs_ant = substr($cur_a[0],0,1);
 
 			// Promocionan o no
-			if (date('m')=='09'){
-			$pro_n = mysqli_query($db_con, "select estadomatricula from alma where alma.claveal='".$claveal."'");
+			if (date('m')=='09' OR ($curs_ant == '4' and date('m')>6)){
+				$pro_n = mysqli_query($db_con, "select estadomatricula from alma where alma.claveal='".$claveal."'");
 				$pro_nt = mysqli_fetch_array($pro_n);
 				$promo_f = $pro_nt[0];
 				$promociona="";
 				if ($promo_f=="Repite") { $promociona="2"; }elseif($promo_f=="Obtiene Título" or $promo_f=="Promociona"){ $promociona="1"; }else{ $promociona=""; }
-			}
+				}
 
 				$rp_cur="";
 				if ($promociona == "1" and $n_curso==$curs_ant) {
 					$rp_cur = "<i class='fa fa-exclamation-circle text-danger' data-bs='tooltip' title='El alumno ha promocionado y su matrícula debe ser restaurada'> </i>";
 				}
 
-			if ($n_curso>1) {
+				if ($n_curso>1) {
 				echo "<td style='background-color:#efeefd' class='hidden-print' nowrap>";
 
 					$val_notas="";
@@ -771,53 +701,51 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 
 					if ($promo_f=="Repite") { $promociona="2"; }elseif($promo_f=="Obtiene Título" or $promo_f=="Promociona"){ $promociona="1"; }else{ $promociona=""; }
 					
-					if (date('m')>'05' and date('m')<'09'){
-					foreach ($tr_not as $val_asig) {
-						$tr_notas = explode(":", $val_asig);
-						foreach ($tr_notas as $key_nota=>$val_nota) {
-							if($key_nota == "1" and ($val_nota<'347' and $val_nota !=="339" and $val_nota !=="") or $val_nota == '397' ){
-								$val_notas=$val_notas+1;
+					
+					if (date('m')>'05' and date('m')<'09' and $curs_ant < 4){
+						foreach ($tr_not as $val_asig) {
+							$tr_notas = explode(":", $val_asig);
+							foreach ($tr_notas as $key_nota=>$val_nota) {
+								if($key_nota == "1" and ($val_nota<'347' and $val_nota !=="339" and $val_nota !=="") or $val_nota == '397' ){
+									$val_notas=$val_notas+1;
+								}
 							}
 						}
-					}
-					}
-					
-					elseif (date('m')=='09'){
-					$tr_not2 = explode(";", $nota[1]);
-					foreach ($tr_not2 as $val_asig) {
-						$tr_notas = explode(":", $val_asig);
-						foreach ($tr_notas as $key_nota=>$val_nota) {
-							if($key_nota == "1" and ($val_nota<'347' and $val_nota !=="339" and $val_nota !=="") or $val_nota == '397' ){
-								$val_notas=$val_notas+1;
-							}
+						for ($i=1;$i<3;$i++){
+							echo '<input type="radio" name = "promociona-'. $id .'" value="'.$i.'" ';
+								if($promociona == 1 and $i == 1){
+									echo " checked";
+								}
+							echo " />&nbsp;";
 						}
-					}
-					}
-					
-				if (date('m')=='09'){
-					for ($i=1;$i<3;$i++){
-						echo '<input type="radio" name = "promociona-'. $id .'" value="'.$i.'" ';
-							if($promociona == $i){
-								echo " checked";
-							}
-						echo " />&nbsp;";
-							}
 						if ($val_notas > 0) {
-							echo "<span class='badge' data-bs='tooltip' title='Materias suspensas'> $val_notas</span>";		
-						}		
-					}
-				elseif (date('m')>'05' and date('m')<'09'){
-					for ($i=1;$i<3;$i++){
-						echo '<input type="radio" name = "promociona-'. $id .'" value="'.$i.'" ';
-							if($promociona == 1 and $i == 1){
-								echo " checked";
+								echo "<span class='badge' data-bs='tooltip' title='Materias suspensas'> $val_notas</span>";		
 							}
-						echo " />&nbsp;";
 					}
-					if ($val_notas > 0) {
-							echo "<span class='badge' data-bs='tooltip' title='Materias suspensas'> $val_notas</span>";		
-						}		
-				}
+					
+					elseif (date('m')=='09' OR ($curs_ant == '4' and date('m')>6)){
+
+						$tr_not2 = explode(";", $nota[1]);
+						foreach ($tr_not2 as $val_asig) {
+							$tr_notas = explode(":", $val_asig);
+							foreach ($tr_notas as $key_nota=>$val_nota) {
+								if($key_nota == "1" and ($val_nota<'347' and $val_nota !=="339" and $val_nota !=="") or $val_nota == '397' ){
+									$val_notas=$val_notas+1;
+								}
+							}
+						}
+						for ($i=1;$i<3;$i++){
+							echo '<input type="radio" name = "promociona-'. $id .'" value="'.$i.'" ';
+								if($promociona == $i){
+									echo " checked";
+								}
+							echo " />&nbsp;";
+								}
+							if ($val_notas > 0) {
+								echo "<span class='badge' data-bs='tooltip' title='Materias suspensas'> $val_notas</span>";		
+							}
+					}
+					
 				echo "</td>";
 			}
 			echo '<td class="hidden-print text-center"><input name="revisado-'. $id .'" type="checkbox" value="1" onClick="submit()"';
@@ -1024,10 +952,22 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 						foreach (${it4.$i} as $nombre_opt => $valor){
 							$n_it++;
 							if ($n_it > 1):
-							
 								$nombre_optativa=$nombre_optativa+1;
-								$nom_opt.="<span style='color:#08c;'>Opt".$nombre_optativa."</span> = ".$valor."; ";
-							
+								if ($nombre_opt>0) {
+									$acr1="";
+									$a_opt1 = iniciales($valor);
+									$wrd1 = explode(" ", $valor);
+									$num_w = count($wrd1);
+									if ($num_w>1) {
+										$acr1 = "";
+										$acr1 = $a_opt1;					
+									}
+									else{
+										$acr1 = strtoupper(substr($valor,0,3));
+										}
+									$acr3 = strtoupper(substr($valor,0,3));
+									$nom_opt.="<span style='color:#08c;'>".$acr1."</span> = ".$valor."; ";
+								}
 						endif;
 						//echo substr($nom_opt,0,-2);
 						
@@ -1037,7 +977,7 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 				}
 				else{
 					foreach (${opt.$n_curso} as $nombre_opt => $valor){
-						$nombre_optativa=$nombre_opt+1;
+						$nombre_optativa=$nombre_opt+1;						
 						$nom_opt.="<span style='color:#08c;'>Opt".$nombre_optativa."</span> = ".$valor."; ";
 					}
 				}

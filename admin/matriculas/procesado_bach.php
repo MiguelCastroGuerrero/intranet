@@ -32,7 +32,6 @@
 
 				if ($n_prom[1] != 1) {
 				
-
 				if ($curso == "2BACH") {
 				// Recolocamos datos porque no promociona.						
 				mysqli_query($db_con, "insert into matriculas_bach_backup select * from matriculas_bach where id = '$id_submit'");

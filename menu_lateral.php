@@ -333,7 +333,7 @@ $menu_alumnos = array(
 					array(
 						'href'   => 'admin/informes/extraordinaria/index.php',
 						'titulo' => 'Informes de evaluación extraordinaria',
-						'meses'	 => array(5, 6),
+						'meses'	 => array(5, 6, 7),
 					),
 					array(
 						'href'   => 'admin/departamento/adaptaciones/index.php',

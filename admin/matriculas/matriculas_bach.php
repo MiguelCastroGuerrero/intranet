@@ -1025,7 +1025,7 @@ if ($dni or $claveal or $id) {
 		<?php endif;?>
 
 		<!-- ASIGNATURAS DE MODALIDAD Y OPTATIVAS EN SEGUNDO DE BACHILLERATO -->
-		<?php if ($curso == "2BACH"): ?>
+		<?php if ($curso == "2BACH"): ?>		
 
 		<?php
 		if (empty($curso_largo)) {
@@ -1149,15 +1149,17 @@ if ($dni or $claveal or $id) {
 </tr>
 <tr>
 <tr>
-	<td style="background-color: #eee;" colspan="4" class="text-center">
+	<td style="background-color: #eee;" colspan="2" class="text-center">
 	<strong><span class="text-uppercase">Religión, Educación para la Ciudadanía o Cultura Científica</span></strong>
 	</td>
+	<td class="active text-center text-uppercase"><strong>Primer idioma
+	extranjero</strong></td>
+	<td class="active text-center text-uppercase"><strong>Segundo idioma
+	extranjero</strong></td>
 </tr>
 <tr>
 		
-			<td colspan="4">
-			
-			
+			<td colspan="2">			
 			<table style="width: 100%; border: none; <?php if(stristr($vacios,"religion o alternativa de 1BACH")==TRUE) {echo 'background-color: #FFFF66;'; } ?>">
 			<tr>
 				<td valign=top style="border: none;width:50%">
@@ -1188,8 +1190,22 @@ if ($dni or $claveal or $id) {
 		<?php if($religion1b == 'Valores Éticos'){echo "checked";} ?>  required />
 				Educación para la Ciudadanía y los Derechos Humanos </td>
 			</tr>
-		</table>
+			</table>
 			
+			</td>
+			<td>
+			<div class="form-group">
+			<input type="text" class="form-control"	name="idioma1" value="Inglés" readonly>					
+			</div>
+			</td>
+			<td>
+			<div class="form-group"><select class="form-control" id="idioma2"
+				name="idioma2">
+				<option value="Francés"
+				<?php echo (isset($idioma2) && $idioma2 == 'Francés') ? 'selected' : ''; ?>>Francés</option>
+				<option value="Alemán"
+				<?php echo (isset($idioma2) && $idioma2 == 'Alemán') ? 'selected' : ''; ?>>Alemán</option>
+			</select></div>
 			</td>
 			
 		</tr>

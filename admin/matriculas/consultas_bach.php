@@ -622,61 +622,61 @@ if ($n_fechorias >= $fechori1 and $n_fechorias < $fechori2) {
 				$nota[0] = substr($nota[0],0,strlen($nota[0])-1);
 				$nota[1] = substr($nota[1],0,strlen($nota[1])-1);
 
-				if (date('m')>'05' and date('m')<'09'){
-				$val_notas="";				
-				$tr_not = explode(";", $nota[0]);
-				$num_ord="";
-				foreach ($tr_not as $val_asig) {
-					$tr_notas = explode(":", $val_asig);
-					foreach ($tr_notas as $key_nota=>$val_nota) {
-						$num_ord+=1;
-					if ($n_curso == "1") {
-						$rp = mysqli_query($db_con,"select  * from matriculas_bach_backup where claveal=".$claveal." and curso='2BACH'");
-						if (mysqli_num_rows($rp)>0) {
-							if($key_nota == "1" and $val_nota<'427' or $val_nota =="439" or $val_nota ==""){
-							$val_notas=$val_notas+1;
-						}
-						}
-						else{
-							if($key_nota == "1" and ($val_nota<'347' or $val_nota == '397')  and $val_nota !=="" and $val_nota !=="339"){
-							$val_notas=$val_notas+1;
-						}
-						}						
-						}
-					if ($n_curso == "2") {
-						if($key_nota == "1" and ($val_nota<'427' or $val_nota =="439") and $val_nota !==""){
-							$val_notas=$val_notas+1;
-						}
+				if (empty($nota[1]) and strlen($nota[0])>4){
+					$val_notas="";				
+					$tr_not = explode(";", $nota[0]);
+					$num_ord="";
+					foreach ($tr_not as $val_asig) {
+						$tr_notas = explode(":", $val_asig);
+						foreach ($tr_notas as $key_nota=>$val_nota) {
+							$num_ord+=1;
+						if ($n_curso == "1") {
+							$rp = mysqli_query($db_con,"select  * from matriculas_bach_backup where claveal=".$claveal." and curso='2BACH'");
+							if (mysqli_num_rows($rp)>0) {
+								if($key_nota == "1" and $val_nota<'427' or $val_nota =="439" or $val_nota ==""){
+								$val_notas=$val_notas+1;
+							}
+							}
+							else{
+								if($key_nota == "1" and ($val_nota<'347' or $val_nota == '397')  and $val_nota !=="" and $val_nota !=="339"){
+								$val_notas=$val_notas+1;
+							}
+							}						
+							}
+						if ($n_curso == "2") {
+							if($key_nota == "1" and ($val_nota<'427' or $val_nota =="439") and $val_nota !==""){
+								$val_notas=$val_notas+1;
+							}
+							}
 						}
 					}
 				}
-				}
-				elseif (date('m')=='09'){
+				elseif (strlen($nota[1])>4){
 					$val_notas="";
 					if (empty($nota[1])) {}
 					else{					
-				$tr_not2 = explode(";", $nota[1]);
-				$num_ord1="";
-				foreach ($tr_not2 as $val_asig) {
-					$tr_notas = explode(":", $val_asig);
-					foreach ($tr_notas as $key_nota=>$val_nota) {
-						$num_ord1+=1;
-					if ($n_curso == "1") {
-						if($key_nota == "1" and ($val_nota<'347' or $val_nota == '397')  and $val_nota !=="" and $val_nota !=="339"){
-							$val_notas++;
-						}						
-						}
-					if ($n_curso == "2") {
-						if($key_nota == "1" and ($val_nota<'427' or $val_nota =="439") and $val_nota !==""){
-							$val_notas++;
-						}
-						}
-					}
-					}				
+						$tr_not2 = explode(";", $nota[1]);
+						$num_ord1="";
+						foreach ($tr_not2 as $val_asig) {
+							$tr_notas = explode(":", $val_asig);
+							foreach ($tr_notas as $key_nota=>$val_nota) {
+								$num_ord1+=1;
+							if ($n_curso == "1") {
+								if($key_nota == "1" and ($val_nota<'347' or $val_nota == '397')  and $val_nota !=="" and $val_nota !=="339"){
+									$val_notas++;
+								}						
+								}
+							if ($n_curso == "2") {
+								if($key_nota == "1" and ($val_nota<'427' or $val_nota =="439") and $val_nota !==""){
+									$val_notas++;
+								}
+								}
+							}
+						}				
 					}
 				}
 				
-				if (date('m')=='09'){
+				if (date('m')=='09' OR ($curs_ant == '4' and date('m')>6)){
 					for ($i=1;$i<3;$i++){
 						echo '<input type="radio" name = "promociona-'. $id .'" value="'.$i.'" ';
 							if($promociona == $i){
@@ -693,12 +693,12 @@ if ($n_fechorias >= $fechori1 and $n_fechorias < $fechori2) {
 						echo '<input type="radio" name = "promociona-'. $id .'" value="'.$i.'" ';
 							if($promociona == 1 and $i == 1){
 								echo " checked";
-							}
+						}
 						echo " />&nbsp;";
 					}
 					if ($val_notas > 0) {
-							echo "<span class='badge badge-info' data-bs='tooltip' title='Materias suspensas'> $val_notas</span>";		
-						}		
+						echo "<span class='badge badge-info' data-bs='tooltip' title='Materias suspensas'> $val_notas</span>";		
+					}		
 				}
 			}
 			if($parcial == 1){ echo '<span class="far fa-times-circle" style="color: blue;" data-bs="tooltip" title="Matrícula parcial."></span>&nbsp;';}

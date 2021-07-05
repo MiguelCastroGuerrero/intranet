@@ -207,12 +207,16 @@ if ($_POST['grupo_actua']) {
 		if ($optativ4) {
 			echo "<option>$optativ4</option>";
 		}
+
+		foreach ($variable as $key => $value) {
+			# code...
+		}
 		?>
 			<option></option>
-			<option>Ciencias Aplicadas</option>
-			<option>Biología y Geología</option>
-			<option>Iniciación</option>
-			<option>Economía</option>
+			<option>Matemáticas para la Vida</option>
+			<option>Comentario de Textos</option>
+			<option>Ciencias Aplicadas a la Actividad Profesional</option>
+			<option>Iniciación a la Actividad Emprendedora y Empresarial</option>
 		</select>
 </div>
 </div>
