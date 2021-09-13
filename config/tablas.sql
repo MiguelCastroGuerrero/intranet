@@ -366,6 +366,22 @@ CREATE TABLE IF NOT EXISTS `convivencia` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `correos`
+--
+
+DROP TABLE IF EXISTS `correos`;
+CREATE TABLE IF NOT EXISTS `correos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `destino` varchar(72) NOT NULL,
+  `correo` varchar(72) NOT NULL,
+  `fecha` datetime NOT NULL,
+  `texto` tinytext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=3 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cursos`
 --
 
@@ -386,7 +402,7 @@ DROP TABLE IF EXISTS `c_profes`;
 CREATE TABLE IF NOT EXISTS `c_profes` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `pass` varchar(60) DEFAULT NULL,
-  `PROFESOR` varchar(48) DEFAULT NULL,
+  `PROFESOR` varchar(64) DEFAULT NULL,
   `dni` varchar(9) NOT NULL DEFAULT '',
   `idea` varchar(12) NOT NULL DEFAULT '',
   `correo` varchar(64) DEFAULT NULL,
@@ -436,7 +452,7 @@ CREATE TABLE IF NOT EXISTS `datos_primaria` (
 
 DROP TABLE IF EXISTS `departamentos`;
 CREATE TABLE IF NOT EXISTS `departamentos` (
-  `NOMBRE` varchar(48) DEFAULT NULL,
+  `NOMBRE` varchar(64) DEFAULT NULL,
   `DNI` varchar(10) DEFAULT NULL,
   `DEPARTAMENTO` varchar(80) DEFAULT NULL,
   `CARGO` varchar(10) DEFAULT NULL,
@@ -662,6 +678,7 @@ CREATE TABLE IF NOT EXISTS `Fechoria` (
   `horas` varchar(10) COLLATE utf8_general_ci  DEFAULT '123R456',
   `confirmado` tinyint(1) DEFAULT NULL,
   `tareas` char(2) COLLATE utf8_general_ci  DEFAULT NULL,
+  `adjunto` VARCHAR(500) NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 
@@ -785,6 +802,7 @@ CREATE TABLE IF NOT EXISTS `horw` (
   `nivel` varchar(10) NOT NULL DEFAULT '',
   `n_grupo` varchar(10) NOT NULL DEFAULT '',
   `clase` varchar(16) NOT NULL DEFAULT '',
+  `idactividad` INT(11) UNSIGNED NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 
@@ -1796,7 +1814,6 @@ CREATE TABLE IF NOT EXISTS `reservas` (
   `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
   `eventdate` date NOT NULL,
   `dia` tinyint(1) NOT NULL DEFAULT '0',
-  `html` tinyint(1) NOT NULL DEFAULT '0',
   `event1` varchar(255) DEFAULT NULL,
   `event2` varchar(255) NOT NULL DEFAULT '',
   `event3` varchar(255) NOT NULL DEFAULT '',

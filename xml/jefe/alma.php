@@ -29,7 +29,7 @@ if (file_exists('config_alma.php')) {
 
 				<?php  if($archivo1 and $archivo2){
 
-			// Importamos los datos del fichero CSV (todos_alumnos.csv) en la tabña alma2.
+			// Importamos los datos del fichero CSV (todos_alumnos.csv) en la tabla alma.
 			$fp = fopen ($_FILES['archivo1']['tmp_name'] , "r" ) or die('<div align="center">
 			<div class="alert alert-danger alert-block fade in">
 	        <button type="button" class="close" data-dismiss="alert">&times;</button>
