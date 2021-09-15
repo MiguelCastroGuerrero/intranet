@@ -29,20 +29,18 @@ include("../../menu.php");
 
 				 //  Estructura de tabla para la tabla `departamento_temp`
 				mysqli_query($db_con, "CREATE TABLE IF NOT EXISTS `departamento_temp` (
-				`nombre` varchar(48) NOT NULL default '',
-				`dni` varchar(10) NOT NULL default '',
-				`departamento` varchar(48) NOT NULL default '',
-				`cargo` varchar(16) default NULL,
-				`idea` varchar(12) NOT NULL default '',
-				`fechatoma` DATE NOT NULL,
-				`fechacese` DATE NULL,
-				PRIMARY KEY (`dni`)
-				) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci ");
-				if(isset($_POST['actualizar'])){
-				}
-				else{
-				 $base0 = "DELETE FROM departamentos WHERE idea <> 'admin' AND departamento <> 'Administracion' AND departamento <> 'Conserjeria' AND departamento <> 'Educador' AND departamento <> 'Servicio Técnico y/o Mantenimiento' AND departamento <> '' AND cargo NOT LIKE '%1%'";
-				  mysqli_query($db_con, $base0);
+				  `NOMBRE` varchar(64) DEFAULT NULL,
+				  `DNI` varchar(10) DEFAULT NULL,
+				  `DEPARTAMENTO` varchar(80) DEFAULT NULL,
+				  `CARGO` varchar(10) DEFAULT NULL,
+				  `idea` varchar(12) NOT NULL DEFAULT '',
+				  `fechatoma` DATE NOT NULL DEFAULT '0000-00-00',
+				  `fechacese` DATE NOT NULL DEFAULT '0000-00-00',
+				  PRIMARY KEY (`idea`)
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;");
+
+				if(! isset($_POST['actualizar'])){
+					mysqli_query($db_con, "DELETE FROM departamentos WHERE idea <> 'admin' AND departamento <> 'Administracion' AND departamento <> 'Conserjeria' AND departamento <> 'Educador' AND departamento <> 'Servicio Técnico y/o Mantenimiento' AND cargo NOT LIKE '%1%'");
 				}
 
 

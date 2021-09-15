@@ -32,12 +32,12 @@ if (isset($_POST['registrarCorreo'])) {
 					}
 				}
 
-				if (! $esProfesor || ($esProfesor && (strpos($cmp_correo, '@'.'juntadeandalucia.es') !== false || strpos($cmp_correo, '@'.$_SERVER['SERVER_NAME']) !== false || $esDominioPermitido !== false))) {
+				if (! $esProfesor || ($esProfesor && (strpos($cmp_correo, '@'.'juntadeandalucia.es') !== false || ($esProfesor && (strpos($cmp_correo, '@'.'g.educaand.es') !== false || ($esProfesor && (strpos($cmp_correo, '@'.'m.educaand.es') !== false || strpos($cmp_correo, '@'.$_SERVER['SERVER_NAME']) !== false || $esDominioPermitido !== false))) {
 					mysqli_query($db_con, "UPDATE `c_profes` SET `correo` = '".$cmp_correo."', `correo_verificado` = 0 WHERE `idea` = '".$_SESSION['ide']."' LIMIT 1");
 					correoValidacion();
 				}
 				else {
-					$msg_email_error = "Debe introducir una dirección de correo electrónico @juntadeandalucia.es".((isset($listaDominiosPermitidosCorreos) && ! empty($listaDominiosPermitidosCorreos)) ? ", ".$listaDominiosPermitidosCorreos : "")." o @".$_SERVER['SERVER_NAME'];
+					$msg_email_error = "Debe introducir una dirección de correo electrónico @juntadeandalucia.es, @g.educaand.es, @m.educaand.es".((isset($listaDominiosPermitidosCorreos) && ! empty($listaDominiosPermitidosCorreos)) ? ", ".$listaDominiosPermitidosCorreos : "")." o @".$_SERVER['SERVER_NAME'];
 				}
 			}
 			else {

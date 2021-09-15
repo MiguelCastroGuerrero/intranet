@@ -59,7 +59,7 @@ $result_verificacion_correo = mysqli_query($db_con, "SELECT `correo`, `correo_ve
 
 	$result_verificacion_correo_profesor = mysqli_query($db_con, "SELECT `idprofesor` FROM `profesores_seneca` WHERE `nomprofesor` = '".$_SESSION['profi']."' LIMIT 1");
 	$result_verificacion_correo_esProfesor = (mysqli_num_rows($result_verificacion_correo_profesor)) ? 1 : 0;
-	if ($result_verificacion_correo_esProfesor && (strpos($row_verificacion_correo['correo'], '@'.'juntadeandalucia.es') === false && strpos($row_verificacion_correo['correo'], '@'.$_SERVER['SERVER_NAME']) === false && $esDominioPermitido === false)) {
+	if ($result_verificacion_correo_esProfesor && (strpos($row_verificacion_correo['correo'], '@'.'juntadeandalucia.es') === false && (strpos($row_verificacion_correo['correo'], '@'.'g.educaand.es') === false && (strpos($row_verificacion_correo['correo'], '@'.'m.educaand.es') === false && strpos($row_verificacion_correo['correo'], '@'.$_SERVER['SERVER_NAME']) === false && $esDominioPermitido === false)) {
 		mysqli_query($db_con, "UPDATE `c_profes` SET `correo` = '', `correo_verificado` = 0 WHERE `idea` = '".$_SESSION['ide']."' LIMIT 1");
 	}
 	?>
