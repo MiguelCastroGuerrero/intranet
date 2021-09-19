@@ -7,8 +7,9 @@ if (file_exists('config.php')) {
 	include('config.php');
 }
 
-if (isset($_POST['grupo_actual'])) {
+if (isset($_POST['grupo_actual']) OR isset($_GET['grupo_actual'])) {
 	$grupo_actual = $_POST['grupo_actual'];
+	if(empty($grupo_actual)){ $grupo_actual[0] = $_GET['grupo_actual'];}
 	$sql = "select distinct curso, grupo_actual from matriculas where grupo_actual = '$grupo_actual[0]' and curso='$curso' order by curso, grupo_actual";
 }
 else{
@@ -35,7 +36,7 @@ $options_left = array(
 	$curso = $total[0];
 	$grupo_actual = $total[1];
 	
-$sqldatos="SELECT concat(apellidos,', ',nombre), exencion, optativa1, optativa2, optativa3, optativa4, optativa5, optativa6, optativa7, act1, religion, diversificacion, matematicas3, bilinguismo, itinerario, optativas4, ciencias4 FROM matriculas WHERE curso = '$curso' and grupo_actual='".$grupo_actual."' ORDER BY apellidos, nombre";
+$sqldatos="SELECT concat(apellidos,', ',nombre), exencion, optativa1, optativa2, optativa3, optativa4, optativa5, optativa6, optativa7, optativa8, optativa9, act1, religion, diversificacion, matematicas3, bilinguismo, itinerario, optativas4, ciencias4 FROM matriculas WHERE curso = '$curso' and grupo_actual='".$grupo_actual."' ORDER BY apellidos, nombre";
 //echo $sqldatos;
 
 $div3=mysqli_query($db_con,"SELECT diversificacion FROM matriculas WHERE curso = '$curso' and grupo_actual='".$grupo_actual."' and diversificacion='1'");
@@ -47,20 +48,16 @@ $lista= mysqli_query($db_con, $sqldatos );
 $nc=0;
 unset($data);
 while($datatmp = mysqli_fetch_array($lista)) { 
-        $bil = "";
-        if($datatmp['bilinguismo']=="Si"){$bil = " (Bil.)";}
+	
+$op1="";
+$op2="";
+
+	$bil = "";
+if($datatmp['bilinguismo']=="Si"){$bil = " (Bil.)";}
         
 $religion = "";
 	
 if ($curso=="3ESO") {
-for ($i = 2; $i < ($count_3+2); $i++) {
-		if ($datatmp[$i]=="1") {
-			$datatmp[$i]="X";
-		}
-		else{
-			$datatmp[$i]="";
-		}
-	}
 	// Diversificación
 if ($datatmp['diversificacion']=="1") {
 			$datatmp['diversificacion']="X";
@@ -79,28 +76,18 @@ if ($curso=="2ESO") {
 			$datatmp['diversificacion']="";
 		}
 }	
-for ($i = 2; $i < 7; $i++) {
-	if ($curso=="4ESO") {
+
+	for ($i = 2; $i < 11; $i++) {
+		
 		if ($datatmp[$i]=="1") {
-			$datatmp[$i]="1";
+			$op1=$i-1;
 		}
 		elseif ($datatmp[$i]=="2") {
-			$datatmp[$i]="2";
+			$op2=$i-1;
 		}
 		else{
 			$datatmp[$i]="";
-		}	
-	}
-	else{
-		if ($datatmp[$i]=="1") {
-			$datatmp[$i]="X";
 		}
-		else{
-			$datatmp[$i]="";
-		}	
-	}
-
-	
 	}
 	
 }
@@ -141,13 +128,8 @@ if ($curso=="3ESO") {
 				'num'=>$nc,
 				'nombre'=>utf8_decode($datatmp[0]),
 				'c9'=>$religion,
-				'c2'=>$datatmp[2],
-				'c3'=>$datatmp[3],
-				'c4'=>$datatmp[4],
-				'c5'=>$datatmp[5],
-				'c6'=>$datatmp[6],
-				'c7'=>$datatmp[7],
-				'c8'=>$datatmp[8],
+				'c2'=>$op1,
+				'c3'=>$op2,
 				'c11'=>$datatmp['diversificacion'],
 				'c12'=>$datatmp['matematicas3'],
 				'c13'=>$datatmp['act1'],
@@ -157,13 +139,8 @@ if ($curso=="3ESO") {
 				'num'=>'<b>NC</b>',
 				'nombre'=>'<b>Alumno</b>',
 				'c9'=>'Rel. Cat.',
-				'c2'=>'O1',
-				'c3'=>'O2',
-				'c4'=>'O3',
-				'c5'=>'O4',
-				'c6'=>'O5',
-				'c7'=>'O6',
-				'c8'=>'O7',
+				'c2'=>'Opt1',
+				'c3'=>'Opt2',
 				'c11'=>'PMAR',
 				'c12'=>'Mat',
 				'c13'=>'Act',
@@ -174,13 +151,8 @@ if ($curso=="3ESO") {
 				'num'=>$nc,
 				'nombre'=>utf8_decode($datatmp[0]).$bil,
 				'c10'=>$religion,
-				'c2'=>$datatmp[2],
-				'c3'=>$datatmp[3],
-				'c4'=>$datatmp[4],
-				'c5'=>$datatmp[5],
-				'c6'=>$datatmp[6],
-				'c7'=>$datatmp[7],
-				'c8'=>$datatmp[8],
+				'c2'=>$op1,
+				'c3'=>$op2,
 				'c9'=>$datatmp['matematicas3'],
 				'c11'=>$datatmp['act1'],
 				);
@@ -188,13 +160,8 @@ if ($curso=="3ESO") {
 				'num'=>'<b>NC</b>',
 				'nombre'=>'<b>Alumno</b>',
 				'c10'=>'Rel. Cat.',
-				'c2'=>'O1',
-				'c3'=>'O2',
-				'c4'=>'O3',
-				'c5'=>'O4',
-				'c6'=>'O5',
-				'c7'=>'O6',
-				'c8'=>'O7',
+				'c2'=>'Opt1',
+				'c3'=>'Opt2',
 				'c9'=>'Mat',
 				'c11'=>'Act',
 			);
@@ -226,10 +193,8 @@ if ($curso=="2ESO") {
 				'num'=>$nc,
 				'nombre'=>utf8_decode($datatmp[0]),
 				'c7'=>$religion,
-				'c2'=>$datatmp[2],
-				'c3'=>$datatmp[3],
-				'c4'=>$datatmp[4],
-				'c5'=>$datatmp[5],
+				'c2'=>$op1,
+				'c3'=>$op2,
 				'c6'=>$datatmp['act1'],
 				'c7'=>$datatmp['diversificacion'],
 				);
@@ -240,8 +205,6 @@ if ($curso=="2ESO") {
 				'c7'=>'Rel. Cat.',
 				'c2'=>'Opt1',
 				'c3'=>'Opt2',
-				'c4'=>'Opt3',
-				'c5'=>'Opt4',
 				'c6'=>'Act.',
 				'c7'=>'PMAR',
 			);
@@ -251,10 +214,8 @@ if ($curso=="2ESO") {
 				'num'=>$nc,
 				'nombre'=>utf8_decode($datatmp[0]),
 				'c7'=>$religion,
-				'c2'=>$datatmp[2],
-				'c3'=>$datatmp[3],
-				'c4'=>$datatmp[4],
-				'c5'=>$datatmp[5],
+				'c2'=>$op1,
+				'c3'=>$op2,
 				'c6'=>$datatmp['act1'],
 				);
 
@@ -264,8 +225,6 @@ if ($curso=="2ESO") {
 				'c7'=>'Rel. Cat.',
 				'c2'=>'Opt1',
 				'c3'=>'Opt2',
-				'c4'=>'Opt3',
-				'c5'=>'Opt4',
 				'c6'=>'Act.',
 			);
 	}
@@ -305,10 +264,8 @@ if ($curso=="1ESO") {
 				'num'=>$nc,
 				'nombre'=>utf8_decode($datatmp[0]),
 				'c7'=>$religion,
-				'c2'=>$datatmp[2],
-				'c3'=>$datatmp[3],
-				'c4'=>$datatmp[4],
-				'c5'=>$datatmp[5],
+				'c2'=>$op1,
+				'c3'=>$op2,
 				'c6'=>$datatmp['act1'],
 				'c8'=>$exencion,
 				);
@@ -319,8 +276,6 @@ if ($curso=="1ESO") {
 				'c7'=>'Rel. Cat.',
 				'c2'=>'Opt1',
 				'c3'=>'Opt2',
-				'c4'=>'Opt3',
-				'c5'=>'Opt4',
 				'c6'=>'Act.',
 				'c8'=>'Exen',
 			);
@@ -331,7 +286,7 @@ if ($curso=="4ESO") {
 	$opt="";
 	for ($i=1;$i<4;$i++) { 
 		${n_opt.$i}="";
-		${n_opt.$i}.= "\nOptativas Modalidad Itinerario $i (".${it4.$i}[0]." -> ".${it4.$i}[1]."): ";
+		${n_opt.$i}.= "\n\nOptativas Modalidad Itinerario $i (".${it4.$i}[0]." -> ".${it4.$i}[1]."): ";
 		$num="";
 		foreach (${it4.$i} as $val) {
 			$num++;
@@ -345,7 +300,7 @@ if ($curso=="4ESO") {
 		$opt.=${n_opt.$i};
 	}
 	$opt.=" ";
-	$opt.= "\nOptativas generales de 4 ESO: ";
+	$opt.= "\n\nOptativas generales de 4 ESO: ";
 $num="";
 	foreach ($opt4 as $val) {
 		$num++;
@@ -374,8 +329,8 @@ $data[] = array(
 				'nombre'=>utf8_decode($datatmp[0].$bil),
 				'c8'=>$religion,
 				'It.'=>$datatmp['itinerario'].$extra_itin,
-				'c2'=>$datatmp['optativa1'],
-				'c3'=>$datatmp['optativa2'],
+				'c2'=>$op1,
+				'c3'=>$op2,
 				'c7'=>$opt4,
 				'c9'=>$exencion,
 				);
@@ -385,8 +340,8 @@ $data[] = array(
 				'nombre'=>'<b>Alumno</b>',
 				'c8'=>'Rel. Cat.',
 				'It.'=>'Itiner.',
-				'c2'=>'O1',
-				'c3'=>'O2',
+				'c2'=>'Opt1',
+				'c3'=>'Opt2',
 				'c7'=>'OptGen',
 				'c9'=>'Ex.',
 			);

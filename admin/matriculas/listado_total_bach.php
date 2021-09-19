@@ -7,7 +7,17 @@ require_once('../../pdf/class.ezpdf.php');
 $pdf = new Cezpdf('a4');
 $pdf->selectFont('../../pdf/fonts/Helvetica.afm');
 $pdf->ezSetCmMargins(1,1,1.5,1.5);
-$tot = mysqli_query($db_con, "select distinct curso, grupo_actual from matriculas_bach where grupo_actual != '' order by curso, grupo_actual");
+
+if (isset($_POST['grupo_actual']) OR isset($_GET['grupo_actual'])) {
+	$grupo_actual = $_POST['grupo_actual'];
+	if(empty($grupo_actual)){ $grupo_actual[0] = $_GET['grupo_actual'];}
+	$sql = "select distinct curso, grupo_actual from matriculas_bach where grupo_actual = '$grupo_actual[0]' and curso='$curso' order by curso, grupo_actual";
+}
+else{
+	$sql = "select distinct curso, grupo_actual from matriculas_bach where grupo_actual != '' order by curso, grupo_actual";
+}
+
+$tot = mysqli_query($db_con, $sql);
 while($total = mysqli_fetch_array($tot)){
 # hasta aquÃ­ lo del pdf
 $options_center = array(

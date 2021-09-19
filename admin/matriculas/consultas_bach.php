@@ -49,7 +49,7 @@ if (isset($_POST['listado_simple'])) {
 	exit();
 }
 
-if (isset($_POST['listado_total'])) {
+if (isset($_POST['listado_total']) OR isset($_GET['listado_total'])) {
 	include("listado_total_bach.php");
 	exit();
 }

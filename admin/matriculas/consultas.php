@@ -44,7 +44,7 @@ if (isset($_POST['listados'])) {
 	exit();
 }
 
-if (isset($_POST['listado_total'])) {
+if (isset($_POST['listado_total']) OR isset($_GET['listado_total'])) {
 	include("listado_total.php");
 	exit();
 }
