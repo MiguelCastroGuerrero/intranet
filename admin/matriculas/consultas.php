@@ -1,7 +1,7 @@
 <?php
 require('../../bootstrap.php');
 
-acl_acceso($_SESSION['cargo'], array(1, 7, 8));
+acl_acceso($_SESSION['cargo'], array(1, 2, 7, 8));
 
 if (file_exists('config.php')) {
 	include('config.php');

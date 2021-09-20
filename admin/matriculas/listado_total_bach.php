@@ -1,7 +1,7 @@
 <?php
 require('../../bootstrap.php');
 
-acl_acceso($_SESSION['cargo'], array(1, 8));
+acl_acceso($_SESSION['cargo'], array(1, 2, 8));
 
 require_once('../../pdf/class.ezpdf.php');
 $pdf = new Cezpdf('a4');
