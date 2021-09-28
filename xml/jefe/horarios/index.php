@@ -187,14 +187,6 @@ if (isset($_POST['enviar'])) {
 		$unidad = "GUC"; // Servicio de Guardia (Aula de Convivencia)
 	}
 
-	// Comprobamos si es Docencia Bilingüe (código de actividad: 636) o Docencia (código de actividad: 1)
-	if (isset($_POST['docencia_bilingue'])) {
-		$idactividad = ($_POST['docencia_bilingue'] == 1) ? '636' : '1';
-	}
-	else {
-		$idactividad = $codasignatura;
-	}
-
 	// OBTENEMOS DATOS DE LA DEPENDENCIA
 	$result = mysqli_query($db_con, "SELECT DISTINCT `n_aula` FROM `horw` WHERE `a_aula` = '".$_POST['dependencia']."'");
 	$datos_dependencia = mysqli_fetch_array($result);
@@ -281,8 +273,8 @@ if (isset($_POST['actualizar'])) {
 	}
 
 	// Comprobamos si es Docencia Bilingüe (código de actividad: 636) o Docencia (código de actividad: 1)
-	if (isset($_POST['docencia_bilingue'])) {
-		$idactividad = ($_POST['docencia_bilingue'] == 1) ? '636' : '1';
+	if (isset($_POST['show_docencia_bilingue'])) {
+		$idactividad = (isset($_POST['docencia_bilingue']) && $_POST['docencia_bilingue'] == 1) ? '636' : '1';
 	}
 	else {
 		$idactividad = $codasignatura;
@@ -463,6 +455,7 @@ include("../../../menu.php");
 						<div class="form-group">
 							<div class="checkbox">
 								<label for="docencia_bilingue">
+									<input type="hidden" name="show_docencia_bilingue" value="true">
 									<input type="checkbox" id="docencia_bilingue" name="docencia_bilingue" value="1"<?php echo (isset($_GET['docencia_bilingue']) && $_GET['docencia_bilingue'] == 1) ? ' checked' : ''; ?>> <strong>Docencia bilingüe</strong>
 								</label>
 							</div>
