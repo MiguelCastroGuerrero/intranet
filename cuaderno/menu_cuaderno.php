@@ -30,11 +30,11 @@ function enviar(){
 		href="#"><i class="fas fa-cogs fa-fw"></i> Funciones <span
 		class="caret"></span> </a>
 	<ul class="dropdown-menu" role="menu">
-	<?	
+	<?php	
 	$mens1 = "cuaderno.php?$var&seleccionar=1";
 	if ($foto==1) {$texto_foto = "Mostrar fotos"; $mens2 = "cuaderno.php?$var&foto=0";}
 	else { $texto_foto = "Ocultar fotos"; $mens2 = "cuaderno.php?$var&foto=1";}
-	$mens3 = "cuaderno/orden.php?$var";
+	$mens3 = "cuaderno/orden.php?".$var;
 
 	echo '<li><a href="'.$mens3.'"><i class="fas fa-sort fa-fw"></i>&nbsp;Ordenar Columnas</a></li>';
 	echo '<li><a onclick="print()"><i class="fas fa-print fa-fw"></i>&nbsp;Imprimir tabla completa</a></li>';
