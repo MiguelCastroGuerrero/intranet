@@ -22,7 +22,7 @@ if (isset($_GET['borrar']) AND $_GET['borrar'] == 1) {
 }
 
 // OBTENEMOS LOS DATOS DEL INFORME SELECCIONADO
-$result = mysqli_query($db_con, "SELECT `profesor`, `asignatura`, `unidad`, `curso`, `fecha`, `modalidad`, `plantilla`  FROM `informe_pendientes` WHERE `id_informe` = '".$id_informe."' LIMIT 1");
+$result = mysqli_query($db_con, "SELECT `profesor`, `asignatura`, `curso`, `observaciones` FROM `informe_pendientes` WHERE `id_informe` = '".$id_informe."' LIMIT 1");
 $datos_informe = mysqli_fetch_array($result);
 
 
@@ -32,10 +32,8 @@ $result = mysqli_query($db_con, "SELECT `id_contenido`, `unidad`, `titulo`, `con
 	
 	if (!mysqli_num_rows($result)>0) {
 		$curso_corto = substr($datos_informe['curso'], 0, 19);
-		$result_cont = mysqli_query($db_con, "SELECT `id_contenido`, `unidad`, `titulo`, `contenidos`, `actividades` FROM `informe_pendientes_contenidos` WHERE `id_informe` in (select id_informe from informe_pendientes where asignatura = '".$datos_informe['asignatura']."' and curso like '".$curso_corto."%' and plantilla = '1') ORDER BY `id_contenido` ASC");
-		$plantilla = 1;
+		$result_cont = mysqli_query($db_con, "SELECT `id_contenido`, `unidad`, `titulo`, `contenidos`, `actividades` FROM `informe_pendientes_contenidos` WHERE `id_informe` in (select id_informe from informe_pendientes where asignatura = '".$datos_informe['asignatura']."' and curso like '".$curso_corto."%') ORDER BY `id_contenido` ASC");
 	}
-
 
 while ($row = mysqli_fetch_array($result)) {
 	$contenido = array(

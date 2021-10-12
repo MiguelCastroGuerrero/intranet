@@ -49,7 +49,22 @@ define("DOMPDF_ENABLE_PHP", true);
 
 	$html.="<br><h2 align='center'>".$alum['nombre_al']." <small>(".$alum['unidad'].")</small></h2><br>";
 
-	$materias = mysqli_query($db_con, "SELECT distinct informe_pendientes.asignatura, informe_pendientes.id_informe, informe_pendientes.fecha, informe_pendientes.curso FROM informe_pendientes, informe_pendientes_alumnos WHERE informe_pendientes.id_informe = informe_pendientes_alumnos.id_informe and claveal = '$claveal'");
+
+	$asigna_pend = mysqli_query($db_con,"select distinct codigo from pendientes where claveal='$claveal'");
+	while($nom_asig = mysqli_fetch_array($asigna_pend)){
+			
+		$asignat = mysqli_fetch_array(mysqli_query($db_con,"select distinct nombre, curso from asignaturas where codigo='$nom_asig[0]' and abrev not like '%\_%' limit 1"));
+			$asignatura_pend = $asignat['nombre'];
+			$curso_pend = $asignat['curso'];
+							
+		$n_inf = mysqli_query($db_con,"select id_informe from informe_pendientes where asignatura like '$asignatura_pend' and curso like '$curso_pend'");
+		while($id_inf = mysqli_fetch_array($n_inf)){
+			$extra_id.=" id_informe = '".$id_inf['id_informe']."' OR";
+		}
+	}
+	$extra_id = substr($extra_id,0,-3);
+
+	$materias = mysqli_query($db_con, "SELECT distinct informe_pendientes.asignatura, informe_pendientes.id_informe, informe_pendientes.observaciones, informe_pendientes.curso FROM informe_pendientes WHERE $extra_id");
 	$num_informes = mysqli_num_rows($materias);
 	while($materia_curso = mysqli_fetch_array($materias)){
 
@@ -57,12 +72,9 @@ define("DOMPDF_ENABLE_PHP", true);
 
 		$id_informe = $materia_curso['id_informe'];
 		$curso_pend = $materia_curso['curso'];
+		$observaciones = $materia_curso['observaciones'];
 
-		$fecha_reg = explode(" ", $materia_curso['fecha']);
-		$dia_reg = $fecha_reg[0];
-		$hora_reg = $fecha_reg[1];
-
-		$html.="<br><h3>".$materia_curso['asignatura']."<small> (".$curso_pend.")</small><hr><small style='color:#666'>Fecha del examen o entrega de actividades:  el día <u>".cambia_fecha($dia_reg)."</u> a las <u>".$hora_reg."</u> horas</small></h3><br>";
+		$html.="<br><h3>".$materia_curso['asignatura']."<small> (".$curso_pend.")</small></h3><br>";
 		
 		$html.="
 			<table class='table table-bordered'>
@@ -74,36 +86,35 @@ define("DOMPDF_ENABLE_PHP", true);
 			<tbody>
 			";
 		
-		$act_personal="";
-		
-		$query_id= mysqli_query($db_con, "SELECT distinct id_informe, id_contenido, actividades FROM informe_pendientes_alumnos WHERE claveal = '$claveal' and id_informe = '$id_informe' order by id_informe, id_contenido");
-		while ($informe = mysqli_fetch_array($query_id)) {
-			if (strlen($informe['actividades'])>0) {
-				$act_personal = $informe['actividades'];
+		$content = mysqli_query($db_con,"select unidad, titulo, contenidos, actividades from informe_pendientes_contenidos where id_informe = ".$id_informe." order by id_contenido");
+			
+		while($datos = mysqli_fetch_array($content)){
+			$html.="<tr><td><u><b>".$datos['unidad']."</b>: ".$datos['titulo']."</u><br><br>".$datos['contenidos']."</td><td>".$datos['actividades']."</td></tr>";
 			}
-			
-			
-			$content = mysqli_query($db_con,"select unidad, titulo, contenidos, actividades from informe_pendientes_contenidos where id_informe = ".$informe['id_informe']." and id_contenido = '".$informe['id_contenido']."'");
-			
-			while($datos = mysqli_fetch_array($content)){
-				$html.="<tr><td><u><b>".$datos['unidad']."</b>: ".$datos['titulo']."</u><br><br>".$datos['contenidos']."</td><td>".$datos['actividades']."</td></tr>";
-			}
-			
-		}
 		
-			$html.="<tr><td colspan='2'><b><u>Observaciones complementarias</u></b>: <br>".$act_personal."</td></tr>";
-
+		
 	$html.="</tbody>
 	</table>";
 
-	if ($num_informes != $n_inf) {
-		$html .= '<div style="page-break-before: always;"></div>';
-	}
+	$html.="
+	<table class='table table-bordered' style='width:100%'>
+	<thead>
+	<tr>
+	<th>Observaciones generales</th>
+	</tr>
+	</thead>
+	<tbody>
+	";
+	$html.="<tr><td>".$observaciones."</td></tr>";
+
+	$html.="</tbody>
+	</table>";
+	
+	$html .= '<div style="page-break-before: always !important;"></div>';
 
 	}
-		
+
 	$html .= '</body></html>';
-	
 	$dompdf = new DOMPDF();
 	$dompdf->load_html($html);
 	$dompdf->render();

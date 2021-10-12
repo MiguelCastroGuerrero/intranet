@@ -7,23 +7,15 @@ if (isset($_SESSION['mod_tutoria']['unidad'])) {
 	$extra_tutor= "and alma.unidad= '".$_SESSION['mod_tutoria']['unidad']."'";
 }
 
-if (stristr($_SESSION['cargo'], "4")) {
-	$dep = mysqli_query($db_con,"select idea from departamentos where departamento = '".$_SESSION['dpt']."'");
-	while ($profe_dep=mysqli_fetch_array($dep)) {
-		$extra_dep.="profesor like '".$profe_dep['idea']."' OR ";
+// Si es jefe de departamento
+	$extra_dep1 = " OR ";
+	$dep1 = mysqli_query($db_con, "SELECT distinct materia, nivel from profesores where profesor in (select distinct nombre from departamentos where departamento like '".$_SESSION['dpt']."')");
+	while ($row_dep1 = mysqli_fetch_array($dep1)) {
+		$extra_dep1.=" (asignatura like '$row_dep1[0]' and curso = '$row_dep1[1]') OR";
 	}
-	$extra_dep = substr($extra_dep, 0,-3);
-	$extra_dep = "and informe_pendientes_alumnos.id_informe in (select informe_pendientes.id_informe from informe_pendientes where $extra_dep)";
-}
+	$extra_dep1 = substr($extra_dep1,0,-3);
 
-// BORRAR INFORMES
-if (isset($_GET['borrar']) AND $_GET['borrar'] == 1) {
-	$result = mysqli_query($db_con,"delete from informe_pendientes_alumnos where claveal= '".$_GET['claveal']."'");
-	if (! $result) {
-		$msg_error = "No se ha podido eliminar el informe. Error: ".mysqli_error($db_con);
-		}
-}
-
+$PLUGIN_DATATABLES = 1;
 include("../../../menu.php");
 include("menu.php");
 ?>
@@ -48,38 +40,43 @@ include("menu.php");
 				elseif ($valor_curso == "Bachillerato"){ $extra_curso = "and alma.curso like '%Bachillerato%'";}
 				elseif ($valor_curso == "Otros"){ $extra_curso = "and alma.curso not like '%Bachillerato%' and alma.curso not like '%E.S.O.%'";}
 			?>
-			<div class="col-sm-4">
+			<div class="col-sm-6">
 
-				<table class="table table-striped" style="width:100%;">
+				<table class="table table-striped table-bordered datatable" style="width:100%;">
 					   <caption><?php echo $valor_curso; ?></caption>
 					<thead>
 						<tr>
 							<th>Alumno</th>
-							<th>Unidad</th>
+							<th>Curso</th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php 
 						// OBTENEMOS INFORMES
-						$al = mysqli_query($db_con,"select distinct informe_pendientes_alumnos.claveal, alma.unidad, apellidos, nombre from informe_pendientes_alumnos, alma where informe_pendientes_alumnos.claveal = alma.claveal $extra_tutor $extra_curso $extra_dep order by alma.unidad, apellidos, nombre");
-						while ($alumno_informe = mysqli_fetch_array($al)) {
-							$id = mysqli_fetch_array(mysqli_query($db_con,"select distinct id_informe from informe_pendientes_alumnos where claveal='$alumno_informe[0]'"));
-							$id_informe = $id['id_informe'];
+						
+						$al_pendiente = mysqli_query($db_con,"select distinct pendientes.claveal, alma.apellidos, alma.nombre, alma.unidad from pendientes, alma where pendientes.claveal = alma.claveal $extra_tutor $extra_curso order by alma.unidad, apellidos, nombre");	
+						while ($alumno_informe = mysqli_fetch_array($al_pendiente)) {
+							$cod = mysqli_query($db_con,"select distinct codigo from pendientes where claveal='$alumno_informe[0]'");
+							
+							while($cod_pend = mysqli_fetch_array($cod)){
+								
+								$asignat = mysqli_fetch_array(mysqli_query($db_con,"select distinct nombre, curso from asignaturas where codigo='$cod_pend[0]' and abrev not like '%\_%' limit 1"));
+								$asignatura_pend = $asignat['nombre'];
+								$curso_pend = $asignat['curso'];
+							
+								$n_inf = mysqli_query($db_con,"select id_informe from informe_pendientes where asignatura like '$asignatura_pend' and curso like '$curso_pend' $extra_dep1");
+								
+								if(mysqli_num_rows($n_inf)>0){							
 						?>						
 						<tr>
-							<td><?php echo $alumno_informe['nombre']." ".$alumno_informe['apellidos']; ?></td>
+							<td><?php echo $alumno_informe['apellidos'].", ".$alumno_informe['nombre']; ?></td>
 							<td><?php echo $alumno_informe['unidad']; ?></td>
 							<td class="pull-right">
-								<a href="//<?php echo $config['dominio']; ?>/intranet/admin/informes/pendientes/pdf.php?claveal=<?php echo $alumno_informe['claveal']; ?>" target="_blank" data-bs="tooltip" title="Imprimir PDF con informe de materias pendientes."><span class="fas fa-print fa-fw fa-lg"></span></a>&nbsp;	
-								<?php if ($_SESSION['cargo']==1) { ?>
-									<a href="//<?php echo $config['dominio']; ?>/intranet/admin/informes/pendientes/admin.php?borrar=1&claveal=<?php echo $alumno_informe['claveal'];?>" data-bb="confirm-delete" data-bs="tooltip" title="Borrar este informe"><span class="text-danger far fa-trash-alt fa-fw fa-lg"></span></a>
-								<?php } ?>							
-
-								
+								<a href="//<?php echo $config['dominio']; ?>/intranet/admin/informes/pendientes/pdf.php?claveal=<?php echo $alumno_informe['claveal']; ?>" target="_blank" data-bs="tooltip" title="Imprimir PDF con informe de materias pendientes."><span class="fas fa-print fa-fw fa-lg"></span></a>&nbsp;						
 							</td>
 						</tr>
-						<?php } ?>
+						<?php break;} } }?>
 					</tbody>
 				</table>
 
@@ -95,5 +92,34 @@ include("menu.php");
 
 	<?php include("../../../pie.php"); ?>
 
+	<script>
+	$(document).ready(function() {
+	  var table = $('.datatable').DataTable({
+		"scrollY":        "400px",
+	  	  "paging":   false,
+	      "ordering": true,
+	      "info":     false,
+
+	  		"lengthMenu": [[15, 35, 50, -1], [15, 35, 50, "Todos"]],
+
+	  		"order": [[ 1, "desc" ]],
+
+	  		"language": {
+	  		            "lengthMenu": "_MENU_",
+	  		            "zeroRecords": "No se ha encontrado ningún resultado con ese criterio.",
+	  		            "info": "Página _PAGE_ de _PAGES_",
+	  		            "infoEmpty": "No hay resultados disponibles.",
+	  		            "infoFiltered": "(filtrado de _MAX_ resultados)",
+	  		            "search": "Buscar: ",
+	  		            "paginate": {
+	  		                  "first": "Primera",
+	  		                  "next": "Última",
+	  		                  "next": "",
+	  		                  "previous": ""
+	  		                }
+	  		        }
+	  	});
+	});
+	</script>
 </body>
 </html>
