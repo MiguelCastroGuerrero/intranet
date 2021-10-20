@@ -132,7 +132,7 @@ las Horas para Justificar: <span class='text-success'> <?php echo "$zz-$month-$y
 	name="2<?php echo "_".$zz;?>" value="2">2ª</label> 
 	<?php 
 	// COVID
-	if(stristr($curso_al,'1º de E') OR stristr($curso_al,'2º de E') AND strstr($hora_F,"3")==TRUE){}else{
+	if(stristr($curso_al,'1º de E')==TRUE OR stristr($curso_al,'2º de E')==TRUE){
 	?>
 	<label
 	class="checkbox-inline"> <input type="checkbox"	name="3<?php echo "_".$zz;?>" value="3">3ª</label> 
@@ -144,11 +144,10 @@ las Horas para Justificar: <span class='text-success'> <?php echo "$zz-$month-$y
 	name="4<?php echo "_".$zz;?>" value="4">4ª</label> 
 	<?php 
 	// COVID
-	if(stristr($curso_al,'1º de E') == FALSE AND stristr($curso_al,'2º de E')==FALSE AND strstr($hora_F,"5")==TRUE){}else{
+	if(stristr($curso_al,'1º de E')==FALSE AND stristr($curso_al,'2º de E')==FALSE){
 	?>
 	<label
-	class="checkbox-inline"> <input type="checkbox"
-	name="5<?php echo "_".$zz;?>" value="5">5ª</label>
+	class="checkbox-inline"> <input type="checkbox"	name="5<?php echo "_".$zz;?>" value="5">5ª</label> 
 	<?php 
 	}
 	?>
