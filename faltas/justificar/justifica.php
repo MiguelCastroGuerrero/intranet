@@ -18,25 +18,24 @@ if ($falta=="J")
 else
 {
 	$justifica0 = "SELECT FALTA, FALTAS.unidad, FALTAS.CLAVEAL, FALTAS.HORA, FALTAS.CODASI FROM FALTAS WHERE FALTAS.FECHA = '$year-$month-$today' and FALTAS.claveal = '$alumno' and FALTA='F'";
-	// echo $justifica0."<br>";
 	$justifica1 = mysqli_query($db_con, $justifica0);
 	if (mysqli_num_rows($justifica1) > 0) {
 		while ($faltones = mysqli_fetch_array($justifica1)) {
 			foreach ($_POST as $clave => $valor){
 				if (strstr($clave,"_")==TRUE) {
-					$tr_dia = explode("_",$clave);					
-					if ($valor==$faltones[3]) {
-						$justificacion = "UPDATE  FALTAS SET  FALTA =  'J' WHERE  FECHA = '$year-$month-$today' and FALTAS.claveal = '$alumno' and FALTAS.FALTA = 'F' and hora='$valor'";
-						// echo $justificacion."<br>";
-						mysqli_query($db_con, $justificacion);
+					$tr_dia = explode("_",$clave);	
+					if(((stristr($_POST['curso-alumno'],'1º de E') OR stristr($_POST['curso-alumno'],'2º de E')) AND $valor<>'5') OR ((stristr($_POST['curso-alumno'],'1º de E')==FALSE AND stristr($_POST['curso-alumno'],'2º de E')==FALSE) AND $valor<>'3')){
+						if ($valor==$faltones[3]) {
+							$justificacion = "UPDATE  FALTAS SET  FALTA =  'J' WHERE  FECHA = '$year-$month-$today' and FALTAS.claveal = '$alumno' and FALTAS.FALTA = 'F' and hora='$valor'";
+							//echo $justificacion."<br>";
+							mysqli_query($db_con, $justificacion);
+						}
 					}
 				}
-			}
-				
-				
-
+			}		
 		}
 	}
+	
 	// S i el tutor quiere justificar una falta antes de que haya sido introducida en la base de datos, procedemos a rellenar las horas marcadas de ese día con la "J".
 	elseif($_POST['Enviar']=="Registrar"){
 		foreach ($_POST as $clave => $valor){
@@ -157,10 +156,10 @@ else
 								}
 								
 								$enviada = "$year-$month-$today";
-									
-								$justifica10 = "insert INTO  FALTAS (  CLAVEAL , unidad  ,  FECHA ,  HORA , DIA,  PROFESOR ,  CODASI ,  FALTA ) VALUES ('$alumno',  '$unidad', '$year-$month-$hoy_mismo', '$i', '$nombredia', '$profeso',  '$codasi', 'F')";
+if(((stristr($_POST['curso-alumno'],'1º de E') OR stristr($_POST['curso-alumno'],'2º de E')) AND $valor<>'5') OR ((stristr($_POST['curso-alumno'],'1º de E')==FALSE AND stristr($_POST['curso-alumno'],'2º de E')==FALSE) AND $valor<>'3')){								$justifica10 = "insert INTO  FALTAS (  CLAVEAL , unidad  ,  FECHA ,  HORA , DIA,  PROFESOR ,  CODASI ,  FALTA ) VALUES ('$alumno',  '$unidad', '$year-$month-$hoy_mismo', '$i', '$nombredia', '$profeso',  '$codasi', 'F')";
 								//echo $justifica10."<br>";
 								mysqli_query($db_con, $justifica10) or die("No se ha podido justificar las faltas.");
+								}
 							}
 						}
 					}
@@ -172,7 +171,7 @@ else
 		}
 	}
 }
-$borrapend = mysqli_query($db_con, "select combasi, claveal, curso from alma where curso like '%bach%'order by curso");
+$borrapend = mysqli_query($db_con, "select combasi, claveal, curso from alma where curso like '%bach%' order by curso");
 while ($com=mysqli_fetch_array($borrapend)) {
 	if (strlen($com[0])<49) {
 		mysqli_query($db_con, "delete from FALTAS where claveal='$com[1]' and codasi='' and profesor=''");

@@ -129,29 +129,13 @@ las Horas para Justificar: <span class='text-success'> <?php echo "$zz-$month-$y
 	class="checkbox-inline"> <input type="checkbox" <?php if (strstr($hora_F,"1")==TRUE){ echo "checked"; }?>
 	name="1<?php echo "_".$zz;?>" value="1">1ª</label> <label
 	class="checkbox-inline"> <input type="checkbox" <?php if (strstr($hora_F,"2")==TRUE){ echo "checked"; }?>
-	name="2<?php echo "_".$zz;?>" value="2">2ª</label> 
-	<?php 
-	// COVID
-	if(stristr($curso_al,'1º de E')==TRUE OR stristr($curso_al,'2º de E')==TRUE){
-	?>
-	<label
-	class="checkbox-inline"> <input type="checkbox"	name="3<?php echo "_".$zz;?>" value="3">3ª</label> 
-	<?php 
-	}
-	?>
-	<label
+	name="2<?php echo "_".$zz;?>" value="2">2ª</label> <label
+	class="checkbox-inline"> <input type="checkbox" <?php if (strstr($hora_F,"3")==TRUE){ echo "checked"; }?>
+	name="3<?php echo "_".$zz;?>" value="3">3ª</label> <label
 	class="checkbox-inline"> <input type="checkbox" <?php if (strstr($hora_F,"4")==TRUE){ echo "checked"; }?>
-	name="4<?php echo "_".$zz;?>" value="4">4ª</label> 
-	<?php 
-	// COVID
-	if(stristr($curso_al,'1º de E')==FALSE AND stristr($curso_al,'2º de E')==FALSE){
-	?>
-	<label
-	class="checkbox-inline"> <input type="checkbox"	name="5<?php echo "_".$zz;?>" value="5">5ª</label> 
-	<?php 
-	}
-	?>
-	 <label
+	name="4<?php echo "_".$zz;?>" value="4">4ª</label> <label
+	class="checkbox-inline"> <input type="checkbox" <?php if (strstr($hora_F,"5")==TRUE){ echo "checked"; }?>
+	name="5<?php echo "_".$zz;?>" value="5">5ª</label>  <label
 	class="checkbox-inline"> <input type="checkbox" <?php if (strstr($hora_F,"6")==TRUE){ echo "checked"; }?>
 	name="6<?php echo "_".$zz;?>" value="6">6ª</label><label
 	class="checkbox-inline"> <input type="checkbox" <?php if (strstr($hora_F,"7")==TRUE){ echo "checked"; }?>
@@ -163,7 +147,8 @@ las Horas para Justificar: <span class='text-success'> <?php echo "$zz-$month-$y
 </div>
 <div class="modal-footer"><input type="hidden" name="profesor"
 	value="<?php echo $profesor;?>"> <input type="hidden" name="unidad"
-	value="<?php echo $unidad;?>"> <input type="hidden" name="alumno"
+	value="<?php echo $unidad;?>"><input type="hidden" name="curso-alumno"
+	value="<?php echo $curso_al;?>"> <input type="hidden" name="alumno"
 	value="<?php echo $alumno;?>"> <input type="hidden" name="year"
 	value="<?php echo $year;?>"> <input type="hidden" name="month"
 	value="<?php echo $month;?>"> <input type="hidden" name="today"
@@ -241,7 +226,7 @@ function seleccionar_todo<?php echo "_".$zz;?>(){
 <button type="button" class="close" data-dismiss="modal"><span
 	aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 <h4 class="modal-title text-info" id="myModalLabel<?php echo "_".$zz;?>">Selecciona
-las Horas de la Ausencia.</h4>
+las Horas de la Ausencia: </h4>
 </div>
 <div class="modal-body">
 <a onClick="seleccionar_todo<?php echo "_".$zz;?>()"
@@ -270,7 +255,8 @@ las Horas de la Ausencia.</h4>
 </div>
 <div class="modal-footer"><input type="hidden" name="profesor"
 	value="<?php echo $profesor;?>"> <input type="hidden" name="unidad"
-	value="<?php echo $unidad;?>"> <input type="hidden" name="alumno"
+	value="<?php echo $unidad;?>"> <input type="hidden" name="curso-alumno"
+	value="<?php echo $curso_al;?>"> <input type="hidden" name="alumno"
 	value="<?php echo $alumno;?>"> <input type="hidden" name="year"
 	value="<?php echo $year;?>"> <input type="hidden" name="month"
 	value="<?php echo $month;?>"> <input type="hidden" name="today"
