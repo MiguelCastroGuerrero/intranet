@@ -157,11 +157,11 @@ while($alumno = mysqli_fetch_array($alumnos1))
 	$MiPDF->Cell(75, 0, '', 0, 0, 'L', 0);
 	$MiPDF->Cell(75, 5, $alumno['codpostal'].' '.$alumno['localidad'].', '.mb_strtoupper($alumno['provinciaresidencia'], 'UTF-8'), 0, 1, 'L', 0 );
 	$MiPDF->Cell(0, 12, 'Asunto: '.$actividad, 0, 1, 'L', 0);
-	$MiPDF->Ln(5);
+	$MiPDF->Ln(3);
 
 
 	$MiPDF->Multicell(0, 5, $autorizacion, 0, 'L', 0);
-	$MiPDF->Ln(5);
+	$MiPDF->Ln(3);
 
 	#Cuerpo.
 	$MiPDF->SetFont('Noto Sans HK', 'B', 10);
@@ -211,10 +211,16 @@ while($alumno = mysqli_fetch_array($alumnos1))
 	$MiPDF->SetY($MiPDF->GetY()+1.5);
 	$MiPDF->SetX($MiPDF->GetX()+30);
 	$MiPDF->MultiCell(130, 5, $profesor, 0, 'L' , 0);
-	$MiPDF->Ln(5);
+	$MiPDF->Ln(3);
 
+	if ($_SERVER['SERVER_NAME'] == 'institutomediterraneo.es') {
+		$MiPDF->SetFont('Noto Sans HK', 'B', 8);
+		$MiPDF->MultiCell(0, 4, 'NOTA: El alumno/a debe llevar una copia de la tarjeta sanitaria y una copia del pasaporte COVID, si lo tienen.', 0, 'L', 0);
+		$MiPDF->Ln(3);
+	}
 
 	// EJEMPLAR PARA EL PROFESOR
+	$MiPDF->SetFont('Noto Sans HK', '', 10);
 	$txt_acuse = "D./Dña. ".$alumno['padre']." con D.N.I ".$alumno['dnitutor'].", como representante legal de ".$alumno['nombre']." ".$alumno['apellidos'].", alumno/a de la unidad ".$alumno['unidad'].", autoriza a su hijo/a a participar en la actividad $actividad con referencia Act/".$id.".";
 
 	$MiPDF->Line(20, $MiPDF->GetY(), 190, $MiPDF->GetY());
@@ -232,7 +238,6 @@ while($alumno = mysqli_fetch_array($alumnos1))
 	$MiPDF->Cell(65, 8, 'Teléfonos de contacto con la familia:', 0, 0, 'L');
 	$MiPDF->SetFont('Noto Sans HK', '', 10);
 	$MiPDF->Cell(100, 8, $alumno['telefono'] . ' / ' . $alumno['telefonourgencia'], 0, 1, 'L');
-	$MiPDF->Ln(3);
 
 	$MiPDF->SetFont('Noto Sans HK', 'B', 10);
 	$MiPDF->MultiCell(0, 8, 'Información médica (marque con una X):', 0, 'L', 0);
@@ -245,8 +250,10 @@ while($alumno = mysqli_fetch_array($alumnos1))
 	$MiPDF->Cell(150, 8, ' Es alérgico a algún tipo de comida.', 0, 1, 'L');
 
 	$MiPDF->SetFont('Noto Sans HK', '', 8);
-	$MiPDF->MultiCell(0, 8, 'En el caso de haber marcado alguna opción, anote en el reverso del documento las circunstancias que concurren.', 0, 'L', 0);
-	$MiPDF->Ln(5);
+	$MiPDF->MultiCell(0, 4, 'En el caso de haber marcado alguna opción, anote en el reverso del documento las circunstancias que concurren.', 0, 'L', 0);
+	$MiPDF->MultiCell(0, 4, 'Si fuese necesario por presentar síntomas, autoriza a que el profesor/a acompañe a su hijo/a a un Centro de Salud para ser sometido a una prueba de diagnóstico.', 0, 'L', 0);
+
+	$MiPDF->Ln(3);
 
 	$MiPDF->SetFont('Noto Sans HK', '', 10);
 	$MiPDF->Cell (90, 5, '', 0, 0, 'C', 0 );
