@@ -217,6 +217,7 @@ foreach ($unidades as $unidad) {
 				$result_datos_matricula = mysqli_query($db_con, "SELECT bilinguismo, exencion FROM matriculas WHERE claveal = '".$row['claveal']."'");
 				$row_datos_matricula = mysqli_fetch_array($result_datos_matricula);
 				$result_datos_matricula_bach = mysqli_query($db_con, "SELECT bilinguismo FROM matriculas_bach WHERE claveal = '".$row['claveal']."'");
+				//echo "SELECT bilinguismo FROM matriculas_bach WHERE claveal = '".$row['claveal']."'<br>";
 				$row_datos_matricula_bach = mysqli_fetch_array($result_datos_matricula_bach);
 
 				if ($row_datos_matricula['bilinguismo'] == 'Si') {
