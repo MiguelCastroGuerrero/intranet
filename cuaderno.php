@@ -286,7 +286,7 @@ include("cuaderno/menu_cuaderno.php");
 						}
 						?>
 				<tr>
-					<td nowrap style="vertical-align: middle; height: 74px; width:262px;"><a href="<?php echo $inf;?>" style="text-decoration: none;"><?php
+					<td nowrap style="vertical-align: middle; height: 74px; width:260px !important;  display:block;"><a href="<?php echo $inf;?>" style="text-decoration: none; display:block;"><?php
 						if ($foto != 1) {
 							if ($foto_alumno = obtener_foto_alumno($claveal)) {
 								echo '<img class="img-thumbnail" src="xml/fotos/'.$foto_alumno.'" style="width: 45px !important;" alt="">';
