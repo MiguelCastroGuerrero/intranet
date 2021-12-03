@@ -119,7 +119,7 @@ if ($dia_semana > 0 and $dia_semana < 6) {
 // Actividades extraescolares
 
 $cuenta_act="";
-$c_unidad = mysqli_query($db_con,"select distinct a_grupo from horw_faltas where prof = '".$_SESSION['profi']."' and dia = '$dia_semana'");
+$c_unidad = mysqli_query($db_con,"select distinct a_grupo from horw_faltas where prof = '".$_SESSION['profi']."' and dia = '$dia_semana' and dia not like '' and a_grupo not like ''");
 while($c_unidades = mysqli_fetch_array($c_unidad)){
 $n_activ = mysqli_query($db_con,"select * from calendario where categoria='2' and unidades like '%$c_unidades[0];%' and date(fechaini) BETWEEN '$hoy' AND '".date('Y-m-j', strtotime('+1 day', strtotime($hoy)))."'");
 
