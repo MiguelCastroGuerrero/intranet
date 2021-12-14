@@ -197,12 +197,12 @@ while ($curso11 = mysqli_fetch_array($curso20))
 	mysqli_select_db($db_con, $db);
 	$hay0 = "select alumnos from grupos where profesor='$profesor' and asignatura = '$asignatura' and curso = '$curso'";
 	$hay1 = mysqli_query($db_con, $hay0);
-	$hay = mysqli_fetch_row($hay1);
+	$hay = mysqli_fetch_array($hay1);
 
 	if(mysqli_num_rows($hay1) == "1"){
 
 
-		$seleccionados = substr($hay[0],0,strlen($hay[0])-1);
+		$seleccionados = substr($hay[0],0,strlen($hay[0]));
 
 		$t_al = explode(",",$seleccionados);
 		$todos = " and (claveal = '300'";
