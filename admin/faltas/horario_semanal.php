@@ -134,6 +134,10 @@ while ($unidad = mysqli_fetch_array($unidades)) {
 				$asignaturas .= $asignatura[0]." | ";
 			}
 			$asignaturas = trim($asignaturas," | ");
+			
+			// Horario COVID
+			$asignaturas="";
+			
 			$row[$i] = $asignaturas."\n\n\n";
 		}
 		
