@@ -45,7 +45,7 @@ while ($unidad = mysqli_fetch_array($unidades)) {
 	$pdf->Ln(5);
 	
 	// Consultamos los alumnos del grupo seleccionado
-	$result = mysqli_query($db_con, "SELECT claveal, apellidos, nombre FROM alma WHERE unidad='$grupo'");
+	$result = mysqli_query($db_con, "SELECT claveal, apellidos, nombre FROM alma WHERE unidad='$grupo' order by apellidos, nombre");
 	
 	$i=1;
 	$x_texto1=29.5;
