@@ -218,7 +218,9 @@ Los datos de la ausencia de '.$profesor_ausente.' se han actualizado correctamen
 		</div>';
 			}
 			else{
-				if (stristr($curso_grupo, "Bach") and $horas == 6) {
+				// Horario COVID
+				//if (stristr($curso_grupo, "Bach") and $horas == 6)
+				if (stristr($curso_grupo, "Bach") and $horas == 8) {
 					// Si el grupo es de Bach y estamos a 6ª hora suponemos que los alumnos tienen autorización para abandonar el centro, y no registramos sustitución.
 					}
 				else{
