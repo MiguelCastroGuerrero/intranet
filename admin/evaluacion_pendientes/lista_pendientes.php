@@ -136,7 +136,7 @@ while ($salida = mysqli_fetch_array($Recordset1)){
 		$extra_inf="";
 		$ya_informe = mysqli_query($db_con,"select * from informe_pendientes_alumnos where claveal ='".$salida['claveal']."' and id_informe='".$pendiente['id_informe']."'");
 
-		if (mysqli_num_rows($ya_informe) > 0){ $extra_inf = "<span class='text-success far fa-edit fa-fw fa-lg'> </span>"; } else { $extra_inf = "<span class='text-danger far fa-edit fa-fw fa-lg'> </span>"; }
+		if (mysqli_num_rows($ya_informe) > 0){ $extra_inf = "<span class='text-success far fa-edit fa-fw fa-lg'> </span>"; }
 
 			echo "<a href='//".$config['dominio']."/intranet/admin/informes/pendientes/alumnado_pendientes.php?claveal=".$salida['claveal']."&id_informe=".$pendiente['id_informe']."&curso_pendiente=".$curso_pendiente."&asig_pendiente=".$asig_pendiente."' target='_blank'  data-bs='tooltip' title='Redactar informe de la materia para la evaluación del alumno'> ".$extra_inf." </a>";
 		}
