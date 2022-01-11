@@ -122,7 +122,7 @@ echo "</table>";
 echo '<br /><div align="center"><div class="alert alert-danger alert-block fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
 			<h5>ATENCIÓN:</h5>
-El alumno no tiene notas registradas.
+El alumno no tiene notas registradas en el cuaderno.
 </div></div>';		
 		}
 ?>
@@ -130,7 +130,7 @@ El alumno no tiene notas registradas.
 
 <div class="tab-pane fade in" id="tab2">
 <br>
-<?		
+<?php		
    	include("informes/datos.php");
 	echo '<hr style="width:400px;">';   
 ?>
@@ -139,7 +139,7 @@ El alumno no tiene notas registradas.
 <div class="tab-pane fade in" id="tab3">
 <br>
 <div align="left">
-<?	
+<?php	
 include("informes/faltas.php");
 echo '<hr style="width:400px;">';
 include("informes/fechorias.php");
