@@ -156,6 +156,7 @@ include("menu.php");
 						<tr>
 							<th>Profesor/a de guardia</th>
 							<th>Total</th>
+							<th>Unidades</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -170,9 +171,24 @@ include("menu.php");
 							else $cont = $cont + 1;
 						}
 						?>
+						<?php $result3 = mysqli_query($db_con, "SELECT distinct profe_aula, dia, hora FROM guardias WHERE profesor = '".$row['prof']."' and dia = '$diasem' and hora = '$hora'");?>
+						<?php
+						$unidad_gu="";
+						while($row3 = mysqli_fetch_array($result3)){						
+							$result4 = mysqli_query($db_con, "SELECT distinct a_grupo FROM horw_faltas WHERE prof = '$row3[0]' and dia = '$diasem' and hora = '$hora'");
+							//echo "SELECT distinct a_grupo FROM horw_faltas WHERE prof = '$row3[0]' and dia = '$row3[1]' and hora = '$row3[2]'<br>";
+							while ($row4 = mysqli_fetch_array($result4)) {
+								$unidad_gu.="$row4[0], ";
+								//break;
+							}
+							$unidad_gu = substr($unidad_gu,0,-2);
+						}
+						
+						?>
 						<tr>
 							<td><a href="consulta_profesores.php?diasem=<?php echo $diasem; ?>&hora=<?php echo $hora; ?>&profesor=<?php echo nomprofesor($row['prof']); ?>"><?php echo nomprofesor($row['prof']); ?></a></td>
 							<td><?php echo $cont; ?></td>
+							<td><?php echo $unidad_gu; ?></td>
 						</tr>
 						<?php $i++; ?>
 						<?php endwhile; ?>
