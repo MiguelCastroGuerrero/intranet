@@ -5,7 +5,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2012, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
+ * Copyright (c) 2004-2016, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -33,8 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.3.1
- * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
+ * @copyright 2004-2016 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
  * @author Ryan McCue
@@ -107,20 +106,20 @@ class SimplePie_Parse_Date
 		'sonnabend' => 6,
 		'sonntag' => 7,
 		// Italian
-		'lunedÃ¬' => 1,
-		'martedÃ¬' => 2,
-		'mercoledÃ¬' => 3,
-		'giovedÃ¬' => 4,
-		'venerdÃ¬' => 5,
+		'lunedì' => 1,
+		'martedì' => 2,
+		'mercoledì' => 3,
+		'giovedì' => 4,
+		'venerdì' => 5,
 		'sabato' => 6,
 		'domenica' => 7,
 		// Spanish
 		'lunes' => 1,
 		'martes' => 2,
-		'miÃ©rcoles' => 3,
+		'miércoles' => 3,
 		'jueves' => 4,
 		'viernes' => 5,
-		'sÃ¡bado' => 6,
+		'sábado' => 6,
 		'domingo' => 7,
 		// Finnish
 		'maanantai' => 1,
@@ -131,21 +130,21 @@ class SimplePie_Parse_Date
 		'lauantai' => 6,
 		'sunnuntai' => 7,
 		// Hungarian
-		'hÃ©tfÅ' => 1,
+		'hétfő' => 1,
 		'kedd' => 2,
 		'szerda' => 3,
-		'csÃ¼tÃ¶rtok' => 4,
-		'pÃ©ntek' => 5,
+		'csütörtok' => 4,
+		'péntek' => 5,
 		'szombat' => 6,
-		'vasÃ¡rnap' => 7,
+		'vasárnap' => 7,
 		// Greek
-		'ÎÎµÏ' => 1,
-		'Î¤ÏÎ¹' => 2,
-		'Î¤ÎµÏ' => 3,
-		'Î ÎµÎ¼' => 4,
-		'Î Î±Ï' => 5,
-		'Î£Î±Î²' => 6,
-		'ÎÏÏ' => 7,
+		'Δευ' => 1,
+		'Τρι' => 2,
+		'Τετ' => 3,
+		'Πεμ' => 4,
+		'Παρ' => 5,
+		'Σαβ' => 6,
+		'Κυρ' => 7,
 	);
 
 	/**
@@ -173,7 +172,7 @@ class SimplePie_Parse_Date
 		'aug' => 8,
 		'august' => 8,
 		'sep' => 9,
-		'september' => 8,
+		'september' => 9,
 		'oct' => 10,
 		'october' => 10,
 		'nov' => 11,
@@ -195,21 +194,21 @@ class SimplePie_Parse_Date
 		'december' => 12,
 		// French
 		'janvier' => 1,
-		'fÃ©vrier' => 2,
+		'février' => 2,
 		'mars' => 3,
 		'avril' => 4,
 		'mai' => 5,
 		'juin' => 6,
 		'juillet' => 7,
-		'aoÃ»t' => 8,
+		'août' => 8,
 		'septembre' => 9,
 		'octobre' => 10,
 		'novembre' => 11,
-		'dÃ©cembre' => 12,
+		'décembre' => 12,
 		// German
 		'januar' => 1,
 		'februar' => 2,
-		'mÃ¤rz' => 3,
+		'märz' => 3,
 		'april' => 4,
 		'mai' => 5,
 		'juni' => 6,
@@ -252,45 +251,45 @@ class SimplePie_Parse_Date
 		'maaliskuu' => 3,
 		'huhtikuu' => 4,
 		'toukokuu' => 5,
-		'kesÃ¤kuu' => 6,
-		'heinÃ¤kuu' => 7,
+		'kesäkuu' => 6,
+		'heinäkuu' => 7,
 		'elokuu' => 8,
 		'suuskuu' => 9,
 		'lokakuu' => 10,
 		'marras' => 11,
 		'joulukuu' => 12,
 		// Hungarian
-		'januÃ¡r' => 1,
-		'februÃ¡r' => 2,
-		'mÃ¡rcius' => 3,
-		'Ã¡prilis' => 4,
-		'mÃ¡jus' => 5,
-		'jÃºnius' => 6,
-		'jÃºlius' => 7,
+		'január' => 1,
+		'február' => 2,
+		'március' => 3,
+		'április' => 4,
+		'május' => 5,
+		'június' => 6,
+		'július' => 7,
 		'augusztus' => 8,
 		'szeptember' => 9,
-		'oktÃ³ber' => 10,
+		'október' => 10,
 		'november' => 11,
 		'december' => 12,
 		// Greek
-		'ÎÎ±Î½' => 1,
-		'Î¦ÎµÎ²' => 2,
-		'ÎÎ¬Ï' => 3,
-		'ÎÎ±Ï' => 3,
-		'ÎÏÏ' => 4,
-		'ÎÎ¬Î¹' => 5,
-		'ÎÎ±Ï' => 5,
-		'ÎÎ±Î¹' => 5,
-		'ÎÎ¿ÏÎ½' => 6,
-		'ÎÎ¿Î½' => 6,
-		'ÎÎ¿ÏÎ»' => 7,
-		'ÎÎ¿Î»' => 7,
-		'ÎÏÎ³' => 8,
-		'ÎÏÎ³' => 8,
-		'Î£ÎµÏ' => 9,
-		'ÎÎºÏ' => 10,
-		'ÎÎ¿Î­' => 11,
-		'ÎÎµÎº' => 12,
+		'Ιαν' => 1,
+		'Φεβ' => 2,
+		'Μάώ' => 3,
+		'Μαώ' => 3,
+		'Απρ' => 4,
+		'Μάι' => 5,
+		'Μαϊ' => 5,
+		'Μαι' => 5,
+		'Ιούν' => 6,
+		'Ιον' => 6,
+		'Ιούλ' => 7,
+		'Ιολ' => 7,
+		'Αύγ' => 8,
+		'Αυγ' => 8,
+		'Σεπ' => 9,
+		'Οκτ' => 10,
+		'Νοέ' => 11,
+		'Δεκ' => 12,
 	);
 
 	/**
@@ -331,6 +330,7 @@ class SimplePie_Parse_Date
 		'CCT' => 23400,
 		'CDT' => -18000,
 		'CEDT' => 7200,
+		'CEST' => 7200,
 		'CET' => 3600,
 		'CGST' => -7200,
 		'CGT' => -10800,
@@ -541,8 +541,8 @@ class SimplePie_Parse_Date
 	 */
 	public function __construct()
 	{
-		$this->day_pcre = '(' . implode(array_keys($this->day), '|') . ')';
-		$this->month_pcre = '(' . implode(array_keys($this->month), '|') . ')';
+		$this->day_pcre = '(' . implode('|', array_keys($this->day)) . ')';
+		$this->month_pcre = '(' . implode('|', array_keys($this->month)) . ')';
 
 		static $cache;
 		if (!isset($cache[get_class($this)]))
@@ -630,7 +630,7 @@ class SimplePie_Parse_Date
 	/**
 	 * Parse a superset of W3C-DTF (allows hyphens and colons to be omitted, as
 	 * well as allowing any of upper or lower case "T", horizontal tabs, or
-	 * spaces to be used as the time seperator (including more than one))
+	 * spaces to be used as the time separator (including more than one))
 	 *
 	 * @access protected
 	 * @return int Timestamp
@@ -658,7 +658,7 @@ class SimplePie_Parse_Date
 			6: Second
 			7: Decimal fraction of a second
 			8: Zulu
-			9: Timezone Â±
+			9: Timezone ±
 			10: Timezone hours
 			11: Timezone minutes
 			*/
@@ -690,7 +690,7 @@ class SimplePie_Parse_Date
 			}
 
 			// Convert the number of seconds to an integer, taking decimals into account
-			$second = round($match[6] + $match[7] / pow(10, strlen($match[7])));
+			$second = round((int)$match[6] + (int)$match[7] / pow(10, strlen($match[7])));
 
 			return gmmktime($match[4], $match[5], $second, $match[2], $match[3], $match[1]) - $timezone;
 		}
@@ -720,7 +720,7 @@ class SimplePie_Parse_Date
 		{
 			$output .= substr($string, $position, $pos - $position);
 			$position = $pos + 1;
-			if ($string[$pos - 1] !== '\\')
+			if ($pos === 0 || $string[$pos - 1] !== '\\')
 			{
 				$depth++;
 				while ($depth && $position < $length)
@@ -796,7 +796,7 @@ class SimplePie_Parse_Date
 			5: Hour
 			6: Minute
 			7: Second
-			8: Timezone Â±
+			8: Timezone ±
 			9: Timezone hours
 			10: Timezone minutes
 			11: Alphabetic timezone
