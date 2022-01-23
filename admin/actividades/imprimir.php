@@ -148,7 +148,12 @@ while($alumno = mysqli_fetch_array($alumnos1))
 	";
 
 	// INFORMACION DE LA CARTA
-	$MiPDF->SetY(45);
+	if ($_SERVER['SERVER_NAME'] == 'institutomediterraneo.es') {
+		$MiPDF->SetY(40);
+	}
+	else {
+		$MiPDF->SetY(45);
+	}
 	$MiPDF->SetFont('Noto Sans HK', '', 10);
 	$MiPDF->Cell(75, 5, 'Fecha:  '.date('d.m.Y'), 0, 0, 'L', 0 );
 	$MiPDF->Cell(75, 5, $alumno['padre'], 0, 1, 'L', 0 );
