@@ -83,7 +83,7 @@ $result_verificacion_correo = mysqli_query($db_con, "SELECT `correo`, `correo_ve
 
 <?php
 
-// Comprobar actividades en elcalendario
+// Comprobar actividades en el calendario
 $hoy = date("Y-m-d");
 $dia_semana = date('w');
 
@@ -675,7 +675,8 @@ if(stristr($carg,'2') == TRUE)
 	$asunto = str_replace('"','',$asunto);
 	$asunto = 'RE: '.$asunto;
 	echo '<a href="./admin/mensajes/redactar.php?padres=1&asunto='.$asunto.'&origen='.$origen.'" target="_top" class="btn btn-primary">Responder</a>';
-	?></div>
+	?>
+	<button type="button" class="btn btn-warning" id="estareafamilia-<?php echo $id; ?>" data-toggle="button" aria-pressed="false" data-dismiss="modal" autocomplete="off">Marcar como tarea</button></div>
 </div>
 </div>
 </div>

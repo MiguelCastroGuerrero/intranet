@@ -198,21 +198,42 @@ include("menu.php");
 
 	$('.modalmensfamilia').on('hidden.bs.modal', function (event) {
 		var idf = $(this).data("verifica-familia");
+		var esTarea = $(this).find('#estareafamilia-' + idp).attr('aria-pressed');
 
-	  $.post( "./admin/mensajes/post_verifica.php", { "idf" : idf }, null, "json" )
-	      .done(function( data, textStatus, jqXHR ) {
-	          if ( data.status ) {
-	              if (mensajes_familias < 2 ) {
-	              	$('#alert_mensajes_familias').slideUp();
-	              }
-	              else {
-	              	$('#mensaje_link_familia_' + idf).slideUp();
-	              }
-	              mensajes_familias--;
-	              mensajes_pendientes--;
-	              notificar_mensajes(mensajes_pendientes);
-	          }
-	  });
+		if (esTarea == 'true') {
+			$.post( "./admin/mensajes/post_verifica.php", { "idf" : idf, "esTarea" : true }, null, "json" )
+			  .done(function( data, textStatus, jqXHR ) {
+			      if ( data.status ) {
+			          if (mensajes_familias < 2 ) {
+			          	$('#alert_mensajes_familias').slideUp();
+			          }
+			          else {
+			          	$('#mensaje_link_familia_' + idf).slideUp();
+			          }
+			          mensajes_familias--;
+			          mensajes_pendientes--;
+			          notificar_mensajes(mensajes_pendientes);
+
+			          location.reload();
+			      }
+			});
+		}
+		else {
+			$.post( "./admin/mensajes/post_verifica.php", { "idf" : idf }, null, "json" )
+			  .done(function( data, textStatus, jqXHR ) {
+			      if ( data.status ) {
+			          if (mensajes_familias < 2 ) {
+			          	$('#alert_mensajes_familias').slideUp();
+			          }
+			          else {
+			          	$('#mensaje_link_familia_' + idf).slideUp();
+			          }
+			          mensajes_familias--;
+			          mensajes_pendientes--;
+			          notificar_mensajes(mensajes_pendientes);
+			      }
+			});
+		}
 	});
 	</script>
 
