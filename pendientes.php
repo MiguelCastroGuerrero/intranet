@@ -422,7 +422,7 @@ while($rowcurso3 = mysqli_fetch_array($resultcurso3))
 		$rowcurso3[2] = substr($rowcurso3[2],0,15);
 	}*/
 
-	$asigna03 = "select codigo from asignaturas where nombre = '$asignatura3' and curso like '$rowcurso3[2]' and abrev not like '%\_%'";
+	$asigna03 = "select codigo from asignaturas where nombre = '$asignatura3' and curso like '$rowcurso3[2]%' and abrev not like '%\_%'";
 	//echo $asigna03."<br>";
 	$esPT_o_REF = 0;
 	$texto_asig3="";
