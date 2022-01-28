@@ -114,11 +114,16 @@ foreach ($unidades as $unidad) {
 
 		while ($row_asignaturas_profesor = mysqli_fetch_array($result_asignaturas_profesor)) {
 			// Obtenemos el código de la asignatura
-			$result_codigo_asignatura = mysqli_query($db_con, "SELECT codigo FROM materias WHERE nombre = '".$row_asignaturas_profesor['materia']."' AND grupo = '".$unidad."' and abrev not like '%\_%' LIMIT 1");
-			$row_codigo_asignatura = mysqli_fetch_array($result_codigo_asignatura);
+			$result_codigo_asignatura = mysqli_query($db_con, "SELECT codigo FROM materias WHERE nombre = '".$row_asignaturas_profesor['materia']."' AND grupo = '".$unidad."' and abrev not like '%\_%' ");
+			
+			$asig= " AND (";
+			while($row_codigo_asignatura = mysqli_fetch_array($result_codigo_asignatura)){
+				$asig.= " asignatura = '".$row_codigo_asignatura['codigo']."' OR";
+			}
+			$asig = substr($asig, 0, -3).")";
 
 			// Comprobamos y obtenemos los alumnos del profesor en su asignatura
-			$result_alumnos_profesor = mysqli_query($db_con, "SELECT alumnos FROM grupos WHERE profesor = '".$_SESSION['profi']."' AND curso = '".$unidad."' AND asignatura = '".$row_codigo_asignatura['codigo']."'");
+			$result_alumnos_profesor = mysqli_query($db_con, "SELECT alumnos FROM grupos WHERE profesor = '".$_SESSION['profi']."' AND curso = '".$unidad."' $asig");
 			if (mysqli_num_rows($result_alumnos_profesor)) {
 				$row_alumnos_profesor = mysqli_fetch_array($result_alumnos_profesor);
 
