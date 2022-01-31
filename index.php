@@ -198,7 +198,7 @@ include("menu.php");
 
 	$('.modalmensfamilia').on('hidden.bs.modal', function (event) {
 		var idf = $(this).data("verifica-familia");
-		var esTarea = $(this).find('#estareafamilia-' + idp).attr('aria-pressed');
+		var esTarea = $(this).find('#estareafamilia-' + idf).attr('aria-pressed');
 
 		if (esTarea == 'true') {
 			$.post( "./admin/mensajes/post_verifica.php", { "idf" : idf, "esTarea" : true }, null, "json" )
