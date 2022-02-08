@@ -13,6 +13,7 @@ while($rowcurs = mysqli_fetch_array($resultcurs))
 	$unidad_t = $curso;
 	$asignatura = $rowcurs[1];
 	$esPT_o_REF = 0;
+	$c_asig2="";
 
 	// Problema con asignaturas comunes de Bachillerato con distinto código
 	if(strlen($rowcurs[2])>15){
@@ -61,7 +62,7 @@ while($rowcurs = mysqli_fetch_array($resultcurs))
 		{
 			$id = $row1[0];
 			$nc_grupo = $row1['CLAVEAL'];
-			$sel = mysqli_query($db_con,"select alumnos from grupos where profesor = '$pr' and curso = '$unidad_t' and asignatura = '$codasi'");
+			$sel = mysqli_query($db_con,"select alumnos from grupos where profesor = '$pr' and curso = '$unidad_t' and ($c_asig2)");
 			$hay_grupo = mysqli_num_rows($sel);
 			if ($hay_grupo>0) {
 				$sel_al = mysqli_fetch_array($sel);
