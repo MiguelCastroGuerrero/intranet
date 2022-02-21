@@ -22,8 +22,6 @@ $vars=substr($vars,0,-1);
 }
 
 require('../bootstrap.php');
-
-
 include("../menu.php");
 include("menu.php");
 // Titulo
@@ -45,12 +43,10 @@ echo "<h3><span class='label label-info' style='padding:8px'>".rtrim($curso, ', 
 // Procesamos los datos
 if ($eliminar) {
 	include("edicion/eliminar.php");
-
 }
 elseif ($ocultar) {
 	$ocultar = "1";
 	include("edicion/ocultar.php");
-
 }
 elseif ($mostrar) {
 	$ocultar = "0";
@@ -68,6 +64,9 @@ elseif ($pondera) {
 }
 elseif ($media_pond2) {
 	include("edicion/calcular_pond.php");
+}
+elseif ($suma_columnas) {
+	include("edicion/sumar.php");
 }
 echo $edicion;
 ?>

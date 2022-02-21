@@ -5,7 +5,8 @@ function enviar(){
     for (i=0;i<document.form1.elements.length;i++){
         if(document.form1.elements[i].type == "checkbox"){
             if(document.form1.elements[i].checked == 1 ){
-           	 document.form1.media_pond2.disabled = false;
+           	 	document.form1.media_pond2.disabled = false;
+				document.form1.suma_columnas.disabled = false;
             	document.form1.ocultar.disabled = false;
             	document.form1.mostrar.disabled = false;
             	document.form1.eliminar.disabled = false;
@@ -155,6 +156,8 @@ function enviar(){
 	<p><input name="edicion" type=submit value="Editar columna"
 		class="btn btn-primary btn-block" disabled="disabled" /></p>
 	<p><input id="boton" name="media_pond2" type="submit" value="Calcular medias"
+		class="btn btn-primary btn-block" disabled="disabled"/></p>
+	<p><input id="boton" name="suma_columnas" type="submit" value="Sumar columnas"
 		class="btn btn-primary btn-block" disabled="disabled"/></p>
 	<p><input name="ocultar" type="submit" value="Ocultar"
 		class="btn btn-primary btn-block" disabled="disabled" /></p>

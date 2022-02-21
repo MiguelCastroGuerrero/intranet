@@ -396,6 +396,24 @@ include("cuaderno/menu_cuaderno.php");
 							$orden_columna=substr($orden_columna,0,-2);
 							$col_vert="<span  data-bs='tooltip' title='Columna con Media Ponderada'>&nbsp;&nbsp;Ponderación  ($ident)<br>&nbsp;&nbsp;&nbsp;".$orden_columna."</span>";
 						}
+						elseif (strstr($nombre_col,"Suma")==TRUE) {
+							$nombre_columna="";
+							$orden_columna="";
+							$tr_pond= explode(":",$nombre_col);
+							$id_pond=str_replace(" ","",$tr_pond[1]);
+							$tr_pond2= explode(", ",$tr_pond[1]);
+							$orden_columna="Cols. ";
+							foreach ($tr_pond2 as $id_columna){
+								$n_colum = mysqli_query($db_con,"select nombre, orden from notas_cuaderno where id='$id_columna'");
+								$n_columna = mysqli_fetch_array($n_colum);
+								$orden_columna.=$n_columna[1].", ";
+								$nombre_columna.=$n_columna[0].", ";
+								$nombre_columna.=$n_columna[0].", ";
+							}
+							$nombre_columna=substr($nombre_columna,0,-2);
+							$orden_columna=substr($orden_columna,0,-2);
+							$col_vert="<span  style='color:green' data-bs='tooltip' title='Columna con suma'>&nbsp;&nbsp;Suma ($ident)<br>&nbsp;&nbsp;&nbsp;".$orden_columna."</span>";
+						}
 						elseif (strlen($nombre_col)>23) {
 							$col_vert = "&nbsp;&nbsp;".substr($nombre_col,0,20)."...<br>&nbsp;&nbsp;&nbsp;<span  data-bs='tooltip' title='Número de la Columna'>".$ident."</span>";
 						}
@@ -409,6 +427,14 @@ include("cuaderno/menu_cuaderno.php");
 							echo "<td nowrap style='background-color:#555' id='$id' onmouseover='cambia_color($id_pond)' onmouseout='descambia_color($id_pond)'>
 <div style='width:40px;height:104px;'>
 <div class='Rotate-90'><span text-lowercase' style='font-weight:normal;color:#fff'>$col_vert</span></div>
+</div> </td>";
+						}
+						elseif ($tipo_col=="Suma") {
+							?>
+							<?php
+							echo "<td nowrap id='$id'>
+<div style='width:40px;height:104px;'>
+<div class='Rotate-90'><span text-lowercase'>$col_vert</span></div>
 </div> </td>";
 						}
 						else{
@@ -643,6 +669,9 @@ include("cuaderno/menu_cuaderno.php");
 						elseif (stristr($t_dato,"Ponderacion")==TRUE) {
 							$tipo_dato = "<input type='number' name='$id-$claveal' value='$dato1[0]' data-bs='tooltip' title='$dato1[0]' style='max-width:40px;height:60px;border:none;background-color:$color_dato;color:#FFF' disabled>";
 							$pond_extra=" onmouseover='cambia_color($id_pond_col)' onmouseout='descambia_color($id_pond_col)'";
+						}
+						elseif (stristr($t_dato,"Suma")==TRUE) {
+							$tipo_dato = "<input type='number' name='$id-$claveal' value='$dato1[0]' data-bs='tooltip' title='$dato1[0]'  style='max-width:40px;height:60px;border:none;' disabled>";
 						}
 						else{
 							$tipo_dato = "<textarea name='$id-$claveal' data-bs='tooltip' title='$dato1[0]' style='height:67px;width:80px;font-size:10px;max-width:250px;border:none;max-height:68px !important;background-color:$color_dato'>$dato1[0]</textarea>";

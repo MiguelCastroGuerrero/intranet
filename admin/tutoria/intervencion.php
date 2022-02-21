@@ -319,6 +319,7 @@ include("menu.php");
 											<option value="Entrevista con familia" <?php echo (isset($accion) && $accion == 'Entrevista con familia') ? 'selected' : ''; ?>>Entrevista con familia</option>
 											<option value="Comunicación por escrito" <?php echo (isset($accion) && $accion == 'Comunicación por escrito') ? 'selected' : ''; ?>>Comunicación por escrito</option>
 											<option value="Tutoría grupal" <?php echo (isset($accion) && $accion == 'Tutoría grupal') ? 'selected' : ''; ?>>Tutoría grupal</option>
+										<option value="Otras" <?php echo (isset($accion) && $accion == 'Otras') ? 'selected' : ''; ?>>Otras</option>
 						  			</select>
 						  		</div>
 						  	</div>
@@ -384,7 +385,7 @@ include("menu.php");
 
 				<legend>Intervenciones registradas</legend>
 
-				<?php $result = mysqli_query($db_con, "SELECT DISTINCT apellidos, nombre, claveal FROM tutoria WHERE unidad='".$_SESSION['mod_tutoria']['unidad']."' AND DATE(fecha) > '".$config['curso_inicio']."' ORDER BY apellidos ASC, nombre ASC"); ?>
+				<?php $result = mysqli_query($db_con, "SELECT DISTINCT apellidos, nombre, claveal FROM tutoria WHERE unidad='".$_SESSION['mod_tutoria']['unidad']."' AND DATE(fecha) > '".$config['curso_inicio']."' ORDER BY apellidos ASC, nombre ASC"); echo "SELECT DISTINCT apellidos, nombre, claveal FROM tutoria WHERE unidad='".$_SESSION['mod_tutoria']['unidad']."' AND DATE(fecha) > '".$config['curso_inicio']."' ORDER BY apellidos ASC, nombre ASC";?>
 				<?php if (mysqli_num_rows($result)): ?>
 				<table class="table table-striped datatable">
 					<thead>

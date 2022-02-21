@@ -1,4 +1,4 @@
-<?php
+"select * from informe_pendientes_alumnos where claveal ='".$salida['claveal']."' and id_informe='".$pendiente['id_informe']."'"<?php
 require('../../bootstrap.php');
 
 include "../../menu.php";
@@ -78,7 +78,7 @@ $profe_dep = $_SESSION ['profi'];
 
 echo '<legend class="text-info" align="center"><strong>'.$asignatura.' ('.$curso.')</strong></legend>';
 echo '<form action="lista_pendientes.php" method="POST">';
-echo "<table class='table table-striped' align='center'><thead><th>Grupo</th><th>Curso</th><th>Alumno</th><th nowrap>1ª Ev.</th><th nowrap>2ª Ev.</th><th>Junio</th><th>Sept.</th><th></th><thead><tbody>";
+echo "<table class='table table-striped' align='center'><thead><th>Grupo</th><th>Curso</th><th>Alumno</th><th nowrap>1ª Ev.</th><th nowrap>2ª Ev.</th><th>Junio</th><th>Sept.</th><thead><tbody>";
 
 if(stristr($_SESSION['cargo'],'1') == TRUE OR stristr($_SESSION['cargo'],'4') == TRUE){
 $sql = 'SELECT distinct alma.apellidos, alma.nombre, alma.unidad, asignaturas.nombre, asignaturas.abrev, alma.curso, pendientes.claveal, alma.matriculas
@@ -126,21 +126,6 @@ while ($salida = mysqli_fetch_array($Recordset1)){
 		if(strlen($nota_evaluacion)>0) {}else{$nota_evaluacion="";}
 		echo "<td><input type='number' step='1' min='1' max='10' name='$i-$claveal-$asig_pendiente-$abrev_pendiente' value='$nota_evaluacion' style='max-width:40px;'></td>";
 	}
-	
-	echo"<td>";
-
-	$curso_pendiente = substr($curso,0,10);
-	
-	$pendiente = mysqli_fetch_array(mysqli_query($db_con,"select id_informe from informe_pendientes where asignatura='$asignatura' and curso like '$curso_pendiente%' limit 1"));
-		if (!empty($pendiente['id_informe'])){
-		$extra_inf="";
-		$ya_informe = mysqli_query($db_con,"select * from informe_pendientes_alumnos where claveal ='".$salida['claveal']."' and id_informe='".$pendiente['id_informe']."'");
-
-		if (mysqli_num_rows($ya_informe) > 0){ $extra_inf = "<span class='text-success far fa-edit fa-fw fa-lg'> </span>"; }
-
-			echo "<a href='//".$config['dominio']."/intranet/admin/informes/pendientes/alumnado_pendientes.php?claveal=".$salida['claveal']."&id_informe=".$pendiente['id_informe']."&curso_pendiente=".$curso_pendiente."&asig_pendiente=".$asig_pendiente."' target='_blank'  data-bs='tooltip' title='Redactar informe de la materia para la evaluación del alumno'> ".$extra_inf." </a>";
-		}
-		echo "</td>";
 	echo "</tr>";
 }
 
