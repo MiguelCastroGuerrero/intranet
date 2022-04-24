@@ -14,10 +14,10 @@ function obtenerNovedadesConsejeria() {
 
 	$feed = new SimplePie();
 
+	$feed->set_timeout(1);
 	$feed->set_feed_url("http://www.juntadeandalucia.es/educacion/portals/delegate/rss/ced/portalconsejeria/-/-/-/true/OR/true/ishare_noticefrom/DESC/");
 	$feed->set_output_encoding('UTF-8');
 	$feed->enable_cache(false);
-	$feed->set_cache_duration(600);
 	$feed->init();
 	$feed->handle_content_type();
 
