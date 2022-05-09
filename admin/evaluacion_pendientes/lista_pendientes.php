@@ -1,4 +1,4 @@
-"select * from informe_pendientes_alumnos where claveal ='".$salida['claveal']."' and id_informe='".$pendiente['id_informe']."'"<?php
+<?php
 require('../../bootstrap.php');
 
 include "../../menu.php";
