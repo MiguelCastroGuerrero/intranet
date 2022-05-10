@@ -178,35 +178,32 @@ for ($i=0;$i<$num_a;$i++){
 				if(strlen($mobile) == 9) {
 
 					// ENVIO DE SMS
-					include_once(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
-					$sms = new Trendoo_SMS();
-					$sms->sms_type = SMSTYPE_GOLD_PLUS;
-					$sms->add_recipient('+34'.$mobile);
-					$sms->message = $message;
-					$sms->sender = $config['mod_sms_id'];
-					$sms->set_immediate();
+					$auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
+
+					$smsSent = sendSMS($auth, array(
+					    "message" => $message,
+					    "message_type" => MESSAGE_HIGH_QUALITY,
+					    "returnCredits" => false,
+					    "recipient" => array("+34".$mobile),
+					    "sender" => $config['mod_sms_id']
+					));
 
 					if (($grave == "muy grave" and $_POST['confirmado']!="1") or $confirma_db=='1') {
+						// No debería haber condiciones vacías
 					}
 					else{
-						if ($sms->validate()){
+						if ($smsSent->result == "OK") {
 							$sms_enviado=1;
-						// Envío de SMS
-							$sms->send();
-							if (($grave == "muy grave" and $_POST['confirmado']!="1") or $confirma_db=='1') {
-								}
-							else{
-						// Registro de SMS
-						mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$mobile','$message','$informa')");
+			   				mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$mobile','$message','$informa')");
 
-						// Registro de Tutoría
-						$fecha2 = date ( 'Y-m-d' );
-						$observaciones = $message;
-						$accion = "Env&iacute;o de SMS";
-						$causa = "Problemas de convivencia";
-						mysqli_query($db_con, "insert into tutoria (apellidos, nombre, tutor,unidad,observaciones,causa,accion,fecha, claveal) values ('" . $apellidos . "','" . $nombre_alum . "','" . $informa . "','" . $unidad ."','" . $observaciones . "','" . $causa . "','" . $accion . "','" . $fecha2 . "','" . $claveal . "')" );
-							}
+			   				// Registro de Tutoría
+							$fecha2 = date ( 'Y-m-d' );
+							$observaciones = $message;
+							$accion = "Envío de SMS";
+							$causa = "Problemas de convivencia";
+							mysqli_query($db_con, "insert into tutoria (apellidos, nombre, tutor,unidad,observaciones,causa,accion,fecha, claveal) values ('" . $apellidos . "','" . $nombre_alum . "','" . $informa . "','" . $unidad ."','" . $observaciones . "','" . $causa . "','" . $accion . "','" . $fecha2 . "','" . $claveal . "')" );
 						}
+
 					}
 				}
 				else {

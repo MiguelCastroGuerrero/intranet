@@ -127,24 +127,25 @@ $extid = $n_sms[0]+1;
 
 
 	// ENVIO DE SMS
-	include_once(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
 	$sms = new Trendoo_SMS();
 	$sms->sms_type = SMSTYPE_GOLD_PLUS;
 	
 	$exp_moviles = explode(',', $mobile);
+	$recipients = array();
 	
 	foreach ($exp_moviles as $num_movil) {
 		
 		$num_movil = trim($num_movil);
 		
 		if(strlen($num_movil) == 9) {
-			$sms->add_recipient('+34'.$num_movil);
-                        mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$num_movil','$text','$profe')");
-                        mysqli_query($db_con, "insert into tutoria (apellidos, nombre, tutor,unidad,observaciones,causa,accion,fecha,claveal) values ('".$apellidos."','".$nombre."','".$tuto."','".$unidad."','".$observaciones."','".$causa."','".$accion."','".$fecha2."','".$claveal."')");
-                        echo '<div align="center"><div class="alert alert-success alert-block fade in">
-	            <button type="button" class="close" data-dismiss="alert">&times;</button>
-	El mensaje SMS se ha enviado correctamente a los siguientes alumnos: '.$alumno_nombre.'.<br>Una nueva acci�n tutorial ha sido tambi�n registrada.
-	          </div></div>';
+			array_push($recipients, '+34'.$num_movil);
+			
+      mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$num_movil','$text','$profe')");
+      mysqli_query($db_con, "insert into tutoria (apellidos, nombre, tutor,unidad,observaciones,causa,accion,fecha,claveal) values ('".$apellidos."','".$nombre."','".$tuto."','".$unidad."','".$observaciones."','".$causa."','".$accion."','".$fecha2."','".$claveal."')");
+      echo '<div align="center"><div class="alert alert-success alert-block fade in">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+El mensaje SMS se ha enviado correctamente a los siguientes alumnos: '.$alumno_nombre.'.<br>Una nueva acci�n tutorial ha sido tambi�n registrada.
+</div></div>';
 		}
 		else {
 			echo "
@@ -154,11 +155,17 @@ $extid = $n_sms[0]+1;
 			<br>";
 		}
 	}
-	
-	$sms->message = $text;
-	$sms->sender = $config['mod_sms_id'];
-	$sms->set_immediate();
-	if ($sms->validate()) $sms->send();	
+
+	$auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
+
+	$smsSent = sendSMS($auth, array(
+	    "message" => $text,
+	    "message_type" => MESSAGE_HIGH_QUALITY,
+	    "returnCredits" => false,
+	    "recipient" => $recipients,
+	    "sender" => $config['mod_sms_id']
+	));
+
 }
 
 // Mensaje al Tutor

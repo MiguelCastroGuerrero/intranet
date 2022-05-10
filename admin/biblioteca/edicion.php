@@ -144,7 +144,7 @@ if (isset($_POST['registro'])) {
 				$message = "Le comunicamos que su hijo/a ha cometido una falta contra las normas de Convivencia del Centro: No devolver en el tiempo debido material de la Biblioteca.";
 			}
 			else{
-				$message = "Su hijo/a no ha devuelto material de la Biblioteca en el plazo indicado. Si no lo devuelve en los próximos días se le impondrá un parte disciplinario grave.";
+				$message = "Le comunicamos que su hijo/a tiene pendiente la devolución de material de la biblioteca. Debe devolverlo o aclarar cualquier posible situación con el responsable en los próximos cinco días. De no hacerlo podrá ser amonestado por el Centro.";
 			}
 			
 			if(strlen($mobile) == 9) {
@@ -152,20 +152,18 @@ if (isset($_POST['registro'])) {
 				mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor,claveal) values (now(),'$mobile','$message','$informa','$claveal')");
 				
 				// ENVIO DE SMS
-				include_once(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
-				$sms = new Trendoo_SMS();
-				$sms->sms_type = SMSTYPE_GOLD_PLUS;
-				$sms->add_recipient('+34'.$mobile);
-				$sms->message = $message;
-				$sms->sender = $config['mod_sms_id'];
-				$sms->set_immediate();
-				if($sms->validate()) {
-					//$num++;
-					$sms->send(); 
-					//echo "$num ENVIADO: $apellidos, $nombre, $unidad<br>";
-				}
-				if (isset($_POST['sms'])) {
-					mysqli_query($db_con, "update morosos set sms='SI' where id='$valor[$i]'") or die ("No se ha podido actualizar el registro SMS");
+				$auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
+
+				$smsSent = sendSMS($auth, array(
+				    "message" => $message,
+				    "message_type" => MESSAGE_HIGH_QUALITY,
+				    "returnCredits" => false,
+				    "recipient" => array("+34".$mobile),
+				    "sender" => $config['mod_sms_id']
+				));
+
+				if ($smsSent->result == "OK") {
+				    mysqli_query($db_con, "update morosos set sms='SI' where id='$valor[$i]'") or die ("No se ha podido actualizar el registro SMS");
 				}
 				
 			}

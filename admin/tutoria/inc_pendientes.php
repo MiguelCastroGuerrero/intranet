@@ -43,14 +43,19 @@ if(! (isset($config['tutoria']['amonestacion_reiteracion']) && $config['tutoria'
 						mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$mobile','$message','$informa')" );
 						
 						// ENVIO DE SMS
-						include_once(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
-						$sms = new Trendoo_SMS();
-						$sms->sms_type = SMSTYPE_GOLD_PLUS;
-						$sms->add_recipient('+34'.$mobile);
-						$sms->message = $message;
-						$sms->sender = $config['mod_sms_id'];
-						$sms->set_immediate();
-						if ($sms->validate()) $sms->send();
+                        $auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
+
+                        $smsSent = sendSMS($auth, array(
+                            "message" => $message,
+                            "message_type" => MESSAGE_HIGH_QUALITY,
+                            "returnCredits" => false,
+                            "recipient" => array("+34".$mobile),
+                            "sender" => $config['mod_sms_id']
+                        ));
+
+                        if ($smsSent->result == "OK") {
+                            mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$mobile','$message','$informa')" );
+                        }
 					}
 					else {
 						echo "

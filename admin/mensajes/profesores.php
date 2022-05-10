@@ -326,24 +326,26 @@ if(isset($_POST['submit1'])) {
 						$movil = $q_mail['telefonourgencia'];
 					}
 
-					include_once(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
-					include_once(INTRANET_DIRECTORY . '/lib/trendoo/config.php');
-			        $sms = new Trendoo_SMS();
-			        $sms->sms_type = SMSTYPE_GOLD_PLUS;
-			        $sms->add_recipient('+34'.$movil);
-			        $sms->message = $texto;
-			        $sms->sender = $config['mod_sms_id'];
-			        $sms->set_immediate();
+					include_once(INTRANET_DIRECTORY . '/lib/trendoo/trendoo_api.php');
+                    $auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
 
-					if ($sms->validate()){
-				        $sms->send();
-				    	}
+                    $smsSent = sendSMS($auth, array(
+                        "message" => $texto,
+                        "message_type" => MESSAGE_HIGH_QUALITY,
+                        "returnCredits" => false,
+                        "recipient" => array("+34".$movil),
+                        "sender" => $config['mod_sms_id']
+                    ));
+
+                    if ($smsSent->result == "OK") {
+                        mysqli_query($db_con, "INSERT INTO sms (fecha, telefono, mensaje, profesor) values (NOW(), '$movil', '$texto', '$tutor')");
+                    }
 
 				   }
 				}
 				mysqli_query($db_con, "update mens_texto set destino = '$t_nombres' where id = '$id'");
 				$ok=1;
-				} mysqli_query($db_con, "INSERT INTO sms (fecha, telefono, mensaje, profesor) values (NOW(), '$movil', '$texto', '$tutor')");
+				} 
 					
 
 			if($ok) {

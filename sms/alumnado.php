@@ -1,8 +1,6 @@
 <?php
 require("../bootstrap.php");
-require(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
-require(INTRANET_DIRECTORY . '/lib/trendoo/credits.php');
-$credits = trendoo_get_credits();
+
 $limite_caracteres_sms = 160;
 
 acl_acceso($_SESSION['cargo'], array('1', '2', '6', '7', '8', 'a'));
@@ -115,92 +113,90 @@ if (isset($_POST['enviar'])) {
   }
 
   if (! $msg_error) {
-    $fecha = date('Y-m-d H:i:s');
-    $sms = new Trendoo_SMS();
-    $sms->sms_type = SMSTYPE_GOLD_PLUS;
+    $fecha = date('Y-m-d H:i:s');    
     $cont = 0;
+    $recipients = array();
     foreach ($alumnosSeleccionados as $alumnoSeleccionado) {
       $cont++;
       $key = array_search($alumnoSeleccionado, array_column($alumnado, 'nie'));
       $movil = $alumnado[$key]['movil'];
-      $sms->add_recipient('+34'.$movil);
+      array_push($recipients, '+34'.$movil);
     }
-    $sms->message = $mensaje;
-    $sms->sender = $config['mod_sms_id'];
-    $sms->set_immediate();
 
-    if ($sms->validate()) {
-      $res = $sms->send();
-      if ($res['ok']) {
-        $msg_success = "SMS enviado ".(($cont > 1) ? "a los destinatarios" : "al destinatario").". El número de orden es ".$res['order_id'].".";
-        $credits = trendoo_get_credits();
+    $auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
+    
+    $smsSent = sendSMS($auth, array(
+        "message" => $mensaje,
+        "message_type" => MESSAGE_HIGH_QUALITY,
+        "returnCredits" => false,
+        "recipient" => $recipients,
+        "sender" => $config['mod_sms_id']
+    ));
 
-        $accion = "Envío de SMS";
-        $fecha = date('Y-m-d H:i:s');
+    if ($smsSent->result == "OK") {
+      $msg_success = "SMS enviado ".(($cont > 1) ? "a los destinatarios" : "al destinatario").".";
 
-        // Registramos el SMS enviado
-        foreach ($alumnosSeleccionados as $alumnoSeleccionado) {
-          $key = array_search($alumnoSeleccionado, array_column($alumnado, 'nie'));
-          $movil = $alumnado[$key]['movil'];
-          $apellidos = $alumnado[$key]['apellidos'];
-          $nombre = $alumnado[$key]['nombre'];
-          $claveal = $alumnado[$key]['nie'];
-          $unidad = $alumnado[$key]['unidad'];
+      $accion = "Envío de SMS";
+      $fecha = date('Y-m-d H:i:s');
 
-          // Registramos el SMS en nuestra base de datos
-          $result_sms = mysqli_query($db_con, "INSERT INTO `sms` (`fecha`, `telefono`, `mensaje`, `profesor`) VALUES ('$fecha','$movil','$mensaje','$pr')");
-          if (! $result_sms){
-            $msg_error = "No se ha podido registrar el SMS en la base de datos. Error: ".mysqli_error($db_con);
-          }
+      // Registramos el SMS enviado
+      foreach ($alumnosSeleccionados as $alumnoSeleccionado) {
+        $key = array_search($alumnoSeleccionado, array_column($alumnado, 'nie'));
+        $movil = $alumnado[$key]['movil'];
+        $apellidos = $alumnado[$key]['apellidos'];
+        $nombre = $alumnado[$key]['nombre'];
+        $claveal = $alumnado[$key]['nie'];
+        $unidad = $alumnado[$key]['unidad'];
 
-          // Registramos intervención de tutoría
-          if (acl_permiso($_SESSION['cargo'], array('2'))) {
-            $tutor = $pr;
-            $jefatura = 0;
-            $orienta = 0;
-            $mensaje_emisor = "el tutor o la tutora";
-          }
-          elseif (acl_permiso($_SESSION['cargo'], array('1'))) {
-            $result_tutor = mysqli_query("SELECT `tutor` FROM `FTUTORES` WHERE `unidad` = '".$unidad."' LIMIT 1");
-            $row_tutor = mysqli_fetch_array($result_tutor);
-            $tutor = $row_tutor['tutor'];
-            $jefatura = 1;
-            $orienta = 0;
-            $mensaje_emisor = "jefatura de estudios";
-          }
-          elseif (acl_permiso($_SESSION['cargo'], array('8'))) {
-            $result_tutor = mysqli_query("SELECT `tutor` FROM `FTUTORES` WHERE `unidad` = '".$unidad."' LIMIT 1");
-            $row_tutor = mysqli_fetch_array($result_tutor);
-            $tutor = $row_tutor['tutor'];
-            $jefatura = 0;
-            $orienta = 1;
-            $mensaje_emisor = "depto. de orientación educativa";
-          }
-
-          $result_tutoria = mysqli_query($db_con, 'INSERT INTO `tutoria` (`apellidos`, `nombre`, `tutor`, `unidad`, `observaciones`, `causa`, `accion`, `fecha`, `claveal`, `jefatura`, `orienta`) VALUES ("'.$apellidos.'","'.$nombre.'","'.$tutor.'","'.$unidad.'","'.$mensaje.'","'.$causaSeleccionada.'","'.$accion.'","'.$fecha.'","'.$claveal.'", "'.$jefatura.'", "'.$orienta.'")');
-          if (! $result_tutoria) {
-            $msg_error = "No se ha podido registrar la intervención de tutoría. Error: ".mysqli_error($db_con);
-          }
-          else {
-            $msg_success .= " Se ha registrado una intervención de tutoría ".(($cont > 1) ? "sobre los alumnos seleccionados" : "sobre el alumno seleccionado").".";
-          }
+        // Registramos el SMS en nuestra base de datos
+        $result_sms = mysqli_query($db_con, "INSERT INTO `sms` (`fecha`, `telefono`, `mensaje`, `profesor`) VALUES ('$fecha','$movil','$mensaje','$pr')");
+        if (! $result_sms){
+          $msg_error = "No se ha podido registrar el SMS en la base de datos. Error: ".mysqli_error($db_con);
         }
 
-        unset($alumnosSeleccionados);
-        unset($mensaje);
-        unset($apellidos);
-        unset($nombre);
-        unset($claveal);
-        unset($unidad);
-        unset($tutor);
-      } else {
-        $msg_error = "No se ha podido enviar el SMS. Error: ".$sms->problem();
-      }
-    }
-    else {
-      $msg_error = "No se ha podido enviar el SMS. Error: ".$sms->problem();
-    }
+        // Registramos intervención de tutoría
+        if (acl_permiso($_SESSION['cargo'], array('2'))) {
+          $tutor = $pr;
+          $jefatura = 0;
+          $orienta = 0;
+          $mensaje_emisor = "el tutor o la tutora";
+        }
+        elseif (acl_permiso($_SESSION['cargo'], array('1'))) {
+          $result_tutor = mysqli_query("SELECT `tutor` FROM `FTUTORES` WHERE `unidad` = '".$unidad."' LIMIT 1");
+          $row_tutor = mysqli_fetch_array($result_tutor);
+          $tutor = $row_tutor['tutor'];
+          $jefatura = 1;
+          $orienta = 0;
+          $mensaje_emisor = "jefatura de estudios";
+        }
+        elseif (acl_permiso($_SESSION['cargo'], array('8'))) {
+          $result_tutor = mysqli_query("SELECT `tutor` FROM `FTUTORES` WHERE `unidad` = '".$unidad."' LIMIT 1");
+          $row_tutor = mysqli_fetch_array($result_tutor);
+          $tutor = $row_tutor['tutor'];
+          $jefatura = 0;
+          $orienta = 1;
+          $mensaje_emisor = "depto. de orientación educativa";
+        }
 
+        $result_tutoria = mysqli_query($db_con, 'INSERT INTO `tutoria` (`apellidos`, `nombre`, `tutor`, `unidad`, `observaciones`, `causa`, `accion`, `fecha`, `claveal`, `jefatura`, `orienta`) VALUES ("'.$apellidos.'","'.$nombre.'","'.$tutor.'","'.$unidad.'","'.$mensaje.'","'.$causaSeleccionada.'","'.$accion.'","'.$fecha.'","'.$claveal.'", "'.$jefatura.'", "'.$orienta.'")');
+        if (! $result_tutoria) {
+          $msg_error = "No se ha podido registrar la intervención de tutoría. Error: ".mysqli_error($db_con);
+        }
+        else {
+          $msg_success .= " Se ha registrado una intervención de tutoría ".(($cont > 1) ? "sobre los alumnos seleccionados" : "sobre el alumno seleccionado").".";
+        }
+      }
+
+      unset($alumnosSeleccionados);
+      unset($mensaje);
+      unset($apellidos);
+      unset($nombre);
+      unset($claveal);
+      unset($unidad);
+      unset($tutor);
+    } else {
+      $msg_error = "No se ha podido enviar el SMS.";
+    }
   }
 }
 
@@ -274,7 +270,6 @@ else {
                 <p>
                   <small>
                     <i class="fas fa-users fa-fw"></i> Destinatarios: <strong id="numeroDestinatarios">0</strong></strong> &middot;
-                    <i class="fas fa-mobile-alt fa-fw"></i> SMS disponibles: <strong><?php echo $credits[1]->availability; ?></strong></strong> &middot;
                     <i class="fas fa-font fa-fw"></i> Caracteres disponibles: <strong id="numeroCaracteres"><?php echo $limite_caracteres_sms; ?></strong> / <strong><?php echo $limite_caracteres_sms; ?></strong>
                   </small>
                 </p>

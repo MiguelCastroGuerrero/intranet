@@ -1,8 +1,5 @@
 <?php defined('INTRANET_DIRECTORY') OR exit('No direct script access allowed'); 
 
-include_once(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
-include_once(INTRANET_DIRECTORY . '/lib/trendoo/config.php');
-
 // Aula de Convivencia
 if($imprimir4)
 {
@@ -87,17 +84,20 @@ if($imprimir4)
 	                    $mens_total=$message1.$message2;
                         if(strlen($mobile) == 9) 
                         {
-		                    mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$mobile','$mens_total','$tutor')");	
-		
 		                    // ENVIO DE SMS
-		
-		                    $sms = new Trendoo_SMS();
-		                    $sms->sms_type = SMSTYPE_GOLD_PLUS;
-		                    $sms->add_recipient('+34'.$mobile);
-		                    $sms->message = $mens_total;
-		                    $sms->sender = $config['mod_sms_id'];
-		                    $sms->set_immediate();
-		                    $sms->send();
+                            $auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
+
+                            $smsSent = sendSMS($auth, array(
+                                "message" => $mens_total,
+                                "message_type" => MESSAGE_HIGH_QUALITY,
+                                "returnCredits" => false,
+                                "recipient" => array("+34".$mobile),
+                                "sender" => $config['mod_sms_id']
+                            ));
+
+                            if ($smsSent->result == "OK") {
+                                mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$mobile','$mens_total','$tutor')"); 
+                            }
 	                    }
                     }
                 }
@@ -210,19 +210,24 @@ if($submit)
 	                        if(strlen($mobile) == 9) 
                             {
     		                    // ENVIO DE SMS
-		                        $sms = new Trendoo_SMS();
-		                        $sms->sms_type = SMSTYPE_GOLD_PLUS;
-		                        $sms->add_recipient('+34'.$mobile);
-		                        $sms->message = $message;
-		                        $sms->sender = $config['mod_sms_id'];
-		                        $sms->set_immediate();
-		                        $sms->send();
-	
-		                        $fecha2 = date('Y-m-d');
-		                        $tutor = "Jefatura de Estudios";
-		                        $causa = "Problemas de Convivencia";
-		                        $accion = "Envío de SMS";
-		                        mysqli_query($db_con, "insert into tutoria (apellidos, nombre, tutor,unidad,observaciones,causa,accion,fecha,jefatura,claveal) values ('".$apellidos."','".$nombre."','".$tutor."','".$unidad."','".$message."','".$causa."','".$accion."','".$fecha2."','1','".$claveal."')");
+                                $auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
+
+                                $smsSent = sendSMS($auth, array(
+                                    "message" => $message,
+                                    "message_type" => MESSAGE_HIGH_QUALITY,
+                                    "returnCredits" => false,
+                                    "recipient" => array("+34".$mobile),
+                                    "sender" => $config['mod_sms_id']
+                                ));
+
+                                if ($smsSent->result == "OK") {
+                                    $fecha2 = date('Y-m-d');
+                                    $tutor = "Jefatura de Estudios";
+                                    $causa = "Problemas de Convivencia";
+                                    $accion = "Envío de SMS";
+                                    mysqli_query($db_con, "insert into tutoria (apellidos, nombre, tutor,unidad,observaciones,causa,accion,fecha,jefatura,claveal) values ('".$apellidos."','".$nombre."','".$tutor."','".$unidad."','".$message."','".$causa."','".$accion."','".$fecha2."','1','".$claveal."')");
+                                }
+
 	                        }
 	                        else 
 		                        echo "<div class=\"alert alert-error\"><strong>Error:</strong> No se pudo enviar el SMS al teléfono (+34) ".$mobile.". Corrija la información de contacto del alumno/a en Séneca e importe los datos nuevamente.</div><br>";

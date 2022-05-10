@@ -1,8 +1,6 @@
 <?php
 require("../bootstrap.php");
-require(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
-require(INTRANET_DIRECTORY . '/lib/trendoo/credits.php');
-$credits = trendoo_get_credits();
+
 $limite_caracteres_sms = 160;
 
 acl_acceso($_SESSION['cargo'], array('1', '2', '4', '8'));
@@ -89,33 +87,33 @@ if (isset($_POST['enviar'])) {
   }
 
   if (! $msg_error) {
-    $fecha = date('Y-m-d H:i:s');
-    $sms = new Trendoo_SMS();
-    $sms->sms_type = SMSTYPE_GOLD_PLUS;
+    $fecha = date('Y-m-d H:i:s'); 
     $cont = 0;
+    $recipients = array();
     foreach ($empleadosSeleccionados as $empleadoSeleccionado) {
       $cont++;
       $key = array_search($empleadoSeleccionado, array_column($empleados, 'idea'));
       $movil = $empleados[$key]['movil'];
-      $sms->add_recipient('+34'.$movil);
+      array_push($recipients, '+34'.$movil);
     }
-    $sms->message = $mensaje;
-    $sms->sender = $config['mod_sms_id'];
-    $sms->set_immediate();
 
-    if ($sms->validate()) {
-      $res = $sms->send();
-      if ($res['ok']) {
-        $msg_success = "SMS enviado ".(($cont > 1) ? "a los destinatarios" : "al destinatario").". El número de orden es ".$res['order_id'].".";
-        $credits = trendoo_get_credits();
+    $auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
+    
+    $smsSent = sendSMS($auth, array(
+        "message" => $mensaje,
+        "message_type" => MESSAGE_HIGH_QUALITY,
+        "returnCredits" => false,
+        "recipient" => $recipients,
+        "sender" => $config['mod_sms_id']
+    ));
+
+    if ($smsSent->result == "OK") {
+        $msg_success = "SMS enviado ".(($cont > 1) ? "a los destinatarios" : "al destinatario").".";
         unset($empleadosSeleccionados);
         unset($mensaje);
-      } else {
-        $msg_error = "No se ha podido enviar el SMS. Error: ".$sms->problem();
-      }
     }
     else {
-      $msg_error = "No se ha podido enviar el SMS. Error: ".$sms->problem();
+      $msg_error = "No se ha podido enviar el SMS.";
     }
 
   }
@@ -191,7 +189,6 @@ else {
                 <p>
                   <small>
                     <i class="fas fa-users fa-fw"></i> Destinatarios: <strong id="numeroDestinatarios">0</strong></strong> &middot;
-                    <i class="fas fa-mobile-alt fa-fw"></i> SMS disponibles: <strong><?php echo $credits[1]->availability; ?></strong></strong> &middot;
                     <i class="fas fa-font fa-fw"></i> Caracteres disponibles: <strong id="numeroCaracteres"><?php echo $limite_caracteres_sms; ?></strong> / <strong><?php echo $limite_caracteres_sms; ?></strong>
                   </small>
                 </p>

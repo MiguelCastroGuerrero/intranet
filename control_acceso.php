@@ -303,13 +303,13 @@ if ($config['mod_notificaciones']) {
 
 	while ($p_sms = mysqli_fetch_array($pr_sms)){
 
-	$clase="";
-	$profe_sms = $p_sms[0];
+		$clase="";
+		$profe_sms = $p_sms[0];
 
-	$SQL0 = "SELECT DISTINCT clase FROM acceso WHERE profesor = '$profe_sms' AND DATE(fecha)='$hoy'";
-	$result0 = mysqli_query($db_con, $SQL0);
-	while ($row0 = mysqli_fetch_array($result0)){
-		$clase.=$row0[0];
+		$SQL0 = "SELECT DISTINCT clase FROM acceso WHERE profesor = '$profe_sms' AND DATE(fecha)='$hoy'";
+		$result0 = mysqli_query($db_con, $SQL0);
+		while ($row0 = mysqli_fetch_array($result0)){
+			$clase.=$row0[0];
 		}
 
 		$movil="";
@@ -347,84 +347,82 @@ if ($config['mod_notificaciones']) {
 		// El Centro tiene envío de SMS
 		if ($config['mod_sms']==1 and strlen($movil)==9 and $reg_faltas == 0) {
 
-			include_once(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
-			include_once(INTRANET_DIRECTORY . '/lib/trendoo/config.php');
-	        $sms = new Trendoo_SMS();
-	        $sms->sms_type = SMSTYPE_GOLD_PLUS;
-	        $sms->add_recipient('+34'.$movil);
-	        $sms->message = $texto;
-	        $sms->sender = $config['mod_sms_id'];
-	        $sms->set_immediate();
+			$auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
 
-			if ($sms->validate()){
-		        $sms->send();
-		    	}
+			$smsSent = sendSMS($auth, array(
+			    "message" => $texto,
+			    "message_type" => MESSAGE_HIGH_QUALITY,
+			    "returnCredits" => false,
+			    "recipient" => array("+34".$movil),
+			    "sender" => $config['mod_sms_id']
+			));
 
-		    	mysqli_query($db_con, "INSERT INTO sms (fecha, telefono, mensaje, profesor) values (NOW(), '$movil', '$texto', 'Direccion')");
+			if ($smsSent->result == "OK") {
+			    mysqli_query($db_con, "INSERT INTO sms (fecha, telefono, mensaje, profesor) values (NOW(), '$movil', '$texto', 'Direccion')");
+			}	
 
-				}
-
-			// De lo contrario, enviamos un correo
-			elseif($config['mod_sms']<>1 or strlen($movil)<>9 or $reg_faltas == 1){
-
-				//Buscamos correo del profe
-				$mail0=mysqli_query($db_con, "SELECT correo, PROFESOR FROM c_profes WHERE idea='$profe_sms'");
-				if (mysqli_num_rows($mail0)>0) {
-					$numcor++;
-				}
-				$mail1=mysqli_fetch_row($mail0);
-				$direccion = $mail1[0];
-				$nombre = $mail1[1];
-				$exp_nombre = explode(", ", $nombre);
-				$nombre_profe = trim($exp_nombre[1])." ".trim($exp_nombre[0]);
-
-				require_once(INTRANET_DIRECTORY."/lib/phpmailer/PHPMailerAutoload.php");
-				$mail = new PHPMailer();
-				if (isset($config['email_smtp']['isSMTP']) && $config['email_smtp']['isSMTP']) {
-					$mail->isSMTP();
-					$mail->Host = $config['email_smtp']['hostname'];
-					$mail->SMTPAuth = $config['email_smtp']['smtp_auth'];
-					$mail->Port = $config['email_smtp']['port'];
-					$mail->SMTPSecure = $config['email_smtp']['smtp_secure'];
-					$mail->Username = $config['email_smtp']['username'];
-					$mail->Password = $config['email_smtp']['password'];
-
-					$mail->setFrom($config['email_smtp']['username'], utf8_decode($config['centro_denominacion']));
-				}
-				else {
-					$mail->Host = "localhost";
-					$mail->setFrom('no-reply@'.$config['dominio'], utf8_decode($config['centro_denominacion']));
-				}
-				$mail->IsHTML(true);
-
-				$message = file_get_contents(INTRANET_DIRECTORY.'/lib/mail_template/index.htm');
-				$message = str_replace('{{dominio}}', $config['dominio'], $message);
-				$message = str_replace('{{centro_denominacion}}', $config['centro_denominacion'], $message);
-				$message = str_replace('{{centro_codigo}}', $config['centro_codigo'], $message);
-				$message = str_replace('{{centro_direccion}}', $config['centro_direccion'], $message);
-				$message = str_replace('{{centro_codpostal}}', $config['centro_codpostal'], $message);
-				$message = str_replace('{{centro_localidad}}', $config['centro_localidad'], $message);
-				$message = str_replace('{{centro_provincia}}', $config['centro_provincia'], $message);
-				$message = str_replace('{{centro_telefono}}', $config['centro_telefono'], $message);
-				$message = str_replace('{{centro_fax}}', $config['centro_fax'], $message);
-				$message = str_replace('{{centro_email}}', $config['centro_email'], $message);
-				$message = str_replace('{{titulo}}', 'Comunicación de tareas pendientes en el Centro', $message);
-				$message = str_replace('{{contenido}}', $texto, $message);
-				$message = str_replace('{{autor}}', 'Dirección del Centro', $message);
-
-				$mail->msgHTML(utf8_decode($message));
-				$mail->Subject = utf8_decode('Comunicación de tareas pendientes en el Centro');
-				$mail->AltBody = utf8_decode($texto);
-				$mail->AddAddress($direccion, utf8_decode($nombre_profe));
-				if($mail->Send()){
-
-				$correo_ya = mysqli_query($db_con,"select * from correos where correo = '$direccion' and texto = '$texto' and date(fecha) = '$hoy'");
-				if (!mysqli_num_rows($correo_ya)>0) {
-					mysqli_query($db_con,"INSERT INTO correos (destino, correo, fecha, texto) VALUES ('$nombre', '$direccion', NOW(), '$texto')");
-					}
-				}			
-			}
 		}
+		// De lo contrario, enviamos un correo
+		elseif($config['mod_sms']<>1 or strlen($movil)<>9 or $reg_faltas == 1){
+
+			//Buscamos correo del profe
+			$mail0=mysqli_query($db_con, "SELECT correo, PROFESOR FROM c_profes WHERE idea='$profe_sms'");
+			if (mysqli_num_rows($mail0)>0) {
+				$numcor++;
+			}
+			$mail1=mysqli_fetch_row($mail0);
+			$direccion = $mail1[0];
+			$nombre = $mail1[1];
+			$exp_nombre = explode(", ", $nombre);
+			$nombre_profe = trim($exp_nombre[1])." ".trim($exp_nombre[0]);
+
+			require_once(INTRANET_DIRECTORY."/lib/phpmailer/PHPMailerAutoload.php");
+			$mail = new PHPMailer();
+			if (isset($config['email_smtp']['isSMTP']) && $config['email_smtp']['isSMTP']) {
+				$mail->isSMTP();
+				$mail->Host = $config['email_smtp']['hostname'];
+				$mail->SMTPAuth = $config['email_smtp']['smtp_auth'];
+				$mail->Port = $config['email_smtp']['port'];
+				$mail->SMTPSecure = $config['email_smtp']['smtp_secure'];
+				$mail->Username = $config['email_smtp']['username'];
+				$mail->Password = $config['email_smtp']['password'];
+
+				$mail->setFrom($config['email_smtp']['username'], utf8_decode($config['centro_denominacion']));
+			}
+			else {
+				$mail->Host = "localhost";
+				$mail->setFrom('no-reply@'.$config['dominio'], utf8_decode($config['centro_denominacion']));
+			}
+			$mail->IsHTML(true);
+
+			$message = file_get_contents(INTRANET_DIRECTORY.'/lib/mail_template/index.htm');
+			$message = str_replace('{{dominio}}', $config['dominio'], $message);
+			$message = str_replace('{{centro_denominacion}}', $config['centro_denominacion'], $message);
+			$message = str_replace('{{centro_codigo}}', $config['centro_codigo'], $message);
+			$message = str_replace('{{centro_direccion}}', $config['centro_direccion'], $message);
+			$message = str_replace('{{centro_codpostal}}', $config['centro_codpostal'], $message);
+			$message = str_replace('{{centro_localidad}}', $config['centro_localidad'], $message);
+			$message = str_replace('{{centro_provincia}}', $config['centro_provincia'], $message);
+			$message = str_replace('{{centro_telefono}}', $config['centro_telefono'], $message);
+			$message = str_replace('{{centro_fax}}', $config['centro_fax'], $message);
+			$message = str_replace('{{centro_email}}', $config['centro_email'], $message);
+			$message = str_replace('{{titulo}}', 'Comunicación de tareas pendientes en el Centro', $message);
+			$message = str_replace('{{contenido}}', $texto, $message);
+			$message = str_replace('{{autor}}', 'Dirección del Centro', $message);
+
+			$mail->msgHTML(utf8_decode($message));
+			$mail->Subject = utf8_decode('Comunicación de tareas pendientes en el Centro');
+			$mail->AltBody = utf8_decode($texto);
+			$mail->AddAddress($direccion, utf8_decode($nombre_profe));
+			if($mail->Send()){
+
+			$correo_ya = mysqli_query($db_con,"select * from correos where correo = '$direccion' and texto = '$texto' and date(fecha) = '$hoy'");
+			if (!mysqli_num_rows($correo_ya)>0) {
+				mysqli_query($db_con,"INSERT INTO correos (destino, correo, fecha, texto) VALUES ('$nombre', '$direccion', NOW(), '$texto')");
+				}
+			}			
+		}
+	}
 
 		// Registramos la fecha para no volver a repetir
 		mysqli_query($db_con,"INSERT INTO acceso_dias (fecha, numero) VALUES ('$hoy', '$num')");

@@ -69,21 +69,15 @@ No has escrito ningún texto para el Mensaje.<br />Vuelve atrás, redacta el tex
 	$n_sms =mysqli_fetch_array($sms_n);
 	$extid = $n_sms[0]+1;
 
-
-
-	// ENVIO DE SMS
-	include_once(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
-	$sms = new Trendoo_SMS();
-	$sms->sms_type = SMSTYPE_GOLD_PLUS;
-	
 	$exp_moviles = explode(',', $mobile);
+	$recipients = array();
 	
 	foreach ($exp_moviles as $num_movil) {
 		
 		$num_movil = trim($num_movil);
 		
 		if(strlen($num_movil) == 9) {
-			$sms->add_recipient('+34'.$num_movil);
+			array_push($recipients, '+34'.$num_movil);
 		}
 		else {
 			echo "
@@ -93,18 +87,26 @@ No has escrito ningún texto para el Mensaje.<br />Vuelve atrás, redacta el tex
 			<br>";
 		}
 	}
+
+	// ENVIO DE SMS
+	$auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
+
+	$smsSent = sendSMS($auth, array(
+	    "message" => $text,
+	    "message_type" => MESSAGE_HIGH_QUALITY,
+	    "returnCredits" => false,
+	    "recipient" => $recipients,
+	    "sender" => $config['mod_sms_id']
+	));
+
+	if ($smsSent->result == "OK") {
+	    mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$mobile','$text','$profe')");
 	
-	$sms->message = $text;
-	$sms->sender = $config['mod_sms_id'];
-	$sms->set_immediate();
-	if ($sms->validate()) $sms->send();
-	
-	mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$mobile','$text','$profe')");
-	
-	echo '<div align="center"><div class="alert alert-success alert-block fade in">
+			echo '<div align="center"><div class="alert alert-success alert-block fade in">
 	            <button type="button" class="close" data-dismiss="alert">&times;</button>
-	El mensaje SMS se ha enviado correctamente a los siguientes profesores: '.$nombre_pr.'.
+								El mensaje SMS se ha enviado correctamente a los siguientes profesores: '.$nombre_pr.'.
 	          </div></div>';
+	}
 	
 }	
 }

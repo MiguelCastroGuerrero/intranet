@@ -49,16 +49,19 @@ $extid = $n_sms[0]+1;
 
 if(strlen($mobil2) == 9) {
 	// ENVIO DE SMS
-	include_once(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
-	$sms = new Trendoo_SMS();
-	$sms->sms_type = SMSTYPE_GOLD_PLUS;
-	$sms->add_recipient('+34'.$mobil2);
-	$sms->message = $text;
-	$sms->sender = $config['mod_sms_id'];
-	$sms->set_immediate();
-	if ($sms->validate()) $sms->send();
-	
-	mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$mobil2','$text','Jefatura de Estudios')");
+	$auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
+
+	$smsSent = sendSMS($auth, array(
+	    "message" => $text,
+	    "message_type" => MESSAGE_HIGH_QUALITY,
+	    "returnCredits" => false,
+	    "recipient" => array("+34".$mobil2),
+	    "sender" => $config['mod_sms_id']
+	));
+
+	if ($smsSent->result == "OK") {
+	    mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$mobil2','$text','Jefatura de Estudios')");
+	}
 }
 else {
 	echo "

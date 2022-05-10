@@ -135,19 +135,18 @@ foreach($_POST as $clave => $valor)
 
 				if ($mobile != 0) {
 					// ENVIO DE SMS
-					include_once(INTRANET_DIRECTORY . '/lib/trendoo/sendsms.php');
-					$sms = new Trendoo_SMS();
-					$sms->sms_type = SMSTYPE_GOLD_PLUS;
-					$sms->add_recipient('+34'.$mobile);
-					$sms->message = $sms_message;
-					$sms->sender = $config['mod_sms_id'];
-					$sms->set_immediate();
+                    $auth = smsLogin($config['mod_sms_user'], $config['mod_sms_pass']);
 
-					if ($sms->validate()){
+                    $smsSent = sendSMS($auth, array(
+                        "message" => $sms_message,
+                        "message_type" => MESSAGE_HIGH_QUALITY,
+                        "returnCredits" => false,
+                        "recipient" => array("+34".$mobile),
+                        "sender" => $config['mod_sms_id']
+                    ));
 
-						$sms->send();
-					
-						// Registro de SMS
+                    if ($smsSent->result == "OK") {
+                        // Registro de SMS
 						mysqli_query($db_con, "insert into sms (fecha,telefono,mensaje,profesor) values (now(),'$mobile','$sms_message','$profesor')");
 
 						// Registro de Tutoría
@@ -155,7 +154,8 @@ foreach($_POST as $clave => $valor)
 						$accion = "Env&iacute;o de SMS";
 						
 						mysqli_query($db_con, "insert into tutoria (apellidos,nombre,tutor,unidad,observaciones,causa,accion,fecha, claveal) values ('" . $sms_apellidos . "','" . $sms_nombre_alum . "','" . $profesor . "','" . $sms_unidad ."','" . $observaciones . "','" . $causa . "','" . $accion . "','" . $hoy . "','" . $claveal . "')" );
-						}
+                    }
+
 					}
 				}
 			}								

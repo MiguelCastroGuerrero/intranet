@@ -47,6 +47,7 @@ if (file_exists(CONFIG_FILE)) {
 	include_once(INTRANET_DIRECTORY . '/lib/cleanxss.php');
 	include_once(INTRANET_DIRECTORY . '/lib/csrf.php');
 	include_once(INTRANET_DIRECTORY . '/simplepie/autoloader.php');
+	include_once(INTRANET_DIRECTORY . '/lib/trendoo/trendoo.php');
 
 	add_security_header();
 
