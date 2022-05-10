@@ -144,7 +144,7 @@ if (isset($_POST['registro'])) {
 				$message = "Le comunicamos que su hijo/a ha cometido una falta contra las normas de Convivencia del Centro: No devolver en el tiempo debido material de la Biblioteca.";
 			}
 			else{
-				$message = "Su hijo/a no ha devuelto material de la Biblioteca en el plazo indicado. Si no lo devuelve en los próximos días se le impondrá un parte disciplinario grave.";
+				$message = "Le comunicamos que su hijo/a tiene pendiente la devolución de material de la biblioteca. Debe devolverlo o aclarar cualquier posible situación con el responsable en los próximos cinco días. De no hacerlo podrá ser amonestado por el Centro";
 			}
 			
 			if(strlen($mobile) == 9) {
