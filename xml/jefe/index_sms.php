@@ -51,7 +51,7 @@ include('../../menu.php');
 						<tr>
 							<td><?php echo $history_item->order_id; ?></td>
 							<td><?php echo $history_item->message_type; ?></td>
-							<td><?php echo $history_item->create_time; ?></td>
+							<td><?php echo preg_replace("/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/", "$3/$2/$1 $4:$5:$6", $history_item->create_time); ?></td>
 							<td>
 								<?php foreach ($smsState->recipients as $recipient_info): ?>
 								<?php echo $recipient_info->destination; ?><br>
