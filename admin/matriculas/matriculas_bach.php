@@ -186,14 +186,13 @@ if(isset($_POST['enviar'])){
 	$itinerario2=substr($mod2,-1);
 	foreach($_POST as $key => $val)
 	{		
-		if ($mod1==1) {$optativa1=$optativa11;}elseif ($mod1==2) {$optativa1=$optativa12;}elseif($mod1==3){$optativa1=$optativa13;}elseif($mod1==4){$optativa1=$optativa14;}else{$optativa1="";}
+		if ($mod1==1) {$optativa1=$optativa11;}elseif ($mod1==2) {$optativa1=$optativa12;}elseif($mod1==3){$optativa1=$optativa13;}elseif($mod1==4){$optativa1=$optativa14;}elseif($mod1==5){$optativa1=$optativa15;}else{$optativa1="";}
 		if ($key=="mod1") {
-			if($optativa11=="" and $optativa12=="" and $optativa13=="" and $optativa14==""){
+			if($optativa11=="" and $optativa12=="" and $optativa13=="" and $optativa14=="" and $optativa15==""){
 				$vacios.= "optativas de modalidad de 1BACH, ";
 				$num+=1;
 			}
 		}
-		
 
 		if ($key=="mod2"){
 							
@@ -584,7 +583,7 @@ if ($dni or $claveal or $id) {
 			<td colspan="2" style="border-right: 0; height: 90px;"><img
 				class="img-responsive" src="../../img/encabezado.jpg" alt=""
 				width="350"></td>
-			<td colspan="2">
+			<td colspan="3">
 			<h4 class="text-uppercase"><strong>Consejería de Educación y Deporte</strong></h4>
 			<h5 class="text-uppercase"><strong><?php echo $config['centro_denominacion']; ?></strong></h5>
 			</td>
@@ -603,7 +602,7 @@ if ($dni or $claveal or $id) {
 	}
 	?>
 		<tr>
-			<td colspan="4">
+			<td colspan="5">
 			<h4 class="text-center text-uppercase">SOLICITUD DE MATRÍCULA EN <?php echo $curso_matricula; ?>
 			DE BACHILLERATO</h4>
 
@@ -637,7 +636,7 @@ if ($dni or $claveal or $id) {
 
 		<!-- DATOS PERSONALES DEL ALUMNO -->
 		<tr>
-			<th class="active text-center text-uppercase" colspan="4">Datos
+			<th class="active text-center text-uppercase" colspan="5">Datos
 			personales del alumno o alumna</th>
 		</tr>
 		<tr>
@@ -666,7 +665,7 @@ if ($dni or $claveal or $id) {
 				maxlength="11" data-date-format="DD-MM-YYYY"
 				data-date-viewmode="years"></div>
 			</td>
-			<td class="col-sm-3">
+			<td class="col-sm-3" colspan="2">
 			<div
 				class="form-group <?php echo (strstr($vacios,"dni, ")==TRUE) ? 'has-error' : ''; ?>">
 			<label for="dni">DNI / Pasaporte o equivalente</label> <input
@@ -683,7 +682,7 @@ if ($dni or $claveal or $id) {
 				value="<?php echo (isset($nacionalidad)) ? $nacionalidad : ''; ?>"
 				maxlength="30"></div>
 			</td>
-			<td>
+			<td class="col-sm-3">
 			<div
 				class="form-group <?php echo (strstr($vacios,"nacido, ")==TRUE) ? 'has-error' : ''; ?>">
 			<label for="nacido">Nacido en</label> <input type="text"
@@ -691,7 +690,7 @@ if ($dni or $claveal or $id) {
 				value="<?php echo (isset($nacido)) ? $nacido : ''; ?>"
 				maxlength="30"></div>
 			</td>
-			<td>
+			<td class="col-sm-3">
 			<div
 				class="form-group <?php echo (strstr($vacios,"provincia, ")==TRUE) ? 'has-error' : ''; ?>">
 			<label for="provincia">Provincia</label> <input type="text"
@@ -699,7 +698,7 @@ if ($dni or $claveal or $id) {
 				value="<?php echo (isset($provincia)) ? $provincia : ''; ?>"
 				maxlength="30"></div>
 			</td>
-			<td>
+			<td class="col-sm-3" colspan="2">
 			<p><strong>Sexo</strong></p>
 			<div class="form-inline">
 			<div
@@ -745,7 +744,7 @@ if ($dni or $claveal or $id) {
 				value="<?php echo (isset($hermanos)) ? $hermanos : '1'; ?>" min="1"
 				max="99" maxlength="2"></div>
 			</td>
-			<td>
+			<td colspan="2">
 			<div class="form-group"><label for="segsocial">Nº Seguridad Social</label>
 			<input type="number" class="form-control" id="segsocial"
 				name="segsocial"
@@ -779,7 +778,7 @@ if ($dni or $claveal or $id) {
 				value="<?php echo (isset($correo_alumno)) ? $correo_alumno : ''; ?>"
 				maxlength="120"></div>
 			</td>
-			<td rowspan="2">
+			<td rowspan="2" colspan="2">
 			<div class="form-group <?php echo (strstr($vacios,"colegio, ")==TRUE) ? 'has-error' : ''; ?>">
 			<label for="colegio">Centro de procedencia</label> 
 			<select
@@ -817,7 +816,7 @@ if ($dni or $claveal or $id) {
 		</tr>
 		<!-- DATOS DE LOS REPRESENTANTES O GUARDADORES LEGALES -->
 		<tr>
-			<th class="active text-center text-uppercase" colspan="4">Datos de
+			<th class="active text-center text-uppercase" colspan="5">Datos de
 			los representantes o guardadores legales</th>
 		</tr>
 		<tr>
@@ -831,7 +830,7 @@ if ($dni or $claveal or $id) {
 				value="<?php echo (isset($padre)) ? $padre : ''; ?>" maxlength="60">
 			</div>
 			</td>
-			<td>
+			<td colspan="2">
 			<div
 				class="form-group <?php echo (strstr($vacios,"dnitutor, ")==TRUE) ? 'has-error' : ''; ?>">
 			<label for="dnitutor">DNI / NIE</label> <input type="text"
@@ -848,7 +847,7 @@ if ($dni or $claveal or $id) {
 				value="<?php echo (isset($madre)) ? $madre : ''; ?>" maxlength="60">
 			</div>
 			</td>
-			<td>
+			<td colspan="2">
 			<div
 				class="form-group <?php echo ((isset($madre) && !empty($madre)) && (isset($dnitutor2) && empty($dnitutor2))) ? 'has-error' : ''; ?>">
 			<label for="dnitutor2">DNI / NIE</label> <input type="text"
@@ -861,11 +860,11 @@ if ($dni or $claveal or $id) {
 		<?php if($config['mod_transporte_escolar']): ?>
 		<!-- TRANSPORTE ESCOLAR -->
 		<tr>
-			<th class="active text-center text-uppercase" colspan="4">Solicitud
+			<th class="active text-center text-uppercase" colspan="5">Solicitud
 			de transporte escolar</th>
 		</tr>
 		<tr>
-			<td class="text-center" colspan="4">
+			<td class="text-center" colspan="5">
 			<div class="form-inline">
 
 			<div class="form-group"><label for="ruta_este">Ruta Este:</label> <select
@@ -902,7 +901,7 @@ if ($dni or $claveal or $id) {
 			<th class="active text-center text-uppercase">Segundo idioma
 			extranjero</th>
 			<?php endif ?>
-			<th class="active text-center text-uppercase" colspan="2">Opción de
+			<th class="active text-center text-uppercase" colspan="3">Opción de
 			enseñanza de religión o alternativa<br>
 			<small>(señale una)</small></th>
 		</tr>
@@ -948,7 +947,7 @@ if ($dni or $claveal or $id) {
 			Religión Judía </label></div>
 			</div>
 			</td>
-			<td>
+			<td colspan="2">
 			<div
 				class="form-group <?php echo (strstr($vacios,"religion, ")==TRUE) ? 'has-error' : ''; ?>">
 			<div class="radio"><label> <input type="radio" name="religion"
@@ -969,7 +968,7 @@ if ($dni or $claveal or $id) {
 
 		<!-- ASIGNATURAS DE MODALIDAD Y OPTATIVAS -->
 		<tr>
-			<th class="active text-center text-uppercase" colspan="4">Modalidad y
+			<th class="active text-center text-uppercase" colspan="5">Modalidad y
 			asignaturas optativas de <?php echo $curso_matricula; ?> de
 			Bachillerato</th>
 		</tr>
@@ -978,7 +977,7 @@ if ($dni or $claveal or $id) {
 		<?php if($curso == "1BACH"): ?>
 		<tr>
 		<?php foreach ($it1 as $n_it1=>$itiner1){ ?>
-			<td class="text-center" >
+			<td class="text-center" width="20%">
 			<strong>
 			<div class="radio" id='it1'>
 			<label> <input required type="radio" name="mod1" value="<?php echo $n_it1; ?>" <?php echo ($itinerario1 == $n_it1) ? 'checked' : ''; ?> /><strong><?php echo $itiner1; ?></strong></label>
@@ -988,10 +987,10 @@ if ($dni or $claveal or $id) {
 			<?php } ?>
 		</tr>
 		<tr>
-		<?php for ($i = 1; $i <= 4; $i++){ ?>
+		<?php for ($i = 1; $i <= 5; $i++){ ?>
 		
 		
-		<td>
+		<td width="20%">
 		<?php
 			if ($i==1) { 
 				echo "<p>".${it1.$i}[2]."<br>".${it1.$i}[3]."<br>".${it1.$i}[4]."<br>".${it1.$i}[5]."</p>";
@@ -1003,6 +1002,9 @@ if ($dni or $claveal or $id) {
 				echo "<p>".${it1.$i}[2]."<br>".${it1.$i}[3]."<br>".${it1.$i}[4]."<br>".${it1.$i}[5]."</p>";
 			} 
 			elseif($i==4){
+				echo "<p>".${it1.$i}[2]."<br>".${it1.$i}[3]."<br>".${it1.$i}[4]."<br>".${it1.$i}[5]."</p>";
+			}
+			elseif($i==5){
 				echo "<p>".${it1.$i}[2]."<br>".${it1.$i}[3]."<br>".${it1.$i}[4]."<br>".${it1.$i}[5]."</p>";
 			}
 		?>
@@ -1068,7 +1070,7 @@ if ($dni or $claveal or $id) {
 			<?php endfor; ?>
 		</tr>
 		<tr>
-			<th colspan="4" class="active text-center text-uppercase">
+			<th colspan="5" class="active text-center text-uppercase">
 				Asignaturas específicas de Modalidad en Segundo de Bachillerato (4 horas lectivas)
 			</th>
 		</tr>
@@ -1100,12 +1102,12 @@ if ($dni or $claveal or $id) {
 			<?php endfor; ?>
 		</tr>
 		<tr>
-			<th class="active text-center" colspan="4"><span class="text-uppercase">Asignaturas Optativas de 2º de Bachillerato (2 horas)</span>
+			<th class="active text-center" colspan="5"><span class="text-uppercase">Asignaturas Optativas de 2º de Bachillerato (2 horas)</span>
 				<p class="help-block">
 			<small>(Debes seleccionar las asignaturas optativas en su orden de preferencia: 1, 2, 3, etc. Todos los alumnos cursan 1 optativa. En caso de que no haya un número suficiente de alumnos en la asignatura elegida, se asignará la siguiente opción.)</small></p></th>
 		</tr>
 		<tr>
-			<td style="border-top: 0; text-align:left; <?php if($opt_rep2==1) {echo 'background-color: #F2F5A9;';}?>" colspan="4" >
+			<td style="border-top: 0; text-align:left; <?php if($opt_rep2==1) {echo 'background-color: #F2F5A9;';}?>" colspan="5" >
 			<div class="form-horizontal">
 
 			<?php $num1 = ""; ?>
@@ -1132,14 +1134,14 @@ if ($dni or $claveal or $id) {
 		<!-- ASIGNATURAS OPTATIVAS DE PRIMERO DE BACHILLERATO -->
 		
 		<tr id="no_repite1">
-			<th class="active text-center" colspan="4">
+			<th class="active text-center" colspan="5">
 			<span class="text-uppercase">Opciones de matriculación en 1º de Bachillerato</span>
 			<p class="help-block"><small>
 			(Para solicitar una modalidad o vía diferente a la que ya has
 			cursado debes pasar por Jefatura de Estudios)</small></p></th>
 		</tr>
 		<tr>
-	<td colspan="4">
+	<td colspan="5">
 	<div class="form-group">
 	<div class="checkbox"><label> <input type="checkbox" name="bilinguismo"
 		value="Si" <?php if($bilinguismo == 'Si'){echo "checked";} ?>> El
@@ -1212,7 +1214,7 @@ if ($dni or $claveal or $id) {
 
 
 		<tr>
-	<td style="background-color: #eee;" colspan="4" class="text-center">
+	<td style="background-color: #eee;" colspan="5" class="text-center">
 	<strong><span class="text-uppercase">Modalidades y Optativas de 1º Bachillerato</span></strong>
 	</td>
 </tr>
@@ -1272,7 +1274,7 @@ if ($dni or $claveal or $id) {
 		<!-- BILINGÜISMO -->
 		<?php if(substr($curso, 0, 1) < 2): ?>
 		<tr>
-			<td colspan="4">
+			<td colspan="5">
 			<div class="form-group">
 			<div class="checkbox"><label> <input type="checkbox"
 				name="bilinguismo" value="Si"
@@ -1285,10 +1287,10 @@ if ($dni or $claveal or $id) {
 
 		<!-- Salida del centro -->
 		<tr>
-			<th class="active text-center" colspan="4"><span class="text-uppercase">Autorización para la salida del centro</span></th>
+			<th class="active text-center" colspan="5"><span class="text-uppercase">Autorización para la salida del centro</span></th>
 		</tr>
 		<tr>
-			<td colspan="4" style="border-top: 0;">
+			<td colspan="5" style="border-top: 0;">
 				<p class="help-block">
 		<div
 				class="checkbox">
@@ -1303,7 +1305,7 @@ if ($dni or $claveal or $id) {
 
 		<!-- ENFERMEDADES -->
 		<tr>
-			<th class="active text-center" colspan="4"><span class="text-uppercase">Información personal relevante para el Centro</span></th>
+			<th class="active text-center" colspan="5"><span class="text-uppercase">Información personal relevante para el Centro</span></th>
 		</tr>
 		<tr>
 			<td colspan="2" style="border-top: 0;">
@@ -1362,11 +1364,11 @@ if ($dni or $claveal or $id) {
 		
 		<!-- FOTO -->
 		<tr>
-			<th class="active text-center" colspan="4"><span class="text-uppercase">Foto del Alumno:</span><p class="help-block"><small>
+			<th class="active text-center" colspan="5"><span class="text-uppercase">Foto del Alumno:</span><p class="help-block"><small>
 			Desmarcar si la familia tiene algún inconveniente en que se publiquen en nuestra web fotografías del alumno por motivos educativos (Actividades Complementarias y Extraescolares, etc.)</small></p></th>
 		</tr>
 		<tr>
-			<td colspan="4" style="border-top: 0;">
+			<td colspan="5" style="border-top: 0;">
 		<div
 				class="checkbox">
 			<label for="foto"> 
@@ -1379,12 +1381,12 @@ if ($dni or $claveal or $id) {
 		
 		<!-- OBSERVACIONES -->
 		<tr>
-			<th class="active text-center" colspan="4"><span class="text-uppercase">Observaciones:</span><p class="help-block"><small>
+			<th class="active text-center" colspan="5"><span class="text-uppercase">Observaciones:</span><p class="help-block"><small>
 			Indique aquellas cuestiones que considere sean importantes para
 			conocimiento del Centro</small></p></th>
 		</tr>
 		<tr>
-			<td colspan="4" style="border-top: 0;"><textarea class="form-control"
+			<td colspan="5" style="border-top: 0;"><textarea class="form-control"
 				id="observaciones" name="observaciones" rows="5"><?php echo (isset($observaciones)) ? $observaciones : ''; ?></textarea>
 			</td>
 		</tr>
@@ -1394,7 +1396,7 @@ if ($dni or $claveal or $id) {
 
 
 <!-- CAMPOS OCULTOS Y ENVIO DE FORMULARIO -->
-<div class="text-center" colspan="4"><input type="hidden" name="curso"
+<div class="text-center" colspan="5"><input type="hidden" name="curso"
 	value="<?php echo (isset($curso)) ? $curso : ''; ?>"> <input
 	type="hidden" name="nuevo"
 	value="<?php echo (isset($nuevo)) ? $nuevo : ''; ?>"> <input
