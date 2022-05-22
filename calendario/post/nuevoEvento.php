@@ -117,9 +117,11 @@ if ($calendario_evento == 2) {
 	$_diff = date_diff($_date_fecha_hoy, $_date_fecha_actividad);
 	$dias_diferencia = $_diff->format("%a");
 
-	if ($dias_diferencia < 7 && ! acl_permiso($_SESSION['cargo'], array('1','5'))) {
-		header('Location:'.'http://'.$config['dominio'].'/intranet/calendario/index.php?mes='.$_GET['mes'].'&anio='.$_GET['anio'].'&msg_cal=13');
-		exit();
+	if (! isset($config['calendario']['limiteDiasEvento']) || (isset($config['calendario']['limiteDiasEvento']) && $config['calendario']['limiteDiasEvento'] == 0)) {
+		if ($dias_diferencia < 7 && ! acl_permiso($_SESSION['cargo'], array('1','5'))) {
+			header('Location:'.'http://'.$config['dominio'].'/intranet/calendario/index.php?mes='.$_GET['mes'].'&anio='.$_GET['anio'].'&msg_cal=13');
+			exit();
+		}
 	}
 
 	$string_departamento = $departamento_evento;

@@ -10,6 +10,7 @@ function limpiar_string($string)
 
 if (isset($_POST['btnGuardar'])) {
 	
+	$limiteDiasEvento	= limpiar_string($_POST['limiteDiasEvento']);
 	$prefExamenes	= limpiar_string($_POST['prefExamenes']);
 	$prefActividades	= limpiar_string($_POST['prefActividades']);
 	$prefUltimoTrimestre	= limpiar_string($_POST['prefUltimoTrimestre']);
@@ -20,6 +21,7 @@ if (isset($_POST['btnGuardar'])) {
 		fwrite($file, "<?php \r\n");
 		
 		fwrite($file, "\r\n// CONFIGURACIÓN MÓDULO DE CALENDARIO\r\n");
+		fwrite($file, "\$config['calendario']['limiteDiasEvento']\t= $limiteDiasEvento;\r\n");
 		fwrite($file, "\$config['calendario']['prefExamenes']\t= $prefExamenes;\r\n");
 		fwrite($file, "\$config['calendario']['prefActividades']\t= $prefActividades;\r\n");
 		fwrite($file, "\$config['calendario']['prefUltimoTrimestre']\t= $prefUltimoTrimestre;\r\n");
@@ -75,6 +77,16 @@ include("menu.php");
 					<fieldset>
 						<legend>Preferencias</legend>
 						
+						<div class="form-group">
+							<label for="limiteDiasEvento" class="col-sm-8 control-label">Permitir que los profesores registren actividades extraescolares 7 días antes de que se realice la actividad</label>
+							<div class="col-sm-3">
+								<select class="form-control" id="limiteDiasEvento" name="limiteDiasEvento">
+									<option value="0" <?php echo (isset($config['calendario']['limiteDiasEvento']) && $config['calendario']['limiteDiasEvento'] == 0) ? 'selected' : ''; ?>>Prohibir</option>
+									<option value="1" <?php echo (isset($config['calendario']['limiteDiasEvento']) && $config['calendario']['limiteDiasEvento'] == 1) ? 'selected' : ''; ?>>Permitir</option>
+								</select>
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label for="prefExamenes" class="col-sm-8 control-label">Permitir el registro de más de 1 Actividad de grupo (Examen, Control, etc.) en el mismo día</label>
 							<div class="col-sm-3">
