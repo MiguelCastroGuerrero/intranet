@@ -14,6 +14,7 @@ if (isset($_POST['btnGuardar'])) {
 
 	$prefConvivenciaSeneca	= $_POST['prefConvivenciaSeneca'];
 	$prefNotificacionPadres	= limpiar_string($_POST['prefNotificacionPadres']);
+	$prefNotificacionLevesPadres = limpiar_string($_POST['prefNotificacionLevesPadres']);
 	$prefMostrarDescripcion	= limpiar_string($_POST['prefMostrarDescripcion']);
 	$prefListadosDireccion	= limpiar_string($_POST['prefListadosDireccion'], 'numeric');
 	$prefCompromisoConvivencia	= $_POST['prefCompromisoConvivencia'];
@@ -39,6 +40,7 @@ if (isset($_POST['btnGuardar'])) {
 		fwrite($file, "\r\n// CONFIGURACIÓN MÓDULO DE PROBLEMAS DE CONVIVENCIA\r\n");
 		fwrite($file, "\$config['convivencia']['convivencia_seneca']\t= $prefConvivenciaSeneca;\r\n");
 		fwrite($file, "\$config['convivencia']['notificaciones_padres']\t= $prefNotificacionPadres;\r\n");
+		fwrite($file, "\$config['convivencia']['notificaciones_padres_leves']\t= $prefNotificacionLevesPadres;\r\n");
 		fwrite($file, "\$config['convivencia']['mostrar_descripcion']\t= $prefMostrarDescripcion;\r\n");
 		fwrite($file, "\$config['convivencia']['listados_direccion']\t= $prefListadosDireccion;\r\n");
 		fwrite($file, "\$config['convivencia']['compromiso_convivencia']\t= $prefCompromisoConvivencia;\r\n");
@@ -124,7 +126,7 @@ include("menu.php");
 						</div>
 
 						<div class="form-group">
-							<label for="prefNotificacionPadres" class="col-sm-4 control-label">Enviar notificación a padres</label>
+							<label for="prefNotificacionPadres" class="col-sm-4 control-label">Enviar notificación de problemas a padres vía SMS o email</label>
 							<div class="col-sm-3">
 								<select class="form-control" id="prefNotificacionPadres" name="prefNotificacionPadres">
 									<option value="1" <?php echo (isset($config['convivencia']['notificaciones_padres']) && $config['convivencia']['notificaciones_padres'] == 1) ? 'selected' : ''; ?>>Habilitado</option>
@@ -132,6 +134,20 @@ include("menu.php");
 								</select>
 							</div>
 						</div>
+
+						<?php if (isset($config['convivencia']['notificaciones_padres']) && $config['convivencia']['notificaciones_padres'] == 1): ?>
+
+						<div class="form-group">
+							<label for="prefNotificacionLevesPadres" class="col-sm-4 control-label">Enviar notificación de problemas leves a padres vía SMS o email</label>
+							<div class="col-sm-3">
+								<select class="form-control" id="prefNotificacionLevesPadres" name="prefNotificacionLevesPadres">
+									<option value="0" <?php echo (isset($config['convivencia']['notificaciones_padres_leves']) && $config['convivencia']['notificaciones_padres_leves'] == 0) ? 'selected' : ''; ?>>Deshabilitado</option>
+									<option value="1" <?php echo (isset($config['convivencia']['notificaciones_padres_leves']) && $config['convivencia']['notificaciones_padres_leves'] == 1) ? 'selected' : ''; ?>>Habilitado</option>
+								</select>
+							</div>
+						</div>
+
+						<?php endif; ?>
 
 						<div class="form-group">
 							<label for="prefMostrarDescripcion" class="col-sm-4 control-label">Descripción del problema en impresión de partes</label>
