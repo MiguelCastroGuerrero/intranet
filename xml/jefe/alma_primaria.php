@@ -31,6 +31,8 @@ if($_FILES['archivo1']){
  `PROVINCIARESIDENCIA` varchar( 255 ) default NULL ,
  `TELEFONO` varchar( 255 ) default NULL ,
  `TELEFONOURGENCIA` varchar( 255 ) default NULL ,
+ `TELEFONOALUMNO` varchar( 255 ) default NULL ,
+ `CORREOALUMNO` varchar( 64 ) default NULL ,
  `CORREO` varchar( 64 ) default NULL ,
  `CURSO` varchar( 255 ) default NULL ,
  `NUMEROEXPEDIENTE` varchar( 255 ) default NULL ,
@@ -62,7 +64,13 @@ if($_FILES['archivo1']){
  `NACIONALIDAD` varchar( 32 ) default NULL,
  `SEXO` varchar( 1 ) default NULL ,
  `FECHAMATRICULA` varchar( 255 ) default NULL,
- `NSEGSOCIAL` varchar( 15 ) default NULL,
+ `NSEGSOCIAL` varchar( 15 ) default NULL, 
+ `ENFERMEDAD` varchar( 255 ) default NULL,
+ `TRATAMIENTO` varchar( 255 ) default NULL,
+ `ALERGIAMEDICAMENTOS` varchar( 255 ) default NULL,
+ `INTOLERANCIAS` varchar( 255 ) default NULL,
+ `CUSTODIA` varchar( 255 ) default NULL,
+ `FAMILIANUMEROSA` varchar( 255 ) default NULL,
  `COLEGIO` varchar( 96 ) default NULL,
  PRIMARY KEY (`CLAVEAL`)
  ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE utf8_general_ci ";
@@ -71,7 +79,7 @@ if($_FILES['archivo1']){
  //echo $alumnos;
 mysqli_query($db_con, $alumnos) or die ('<div align="center"><div class="alert alert-danger alert-block fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-			<h5>ATENCIÓN:</h5>
+      <h5>ATENCIÓN:</h5>
 No se ha podido crear la tabla <strong>Alma_primaria</strong>. Ponte en contacto con quien pueda resolver el problema.
 </div></div><br />
 <div align="center">
@@ -81,7 +89,7 @@ No se ha podido crear la tabla <strong>Alma_primaria</strong>. Ponte en contacto
   $SQL6 = "ALTER TABLE  `alma_primaria` ADD INDEX (  `CLAVEAL` )";
   $result6 = mysqli_query($db_con, $SQL6) or die ('<div align="center"><div class="alert alert-danger alert-block fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-			<h5>ATENCIÓN:</h5>
+      <h5>ATENCIÓN:</h5>
 No se ha podido crear el índice de la tabla. Busca ayuda.
 </div></div><br />
 <div align="center">
@@ -99,13 +107,13 @@ $files = glob('../primaria/*');
 include('../../lib/pclzip.lib.php');   
 $archive = new PclZip($_FILES['archivo1']['tmp_name']);  
       if ($archive->extract(PCLZIP_OPT_PATH, '../primaria') == 0) 
-	  {
+    {
         die("Error : ".$archive->errorInfo(true));
       } 
 
 // Recorremos directorio donde se encuentran los ficheros y aplicamos la plantilla.
 if ($handle = opendir('../primaria')) {
-   while (false !== ($file = readdir($handle))) {   	
+   while (false !== ($file = readdir($handle))) {     
       if ($file != "." && $file != ".." && $file != ".txt") { 
       $colegio = str_ireplace(".txt", "", $file);
      // echo "$colegio<br>"; 
@@ -113,7 +121,7 @@ if ($handle = opendir('../primaria')) {
 
 $fp = fopen ('../primaria/'.$file , "r" ) or die('<div align="center"><div class="alert alert-danger alert-block fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-			<h5>ATENCIÓN:</h5>
+      <h5>ATENCIÓN:</h5>
 No se han podido abrir los archivos de datos. ¿Están los archivos de los Colegios en el directorio ../primaria?
 </div></div><br />
 <div align="center">
@@ -122,9 +130,9 @@ No se han podido abrir los archivos de datos. ¿Están los archivos de los Coleg
 $row = 1;
  while (!feof($fp))
 {
-  	$linea="";
-  	$lineasalto="";
-  	$dato="";
+    $linea="";
+    $lineasalto="";
+    $dato="";
     $linea=fgets($fp);
     $lineasalto = "INSERT INTO alma_primaria VALUES (";
     $tr=explode("|",$linea);
@@ -161,20 +169,20 @@ mysqli_query($db_con, $crear);
  while  ($row0 = mysqli_fetch_array($result_1))
  {
 if (substr($row0[0],-1)=="A") {
-	$unidad_cole = "6P-A";
+  $unidad_cole = "6P-A";
 }
 elseif (substr($row0[0],-1)=="B") {
-	$unidad_cole = "6P-B";
+  $unidad_cole = "6P-B";
 }
  elseif (substr($row0[0],-1)=="C") {
-	$unidad_cole = "6P-C";
+  $unidad_cole = "6P-C";
 }
  elseif (substr($row0[0],-1)=="D") {
-	$unidad_cole = "6P-D";
+  $unidad_cole = "6P-D";
 }
 ELSE{
-	$unidad_cole = "6P-A";
-} 	
+  $unidad_cole = "6P-A";
+}   
 $trozounidad0 = explode("-",$unidad_cole);
 $actualiza= "UPDATE alma_primaria SET UNIDAD = '$unidad_cole', NIVEL = '$trozounidad0[0]', GRUPO = '$trozounidad0[1]' where CLAVEAL = '$row0[1]'";
 mysqli_query($db_con, $actualiza);
@@ -186,12 +194,12 @@ mysqli_query($db_con, $actualiza);
   $result2 = mysqli_query($db_con, $SQL2);
  while  ($row2 = mysqli_fetch_array($result2))
  {
- 	$apellidos = trim($row2[0]). " " . trim($row2[1]);
-	$apellidos1 = trim($apellidos);
-	$nombre = $row2[3];
-	$nombre1 = trim($nombre);
-	$actualiza1= "UPDATE alma_primaria SET APELLIDOS = \"". $apellidos1 . "\", NOMBRE = \"". $nombre1 . "\" where CLAVEAL = \"". $row2[2] . "\"";
-	mysqli_query($db_con, $actualiza1);
+  $apellidos = trim($row2[0]). " " . trim($row2[1]);
+  $apellidos1 = trim($apellidos);
+  $nombre = $row2[3];
+  $nombre1 = trim($nombre);
+  $actualiza1= "UPDATE alma_primaria SET APELLIDOS = \"". $apellidos1 . "\", NOMBRE = \"". $nombre1 . "\" where CLAVEAL = \"". $row2[2] . "\"";
+  mysqli_query($db_con, $actualiza1);
  }
  
  // Apellidos y nombre del padre.
@@ -199,10 +207,10 @@ mysqli_query($db_con, $actualiza);
   $result3 = mysqli_query($db_con, $SQL3);
  while  ($row3 = mysqli_fetch_array($result3))
  {
- 	$apellidosP = trim($row3[2]). " " . trim($row3[0]). " " . trim($row3[1]);
-	$apellidos1P = trim($apellidosP);
-	$actualiza1P= "UPDATE alma_primaria SET PADRE = \"". $apellidos1P . "\" where CLAVEAL = \"". $row3[3] . "\"";
-	mysqli_query($db_con, $actualiza1P);
+  $apellidosP = trim($row3[2]). " " . trim($row3[0]). " " . trim($row3[1]);
+  $apellidos1P = trim($apellidosP);
+  $actualiza1P= "UPDATE alma_primaria SET PADRE = \"". $apellidos1P . "\" where CLAVEAL = \"". $row3[3] . "\"";
+  mysqli_query($db_con, $actualiza1P);
  }
  
   // Eliminación de campos innecesarios por repetidos
@@ -225,9 +233,9 @@ La tabla de Alumnos de Primaria para la Matriculación ha sido creada.<br />Ya p
 }
 else
 {
-	echo '<div align="center"><div class="alert alert-danger alert-block fade in">
+  echo '<div align="center"><div class="alert alert-danger alert-block fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-			<h5>ATENCIÓN:</h5>
+      <h5>ATENCIÓN:</h5>
 Parece que te estás olvidando de enviar el archivo con los datos de los alumnos. Asegúrate de enviar el archivo comprimido con los datos de los Colegios.
 </div></div><br />';
 }
@@ -240,18 +248,18 @@ Parece que te estás olvidando de enviar el archivo con los datos de los alumnos
   $result6 = mysqli_query($db_con, $SQL6);
  while  ($row6 = mysqli_fetch_array($result6))
  {
- 	$n_cole = trim($row6[0]); 	
- 	$n_cole=str_replace("C.E.I.P.","",$n_cole);
+  $n_cole = trim($row6[0]);   
+  $n_cole=str_replace("C.E.I.P.","",$n_cole);
   $n_cole=trim($n_cole);
 
   $caracteres_no_permitidos = array('á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù', 'á', 'ë', 'ï', 'ö', 'ü', 'Ä', 'Ë', 'Ï', 'Ö', 'Ü');
   $caracteres_permitidos = array('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U');
 
- 	$pass=str_replace(" ", "", $n_cole)."_".$config['centro_codigo'];
+  $pass=str_replace(" ", "", $n_cole)."_".$config['centro_codigo'];
   $pass = str_replace($caracteres_no_permitidos, $caracteres_permitidos, $pass);
 
   $pass=strtolower($pass);
-	$n_pass=sha1($pass);	
+  $n_pass=sha1($pass);  
 
   $ya=mysqli_query($db_con,"select * from transito_control where colegio = '$n_cole'");
   if (mysqli_num_rows($ya)>0) {}else{
