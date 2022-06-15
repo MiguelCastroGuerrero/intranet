@@ -208,20 +208,6 @@ if(isset($_POST['enviar'])){
 		}
 	}
 
-	/* if (substr($curso,0,1)=='3') {
-		if (empty($matematicas3)) {
-		$vacios.= "matematicas de 3º de ESO, ";
-		$num+=1;
-		}
-	} */
-
-/*	if (substr($curso,0,1)=='1') {
-		if (empty($act1)) {
-		$vacios.= "Refuerzo o Ampliación de $curso, ";
-		$num+=1;
-		}
-	}
-*/
 	if ($itinerario) {
 		if($itinerario == '1'){
 			$optativas4="";
@@ -920,11 +906,9 @@ exit();
 			<span class="text-uppercase">Asignatura optativa</span>
 			<p class="help-block"><small>Marca con 1, 2, 3, 4, etc. por orden de preferencia. En caso de que no haya un número suficiente de alumnos, se asignará la siguiente asignatura elegida.</small></p></th>
 			<?php if($n_curso==1): ?>
-			<?php if($n_curso==1): ?>
 			<th class="active text-center" colspan="2"><span
 				class="text-uppercase">Elección del segundo idioma</span>
 		<p class="help-block"><small>Selecciona el segundo idioma de tu preferencia.</small></p></th> 
-			<?php endif; ?>
 				<!-- 
 				<th class="active text-center" colspan="2"><span
 				class="text-uppercase">Programa de Refuerzo o Ampliación</span>
@@ -995,23 +979,7 @@ exit();
 
 		<!-- OPTATIVAS: 3 ESO -->
 		<?php elseif($n_curso == 3): ?>
-		<!-- <tr>
-			<th class="active text-uppercase"  colspan="4">Matemáticas de 3º de E.S.O.</th>
-		</tr>
-		<tr>
-			<td valign=top colspan="4">
-			<div class="radio">
-	<?php /*
-			echo "<label class='radio-inline'><input type='radio' name = 'matematicas3' value='A' ";
-			if ($matematicas3=="A") { echo "checked";}
-			echo " required/>Matemáticas Académicas</label><label class='radio-inline'><input type='radio' name = 'matematicas3' value='B' ";
-			if ($matematicas3=="B") { echo "checked";}
-			echo " required />Matemáticas Aplicadas</label>";
-		*/ ?>
-		</div>
-	</td>
-		</tr>
--->
+
 		<tr>
 
 	<th class="active text-uppercase" colspan="4">
@@ -1023,13 +991,13 @@ exit();
 		</tr>
 		<tr>
 			<td colspan="2" style="border-right: 0;">
-			<div class="form-horizontal"><?php $num1 = ""; ?> <?php for ($i = 1; $i < 10; $i++): ?>
+			<div class="form-horizontal"><?php $num1 = ""; ?> <?php for ($i = 1; $i < 8; $i++): ?>
 			<?php if (substr($curso, 0, 1) == $i): ?> <?php foreach (${opt.$i} as $opt_1): ?>
 			<?php $num1 += 1; ?>
 			<div class="form-group <?php echo (stristr($vacios, "optativa$num1")) ? 'has-error"' : '' ; ?>">
 			<div class="col-sm-4"><select class="form-control" id="optativa<?php echo $num1;?>" name="optativa<?php echo $num1;?><?php echo (isset($opt_rep) && $opt_rep == 1) ? 'has-error"' : '';?>">
 				<option value=""></option>
-				<?php for ($z = 1; $z < 10; $z++): ?>
+				<?php for ($z = 1; $z < 8; $z++): ?>
 				<option value="<?php echo $z;?>"<?php echo (${optativa.$num1} == $z) ? 'selected':'';?>><?php echo $z; ?></option>
 				<?php endfor; ?>
 			</select></div>
@@ -1246,28 +1214,12 @@ exit();
 			</th>
 
 		</tr>
-                <tr>
-			<td class="text-uppercase"  colspan="4"><strong>Matemáticas de 3º de E.S.O.</strong></td>
-		</tr>
-		<tr>
-			<td valign=top colspan="4">
-			<div class="radio">
-	<?php
-			echo "<label class='radio-inline'><input type='radio' name = 'matematicas3' value='A' ";
-			if ($matematicas3=="A") { echo "checked";}
-			echo " required/>Matemáticas Académicas</label><label class='radio-inline'><input type='radio' name = 'matematicas3' value='B' ";
-			if ($matematicas3=="B") { echo "checked";}
-			echo " required/>Matemáticas Aplicadas</label>";
-		?>
-		</div>
-	</td>
-		</tr>
 		<tr>
 
 			<td colspan="1">
 			<div class="form-horizontal <?php echo (isset($opt_rep2) && $opt_rep2 == 1) ? 'has-error"' : '' ; ?>">
 				<?php $num1 = "";?>
-			<?php for($i = 1; $i < 10; $i++): ?>
+			<?php for($i = 1; $i < 8; $i++): ?>
 			<?php if (substr($curso, 0, 1)-1 == $i): ?>
 			<?php foreach (${opt.$i} as $opt_1): ?>
 
@@ -1277,7 +1229,7 @@ exit();
 				id="optativa2<?php echo $num1; ?>"
 				name="optativa2<?php echo $num1; ?>" required>
 				<option value=""></option>
-				<?php for ($z = 1; $z < 10; $z++): ?>
+				<?php for ($z = 1; $z < 8; $z++): ?>
 				<option value="<?php echo $z; ?>"
 				<?php echo (${optativa2.$num1} == $z) ? 'selected' : ''; ?>><?php echo $z; ?></option>
 				<?php endfor; ?>
@@ -1357,16 +1309,18 @@ exit();
 			</label></div>
 			<?php endforeach; ?> <?php endif; ?> <?php endfor; ?></div>
 			</td>
-			<td colspan="2"><?php $num1 = ""; ?> <?php for($i = 1; $i < 5; $i++): ?>
-			<?php if((substr($curso, 0, 1) -1) == $i): ?> <?php foreach (${a.$i} as $act_1): ?>
-			<?php $n_a = count(${a.$i})+1; ?> <?php $num1 += 1; ?> <?php if (${act.$num1} == '0') ${act.$num1}=''; ?>
-			<div class="form-group">
-			<div class="radio"><label> <input type="radio" name="act21"
-				value="<?php echo $num1; ?>" required
-				<?php echo ($act21 == $num1) ? 'checked' : ''; ?>> <?php echo $act_1; ?>
-			</label></div>
-			</div>
-			<?php endforeach; ?> <?php endif; ?> <?php endfor; ?></td>
+			<?php
+			if($n_curso=="2"){ ?>	
+			<td colspan="2">
+			<div class="form-group"><select class="form-control" id="idioma2"
+				name="idioma2">
+				<option value="Francés"
+				<?php echo (isset($idioma2) && $idioma2 == 'Francés') ? 'selected' : ''; ?>>Francés</option>
+				<option value="Alemán"
+				<?php echo (isset($idioma2) && $idioma2 == 'Alemán') ? 'selected' : ''; ?>>Alemán</option>
+			</select></div>
+				</td>
+			<?php } ?>
 		</tr>
 
 		<?php endif; ?>
