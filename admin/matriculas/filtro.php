@@ -131,14 +131,14 @@ if ($_POST['grupo_actua']) {
          </div>
 </div>
 <div class="col-sm-3">
-<div class="form-group"><label>Bilinguismo </label><select name="bilinguism" class="form-control" >
-		<?php if ($bilinguism) {
-			echo "<option>$bilinguism</option>";
+<div class="form-group"><label>2º Idioma </label><select name="idioma2" class="form-control" >
+		<?php if ($idioma2) {
+			echo "<option>$idioma2</option>";
 		}
 		?>
 			<option></option>
-			<option>Si</option>
-			<option>No</option>
+			<option>Francés</option>
+			<option>Alemán</option>
 		</select></div>
 </div>
 </div>

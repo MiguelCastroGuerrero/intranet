@@ -85,13 +85,13 @@ if ($row = mysqli_fetch_array ( $result )) {
 	 $n_curso = substr($curso, 0, 1);
 	 $n_curso2 = $n_curso-1;
 
-		for ($i=1;$i<8;$i++){
+		for ($i=1;$i<9;$i++){
 		$ni = $i-1;
 		$n_o = 0;		
 			${optativa.$i} = $row['optativa'.$i].". ".${opt.$n_curso}[$ni];
 		} 
 
-	for ($i=1;$i<8;$i++){
+	for ($i=1;$i<9;$i++){
 		$ni = $i-1;
 		$ncr = $n_curso-1;
 			${optativa2.$i} = $row['optativa2'.$i].". ".${opt.$ncr}[$ni];
@@ -177,8 +177,7 @@ $datos_centro = "PROTECCIÓN DE DATOS.\n En cumplimiento de lo dispuesto en la L
 	}
 	$MiPDF->Ln ( 10 );
 	if($n_curso < '3'){
-	$MiPDF->Cell(84,6,"2º IDIOMA EXTRANJERO",1,0,'L',1);
-	$MiPDF->Cell(84,6,"ENSEÑANZA DE RELIGIÓN O ALTERNATIVA",1,0,'L',1);
+	$MiPDF->Cell(168,6,"ENSEÑANZA DE RELIGIÓN O ALTERNATIVA",1,0,'L',1);
 	}
 	else{
 	$MiPDF->Cell(168,6,"ENSEÑANZA DE RELIGIÓN O ALTERNATIVA",1,0,'L',1);
@@ -186,8 +185,7 @@ $datos_centro = "PROTECCIÓN DE DATOS.\n En cumplimiento de lo dispuesto en la L
 	$MiPDF->Ln ( 6);
 	
 	if($n_curso < '3'){
-	$MiPDF->Cell(84,8,$idioma,0);
-	$MiPDF->Cell(84,8,$religion,0);
+	$MiPDF->Cell(168,8,$religion,0);
 	}
 	else{
 	$MiPDF->Cell(168,8,$religion,0);

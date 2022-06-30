@@ -265,8 +265,8 @@ if(isset($_POST['enviar'])){
 		$msg_error .= ". Rellena los campos mencionados y envía los datos de nuevo para poder registrar tu solicitud correctamente.";
 	}
 	else{
-		for ($i = 1; $i < 10; $i++) {
-			for ($z = $i+1; $z < 10; $z++) {
+		for ($i = 1; $i < 9; $i++) {
+			for ($z = $i+1; $z < 9; $z++) {
 				if (${optativa.$i}>0) {
 					if (${optativa.$i}==${optativa.$z}) {
 						$opt_rep = 1;
@@ -277,8 +277,8 @@ if(isset($_POST['enviar'])){
 		}
 				
 		if (substr($curso,0,1)>1){
-			for ($i = 1; $i < 10; $i++) {
-				for ($z = $i+1; $z < 10; $z++) {
+			for ($i = 1; $i < 9; $i++) {
+				for ($z = $i+1; $z < 9; $z++) {
 					if (${optativa2.$i}>0) {
 						if (${optativa2.$i}==${optativa2.$z}) {
 							$opt_rep2= 1 ;
@@ -766,17 +766,18 @@ exit();
 		<!-- DATOS DE LOS REPRESENTANTES O GUARDADORES LEGALES -->
 		<tr>
 			<th class="active text-center text-uppercase" colspan="4">Datos de
-			los representantes o guardadores legales</th>
+			los representantes o guardadores legales<p class="help-block"><small>(con quien conviva el alumno/a y tenga atribuida su
+			guarda y custodia)</small></p></th>
 		</tr>
 		<tr>
 			<td colspan="3">
 			<div
 				class="form-group <?php echo (strstr($vacios,"padre, ")==TRUE) ? 'has-error' : ''; ?>">
 			<label for="padre">Apellidos y nombre del representante o guardador
-			legal 1 <p class="help-block"><small>(con quien conviva el alumno/a y tenga atribuida su
-			guarda y custodia)</small></p></label> <input type="text"
+			legal 1 </label> <input type="text"
 				class="form-control" id="padre" name="padre"
 				value="<?php echo (isset($padre)) ? $padre : ''; ?>" maxlength="60">
+				
 			</div>
 			</td>
 			<td>
@@ -843,19 +844,13 @@ exit();
 
 		<!-- PRIMER IDIOMA Y RELIGION O ALTERNATIVA -->
 		<tr>
-			<th class="active text-center text-uppercase" colspan="2">Idioma
-			extranjero</th>
-			<th class="active text-center text-uppercase" colspan="2">Opción de
+
+			<th class="active text-center text-uppercase" colspan="5">Opción de
 			enseñanza de religión o alternativa<br>
-			<p class="help-block"><small>(señale una)</small></p></th>
+				<p class="help-block"><small>(En 1º y 3º de ESO <u>Atención educativa</u>; en 2º y 4º de ESO <u>Valores éticos</u>)</small></p></th>
 		</tr>
 		<tr>
-			<td colspan="2">
-			<div class="form-group"><input type="text" class="form-control"
-				name="idioma" value="Inglés" readonly>
-			</div>
-			</td>
-			<td style="border-right: 0;">
+			<td style="border-right: 0;" colspan="5">
 			<div
 				class="form-group <?php echo (strstr($vacios,"religion, ")==TRUE) ? 'has-error' : ''; ?>">
 			<div class="radio"><label> <input type="radio" name="religion"
@@ -879,8 +874,6 @@ exit();
 				<?php if($religion == 'Religión Judía'){echo "checked";} ?>>
 			Religión Judía </label></div>
 			</div>
-			</td>
-			<td>
 			<div
 				class="form-group <?php echo (strstr($vacios,"religion, ")==TRUE) ? 'has-error' : ''; ?>">
 			<div class="radio"><label> <input type="radio" name="religion"
@@ -894,15 +887,15 @@ exit();
 			<div class="radio"><label> <input type="radio" name="religion"
 				value="Valores Éticos" required
 				<?php if($religion == 'Valores Éticos'){echo "checked";} ?>>
-			Valores Éticos</label></div>
+			Valores Éticos / Atención educativa</label></div>
 			</div>
 			</td>
 		</tr>
 
 		<!-- OPTATIVAS: 1 Y 2 ESO -->
-		<?php if($n_curso < 3): ?>
+		<?php if($n_curso < 3): if($n_curso == "2"){$cols = '5';}else{$cols = '2';}?>
 		<tr>
-			<th class="active text-center" colspan="2">
+			<th class="active text-center" colspan="<?php echo $cols; ?>">
 			<span class="text-uppercase">Asignatura optativa</span>
 			<p class="help-block"><small>Marca con 1, 2, 3, 4, etc. por orden de preferencia. En caso de que no haya un número suficiente de alumnos, se asignará la siguiente asignatura elegida.</small></p></th>
 			<?php if($n_curso==1): ?>
@@ -918,7 +911,7 @@ exit();
 		</tr>
 		<tr>
 
-			<td colspan="2">
+			<td colspan="<?php echo $cols; ?>">
 			<div class="form-horizontal"><?php $num1 = ''; ?>
 			<?php
 			for ($i = 1; $i < 3; $i++) {
