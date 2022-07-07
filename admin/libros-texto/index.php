@@ -153,6 +153,7 @@ $editoriales = array(
   "Milton Education (Kuaderno Solutions,S.L.)",
   "Nueva Carisch España, S.L",
   "Octaedro Andalucía (Ediciones Mágina, S.L.)",
+  "Outlook",
   "Oxford University Press España, S.A.",
   "Pearson Educacion, S.A.",
   "Penta Editorial (Monte Alto Ediciones, S.L.)",
