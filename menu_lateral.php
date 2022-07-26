@@ -587,7 +587,7 @@ $paginas_interes = array(
 			),
 			array(
 				'href'   => 'http://www.juntadeandalucia.es/educacion/portals/web/ced',
-				'titulo' => 'Consejería de Educación y Deporte',
+				'titulo' => 'Consejería de Desarrollo Educativo y Formación Profesional',
 				'target' => '_blank',
 			),
 			array(

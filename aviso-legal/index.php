@@ -54,7 +54,7 @@ include("../menu.php");
                 <h5>5.1. ¿Quién es el responsable del tratamiento de tus datos?</h5>
                 <p>El responsable del tratamiento de tus datos es:</p>
 
-                <p>Secretaría General Técnica de la Consejería de Educación y Deporte de la Junta de Andalucía, con dirección en Avda. Juan Antonio de Vizarrón, s/n, Edificio Torretriana. 41071, Sevilla.</p>
+                <p>Secretaría General Técnica de la Consejería de Desarrollo Educativo y Formación Profesional de la Junta de Andalucía, con dirección en Avda. Juan Antonio de Vizarrón, s/n, Edificio Torretriana. 41071, Sevilla.</p>
 
                 <h5>5.2. Recopilación y uso de los datos de carácter personal</h5>
                 <p>Se considera información personal cualquier dato que pueda utilizarse para identificar a una persona en particular o ponerse en contacto con ella.</p>

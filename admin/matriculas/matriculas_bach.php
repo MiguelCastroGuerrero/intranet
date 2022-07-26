@@ -608,7 +608,7 @@ if ($dni or $claveal or $id) {
 				class="img-responsive" src="../../img/encabezado.jpg" alt=""
 				width="350"></td>
 			<td colspan="3">
-			<h4 class="text-uppercase"><strong>Consejería de Educación y Deporte</strong></h4>
+			<h4 class="text-uppercase"><strong>Consejería de Desarrollo Educativo y Formación Profesional</strong></h4>
 			<h5 class="text-uppercase"><strong><?php echo $config['centro_denominacion']; ?></strong></h5>
 			</td>
 		</tr>

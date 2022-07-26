@@ -1,6 +1,6 @@
 # [Intranet del Monterroso](http://iesmonterroso.github.io/intranet/)
 
-Lo que aquí llamamos la Intranet del Monterroso es una aplicación Web creada y probada a lo largo de los años en nuestro centro. Nació dentro del Programa de Autoevaluación y Mejora de la Consejería de Educación y Deporte de la Junta de Andalucía, y ha sido pensada para facilitar y simplificar el trabajo diario de los profesores en general.
+Lo que aquí llamamos la Intranet del Monterroso es una aplicación Web creada y probada a lo largo de los años en nuestro centro. Nació dentro del Programa de Autoevaluación y Mejora de la Consejería de Desarrollo Educativo y Formación Profesional de la Junta de Andalucía, y ha sido pensada para facilitar y simplificar el trabajo diario de los profesores en general.
 
 En realidad se trata de un conjunto de módulos interconectados que responden a tareas específicas que debe realizar un profesor. Los módulos han ido ido surgiendo de necesidades concretas planteadas por los propios profesores a lo largo de los años. Precisamente por eso, debe quedar claro que la aplicación solo expresa un punto de vista, el nuestro, acerca de cómo se lleva un instituto (Problemas e convivencia, comunicación entre los profesores, trabajo de los tutores, reservas de aulas y material, actividades extraescolares, etc.).
 

@@ -205,7 +205,7 @@ if (mysqli_num_rows($result)) {
 		<table class="table-no-border">
 			<tr>
 				<td width="50%"><img src="../../img/encabezado.png" alt=""></td>
-				<td class="texto-consejeria" width="50%">CONSEJERÍA DE EDUCACIÓN Y DEPORTE<br>
+				<td class="texto-consejeria" width="50%">Consejería de Desarrollo Educativo y Formación Profesional<br>
 				'.$config['centro_denominacion'].'</td>
 			</tr>
 		</table>
