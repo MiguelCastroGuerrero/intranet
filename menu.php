@@ -14,8 +14,8 @@ function obtenerNovedadesConsejeria() {
 
 	$feed = new SimplePie();
 
-	$feed->set_timeout(1);
-	$feed->set_feed_url("http://www.juntadeandalucia.es/educacion/portals/delegate/rss/ced/portalconsejeria/-/-/-/true/OR/true/ishare_noticefrom/DESC/");
+	$feed->set_timeout(5);
+	$feed->set_feed_url("https://www.juntadeandalucia.es/educacion/portals/delegate/rss/ced/portalconsejeria/-/-/-/true/OR/true/ishare_noticefrom/DESC/");
 	$feed->set_output_encoding('UTF-8');
 	$feed->enable_cache(false);
 	$feed->init();
@@ -246,7 +246,7 @@ $novedadesConsejeria = obtenerNovedadesConsejeria();
 						</li>
 
 						<!-- CONSEJERIA DE EDUCACION -->
-						<li class="visible-xs"><a href="http://www.juntadeandalucia.es/educacion/portals/web/ced#tabContentNovedades"><i class="fas fa-rss fa-rotate-270 fa-fw fa-lg"></i> Consejería de Desarrollo Educativo y Formación Profesional</a></li>
+						<li class="visible-xs"><a href="https://www.juntadeandalucia.es/educacion/portals/web/ced"><i class="fas fa-rss fa-rotate-270 fa-fw fa-lg"></i> Consejería de Desarrollo Educativo y Formación Profesional</a></li>
 						<li id="bs-tour-consejeria" class="dropdown hidden-xs">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-bs="tooltip" title="Consejería de Desarrollo Educativo y Formación Profesional" data-placement="bottom" data-container="body">
 								<i class="icon-junta fa-fw fa-lg"></i> <b class="caret"></b>
