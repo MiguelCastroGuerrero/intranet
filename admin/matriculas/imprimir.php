@@ -44,7 +44,6 @@ if (substr($curso, 0, 1) == '1') {
 }
 $n_curso = substr($curso, 0, 1);
 $result0 = mysqli_query($db_con, "select distinct id_matriculas from matriculas_temp, matriculas where id=id_matriculas order by curso".$mas.", letra_grupo, apellidos, nombre" );
-//echo "select distinct id_matriculas from matriculas_temp, matriculas where id=id_matriculas order by curso".$mas.", letra_grupo, apellidos, nombre";
 while ($id_ar = mysqli_fetch_array($result0)) {
 $id = $id_ar[0];
 $result = mysqli_query($db_con, "select * from matriculas where id = '$id'");
@@ -67,7 +66,7 @@ if ($row = mysqli_fetch_array ( $result )) {
 	 $telefono1= "Teléfono Casa: ".$row['telefono1'];
 	 $telefono2= "Teléfono Móvil: ".$row['telefono2'];
 	 $telefonos="$telefono1\n   $telefono2";
-	 $idioma = $row['idioma'];
+	 $idioma = $row['idioma2'];
 	 $religion = $row['religion'];
 	 $itinerario = $row['itinerario'];
 	 $optativas4 = $row['optativas4'];

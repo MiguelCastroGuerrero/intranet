@@ -6,8 +6,6 @@
 			$curso_anterior = $n_curso-1;
 
 			$a_bd = substr($config['curso_actual'],0,4)+1;
-
-			//echo "$key --> $val<br>";
 			$tr = explode("-",$key);
 			$id_submit = $tr[1];
 			$col = $tr[0];

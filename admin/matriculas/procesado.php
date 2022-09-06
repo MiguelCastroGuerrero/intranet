@@ -60,7 +60,6 @@
 			}
 			
 			mysqli_query($db_con, "update matriculas set $col = '$val' where id = '$id_submit'");
-			//echo "update matriculas set $col = '$val' where id = '$id_submit'<br>";
 			mysqli_query($db_con, "update matriculas set confirmado = '' where id = '$id_submit'");
 			mysqli_query($db_con, "update matriculas set exencion = '' where id = '$id_submit'");
 			mysqli_query($db_con, "update matriculas set bilinguismo = '' where id = '$id_submit'");

@@ -362,10 +362,13 @@ if ($opt_2h) { $extra.=" and opt_aut2".$opt_2h." = '1'";}
 
 
 if ($optativ2) { $extra.=" and optativa2 = '".$optativ2."'";}
+	
+	
+if ($optativ121) { $extra.=" and optativa121 = '".$optativ121."'";}
+
+	
 if ($itinerari) { $extra.=" and itinerario$n_curso = '$itinerari'";}
 if ($religio) { $extra.=" and religion = '$religio'";}
-if ($idiom1) { $extra.=" and idioma1 = '$idiom1'";}
-if ($idiom2) { $extra.=" and idioma2 = '$idiom2'";}
 if ($letra_grup) { $extra.=" and letra_grupo = '$letra_grup'";}
 if ($_POST['grupo_actua']) {
 
@@ -420,7 +423,7 @@ if (!($orden)) {
 
 	include 'procesado_bach.php';
 
-	$sql = "select id, apellidos, nombre, curso, letra_grupo, colegio, otrocolegio, confirmado, grupo_actual, observaciones, religion, itinerario1, itinerario2, promociona, claveal, ruta_este, ruta_oeste, revisado, optativa1, optativa2, idioma1, idioma2 ";
+	$sql = "select id, apellidos, nombre, curso, letra_grupo, colegio, otrocolegio, confirmado, grupo_actual, observaciones, religion, itinerario1, itinerario2, promociona, claveal, ruta_este, ruta_oeste, revisado, optativa1, optativa2, idioma1, idioma2, optativa151, optativa152, optativa121 ";
 
 	if ($curso=="2BACH"){
 		for ($i=1;$i<10;$i++)
@@ -432,7 +435,7 @@ if (!($orden)) {
 		}
 	}
 	$sql.=", repite, foto, enfermedad, bilinguismo, divorcio, analgesicos, parcial from matriculas_bach where ". $extra ." order by ". $orden ." curso,  grupo_actual, apellidos, nombre ";
-	// echo $sql;
+	 //echo $sql;
 	$cons = mysqli_query($db_con, $sql);
 
 	$n_cons = mysqli_num_rows($cons);
@@ -463,10 +466,6 @@ if (!($orden)) {
 		echo '<th>Centro</th>';
 		echo '<th>Rel.</th>';
 		echo '<th>Transporte</th>';
-		echo '<th>Idiom1</th>';
-		if ($curso=="1BACH") {
-		echo '<th>Idiom2</th>';
-		}				
 		echo '<th>Bil.</th>';
 		echo '<th>Mod.</th>';
 		if ($n_curso>1) {
@@ -477,6 +476,9 @@ if (!($orden)) {
 		}
 		else{
 		echo "<th>Opt1B</th>";	
+		echo "<th>Opt1B51</th>";
+		echo "<th>Opt1B52</th>";
+		echo "<th>Opt1B21</th>";
 		}
 		?>
 		<?php
@@ -496,13 +498,13 @@ if (!($orden)) {
 		$respaldo='1';
 		$naci = explode("-",$datos_ya->nacimiento);
 		$nacimiento = "$naci[2]-$naci[1]-$naci[0]";
-		$apellidos = $datos_ya->apellidos; $id = $datos_ya->id; $nombre = $datos_ya->nombre; $nacido = $datos_ya->nacimiento; $provincia = $datos_ya->provincia; $domicilio = $datos_ya->domicilio; $localidad = $datos_ya->localidad; $dni = $datos_ya->dni; $padre = $datos_ya->padre; $dnitutor = $datos_ya->dnitutor; $madre = $datos_ya->madre; $dnitutor2 = $datos_ya->dnitutor2; $telefono1 = $datos_ya->telefono1; $telefono2 = $datos_ya->telefono2; $colegio = $datos_ya->colegio; $correo = $datos_ya->correo; $otrocolegio = $datos_ya->otrocolegio; $letra_grupo = $datos_ya->letra_grupo; $religion = $datos_ya->religion; $observaciones = $datos_ya->observaciones; $promociona = $datos_ya->promociona; $transporte = $datos_ya->transporte; $ruta_este = $datos_ya->ruta_este; $ruta_oeste = $datos_ya->ruta_oeste; $sexo = $datos_ya->sexo; $hermanos = $datos_ya->hermanos; $nacionalidad = $datos_ya->nacionalidad; $claveal = $datos_ya->claveal; $curso = $datos_ya->curso;  $itinerario1 = $datos_ya->itinerario1; $itinerario2 = $datos_ya->itinerario2; $optativa1 = $datos_ya->optativa1; $optativa2 = $datos_ya->optativa2; $optativa2b1 = $datos_ya->optativa2b1; $optativa2b2 = $datos_ya->optativa2b2; $optativa2b3 = $datos_ya->optativa2b3; $optativa2b4 = $datos_ya->optativa2b4; $optativa2b5 = $datos_ya->optativa2b5; $optativa2b6 = $datos_ya->optativa2b6; $optativa2b7 = $datos_ya->optativa2b7; $optativa2b8 = $datos_ya->optativa2b8; $optativa2b9 = $datos_ya->optativa2b9; $opt_aut21 = $datos_ya->opt_aut21; $opt_aut22 = $datos_ya->opt_aut22; $opt_aut23 = $datos_ya->opt_aut23; $opt_aut24 = $datos_ya->opt_aut24; $opt_aut25 = $datos_ya->opt_aut25; $opt_aut26 = $datos_ya->opt_aut26; $opt_aut27 = $datos_ya->opt_aut27; $repetidor = $datos_ya->repite;$revisado = $datos_ya->revisado; $confirmado = $datos_ya->confirmado; $grupo_actual = $datos_ya->grupo_actual; $idioma1 = $datos_ya->idioma1; $idioma2 = $datos_ya->idioma2; $foto = $datos_ya->foto; $enf = $datos_ya->enfermedad;  $bilinguismo = $datos_ya->bilinguismo;  $divorcio = $datos_ya->divorcio; $analgesicos = $datos_ya->analgesicos; $parcial = $datos_ya->parcial;
+		$apellidos = $datos_ya->apellidos; $id = $datos_ya->id; $nombre = $datos_ya->nombre; $nacido = $datos_ya->nacimiento; $provincia = $datos_ya->provincia; $domicilio = $datos_ya->domicilio; $localidad = $datos_ya->localidad; $dni = $datos_ya->dni; $padre = $datos_ya->padre; $dnitutor = $datos_ya->dnitutor; $madre = $datos_ya->madre; $dnitutor2 = $datos_ya->dnitutor2; $telefono1 = $datos_ya->telefono1; $telefono2 = $datos_ya->telefono2; $colegio = $datos_ya->colegio; $correo = $datos_ya->correo; $otrocolegio = $datos_ya->otrocolegio; $letra_grupo = $datos_ya->letra_grupo; $religion = $datos_ya->religion; $observaciones = $datos_ya->observaciones; $promociona = $datos_ya->promociona; $transporte = $datos_ya->transporte; $ruta_este = $datos_ya->ruta_este; $ruta_oeste = $datos_ya->ruta_oeste; $sexo = $datos_ya->sexo; $hermanos = $datos_ya->hermanos; $nacionalidad = $datos_ya->nacionalidad; $claveal = $datos_ya->claveal; $curso = $datos_ya->curso;  $itinerario1 = $datos_ya->itinerario1; $itinerario2 = $datos_ya->itinerario2; $optativa1 = $datos_ya->optativa1; $optativa2 = $datos_ya->optativa2; $optativa2b1 = $datos_ya->optativa2b1; $optativa2b2 = $datos_ya->optativa2b2; $optativa2b3 = $datos_ya->optativa2b3; $optativa2b4 = $datos_ya->optativa2b4; $optativa2b5 = $datos_ya->optativa2b5; $optativa2b6 = $datos_ya->optativa2b6; $optativa2b7 = $datos_ya->optativa2b7; $optativa2b8 = $datos_ya->optativa2b8; $optativa2b9 = $datos_ya->optativa2b9; $opt_aut21 = $datos_ya->opt_aut21; $opt_aut22 = $datos_ya->opt_aut22; $opt_aut23 = $datos_ya->opt_aut23; $opt_aut24 = $datos_ya->opt_aut24; $opt_aut25 = $datos_ya->opt_aut25; $opt_aut26 = $datos_ya->opt_aut26; $opt_aut27 = $datos_ya->opt_aut27; $repetidor = $datos_ya->repite;$revisado = $datos_ya->revisado; $confirmado = $datos_ya->confirmado; $grupo_actual = $datos_ya->grupo_actual; $idioma1 = $datos_ya->idioma1; $idioma2 = $datos_ya->idioma2; $foto = $datos_ya->foto; $enf = $datos_ya->enfermedad;  $bilinguismo = $datos_ya->bilinguismo;  $divorcio = $datos_ya->divorcio; $analgesicos = $datos_ya->analgesicos; $parcial = $datos_ya->parcial; $optativa151 = $datos_ya->optativa151; $optativa152 = $datos_ya->optativa152; $optativa121 = $datos_ya->optativa121;
 		$back = mysqli_query($db_con, "select id from matriculas_bach_backup where id = '$id'");
 
-		if (mysqli_num_rows($back)>0) {
-			$respaldo = '1';
-			$backup="<a href='consultas_bach.php?copia=1&id=$id&curso=$curso&consulta=1'><i class='fa fa-sync-alt' data-bs='tooltip' title='Restaurar datos originales de la matrícula del alumno '> </i></a>";
-		}
+if (mysqli_num_rows($back)>0) {
+	$respaldo = '1';
+	$backup="<a href='consultas_bach.php?copia=1&id=$id&curso=$curso&consulta=1'><i class='fa fa-sync-alt' data-bs='tooltip' title='Restaurar datos originales de la matrícula del alumno '> </i></a>";
+}
 // Problemas de Convivencia
 $n_fechorias="";
 $fechorias = mysqli_query($db_con, "select * from Fechoria where claveal='".$claveal."'");
@@ -549,11 +551,6 @@ if ($n_fechorias >= $fechori1 and $n_fechorias < $fechori2) {
 		if($ruta_este){$trans = substr($ruta_este, 0, 10).".";}
 		if($ruta_oeste){$trans = substr($ruta_oeste, 0, 10).".";}
 		echo '<td> '.$trans.'</td>';
-		echo '<td> '.$idioma1.'</td>';
-		if ($curso=="1BACH") {
-		echo '<td> '.$idioma2.'</td>';
-		}
-
 		$an_bd = substr($config['curso_inicio'],0,4);
 		$bl="";
 		$extra_bil="";
@@ -594,6 +591,9 @@ if ($n_fechorias >= $fechori1 and $n_fechorias < $fechori2) {
 		}
 		else{
 			echo '<td>'.$optativa1.'</td>';
+			echo '<td>'.substr($optativa151,0,3).'</td>';
+			echo '<td>'.substr($optativa152,0,3).'</td>';
+			echo '<td>'.substr($optativa121,0,3).'</td>';
 		}
 
 		// Curso actual
@@ -807,6 +807,8 @@ echo "<br>
 		$num_it13 = mysqli_num_rows($it_13);
 		$it_14 = mysqli_query($db_con, "select itinerario1 from matriculas_bach where $extra and itinerario1 = '4'");
 		$num_it14 = mysqli_num_rows($it_14);
+		$it_15 = mysqli_query($db_con, "select itinerario1 from matriculas_bach where $extra and itinerario1 = '5'");
+		$num_it15 = mysqli_num_rows($it_15);
 
 		$it_21 = mysqli_query($db_con, "select itinerario2 from matriculas_bach where $extra and itinerario1 = '1'");
 		$num_it21 = mysqli_num_rows($it_21);
@@ -836,6 +838,7 @@ echo "<br>
 		echo "<th>Itinerario2</th>";
 		echo "<th>Itinerario3</th>";
 		echo "<th>Itinerario4</th>";
+		echo "<th>Itinerario5</th>";
 
 		if ($curso=="2BACH"){
 		for ($i=1;$i<10;$i++){
@@ -855,6 +858,7 @@ echo "<br>
 		echo "<td>$num_it12</td>";
 		echo "<td>$num_it13</td>";
 		echo "<td>$num_it14</td>";
+		echo "<td>$num_it15</td>";
 		}
 		else{
 		echo "<td>$num_it21</td>";
@@ -885,7 +889,7 @@ echo "<br>
 			<?php
 			for ($i=1; $i < 3; $i++) { 
 				if ($curso==$i."BACH"){
-					for ($z=1; $z < 5; $z++) { 
+					for ($z=1; $z < 6; $z++) { 
 						$num="";
 						echo "<td><h4 class='text-info'>Itinerario $z:<br>";
 						echo "<small>".${it.$i}[$z]."</small></h5>";
@@ -964,6 +968,14 @@ return false;
   	  }
   
   ?>
- 
+ <script language="javascript">
+		 if (document.form2.curso.value=="1BACH"){ 
+			 document.form2.idiom1.disabled = true;
+			 document.form2.idiom2.disabled = true; 
+			}
+		 if (document.form2.curso.value=="2BACH"){ 
+
+			}
+  </script>
 </body>
 </html>

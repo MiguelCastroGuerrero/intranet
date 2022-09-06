@@ -332,7 +332,7 @@ if ($matematica3 and $n_curso=='3') { $extra.=" and matematicas3 = '$matematica3
 if ($ciencia4 and $n_curso=='4') { $extra.=" and ciencias4 = '$ciencias4'";}
 if ($transport == "ruta_este") { $extra.=" and ruta_este != ''";}
 if ($transport == "ruta_oeste") { $extra.=" and ruta_oeste != ''";}
-if ($bilinguism == "Si") { $extra.=" and bilinguismo = 'Si'";}
+if ($idioma2) { $extra.=" and idioma2 = '$idioma2'";}
 if ($bilinguism == "No") { $extra.=" and bilinguismo = ''";}
 if ($itinerario == "0") { $itinerario = "";	}
 if (strlen($dn)>5) {$extra.=" and dni = '$dn'";}
@@ -365,7 +365,7 @@ if (!($orden)) {
 
 	include 'procesado.php';
 	
-	$sql = "select matriculas.id, matriculas.apellidos, matriculas.nombre, matriculas.curso, letra_grupo, colegio, bilinguismo, diversificacion, act1, confirmado, grupo_actual, observaciones, exencion, religion, itinerario, optativas4, promociona, claveal, ruta_este, ruta_oeste, revisado, foto, enfermedad, divorcio, matematicas3, ciencias4, analgesicos ";
+	$sql = "select matriculas.id, matriculas.apellidos, matriculas.nombre, matriculas.curso, letra_grupo, colegio, bilinguismo, diversificacion, act1, confirmado, grupo_actual, observaciones, exencion, religion, itinerario, optativas4, promociona, claveal, ruta_este, ruta_oeste, revisado, foto, enfermedad, divorcio, matematicas3, ciencias4, analgesicos, idioma2 ";
 	
 	if ($curso=="1ESO"){$num_opt = $count_1;}elseif ($curso=="2ESO"){$num_opt = $count_2;}elseif ($curso=="3ESO"){$num_opt = $count_3;}else{$num_opt = $count_4;}
 
@@ -409,9 +409,6 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 		}
 		echo '<th>Rel.</th>';
 		echo '<th>Transprt</th>';
-		if ($n_curso>2) {
-			echo '<th>Bil.</th>';		
-		}
 		if ($n_curso==1 or $n_curso==4) {
 			echo '<th>Ex.</th>';
 		}
@@ -422,15 +419,12 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 			echo '<th>Itin.</th>';
 			echo '<th>Opt. Mod.</th>';
 		}
-		if ($n_curso=="3") {
-			echo '<th>Mat.</th>';
+
+		if ($n_curso==1) {
+			echo '<th>2º Id.</th>';
 		}
-		
 		echo "<th>Opt1</th><th>Opt2</th>";
-		
-		if ($n_curso<4) {
-			echo '<th>Act.</th>';
-		}
+
 		?>
 
 		<th class="hidden-print">Obs.</th>
@@ -462,9 +456,8 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 		$nombre= $consul['nombre'];
 		$letra_grupo = $consul['letra_grupo'];
 		$colegio=str_ireplace("C.E.I.P.","",$consul['colegio']);
-		$bilinguismo = $consul['bilinguismo'];
 		$diversificacion = $consul['diversificacion'];
-		$act1 = $consul['act1'];
+		$idioma2 = $consul['idioma2'];
 		$confirmado = $consul['confirmado'];
 		$grupo_actual = $consul['grupo_actual'];
 		$observaciones = $consul['observaciones'];
@@ -563,9 +556,6 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 				if (mysqli_num_rows($bl0)>0 and $n_curso>2) { 
 					$bl = '1'; 
 				}
-				echo '<td><input name="bilinguismo-'. $id .'" type="checkbox" value="Si"';
-				if($bilinguismo=="Si"){ echo " checked";} elseif ($bl == '1') { echo " checked";}
-				echo ' /></td>';
 			}
 
 			if ($n_curso=="1" or $n_curso=="4") {
@@ -573,6 +563,10 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 			 	echo '<td><input name="exencion-'. $id .'" type="checkbox" value="1"';
 			 	if($exencion=="1"){echo " checked";}
 			 	echo ' /></td>';
+			}
+			
+			if ($n_curso=="1") {
+			 	echo '<td>'.$idioma2.'</td>';
 			}
 
 			if ($n_curso=="2" or $n_curso=="3") {
@@ -599,12 +593,6 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 						}
 
 				echo '<td>'.$opt44.'</td>';
-			}
-
-
-
-			if ($n_curso=="3") {
-				echo '<td>'.$matematicas3.'</td>';
 			}
 
 			echo "<td align='center' style='background-color:#efdefd;'>";
@@ -635,13 +623,6 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 			
 			echo $a_opt2."</td>";
 
-
-			if ($n_curso<4) {
-				if ($act1==0) {
-					$act1="";
-				}
-				echo '<td><input name="act1-'. $id .'" type="text" class="form-control input-sm" style="width:35px" value="'. $act1 .'" /></td>';
-			}
 			echo '<td class="hidden-print">';
 			if ($curso == "1ESO") {$alma="alma_primaria";}else{$alma="alma";}
 			$contr = mysqli_query($db_con, "select matriculas.apellidos, $alma.apellidos, matriculas.nombre, $alma.nombre, matriculas.domicilio, $alma.domicilio, matriculas.dni, $alma.dni, matriculas.padre, concat(primerapellidotutor,' ',segundoapellidotutor,', ',nombretutor), matriculas.dnitutor, $alma.dnitutor, matriculas.telefono1, $alma.telefono, matriculas.telefono2, $alma.telefonourgencia from matriculas, $alma where $alma.claveal=matriculas.claveal and id = '$id'");
@@ -674,13 +655,11 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 			$curs_ant = substr($cur_a[0],0,1);
 
 			// Promocionan o no
-			if (date('m')=='09' OR ($curs_ant == '4' and date('m')>6)){
 				$pro_n = mysqli_query($db_con, "select estadomatricula from alma where alma.claveal='".$claveal."'");
 				$pro_nt = mysqli_fetch_array($pro_n);
 				$promo_f = $pro_nt[0];
 				$promociona="";
 				if ($promo_f=="Repite") { $promociona="2"; }elseif($promo_f=="Obtiene Título" or $promo_f=="Promociona"){ $promociona="1"; }else{ $promociona=""; }
-				}
 
 				$rp_cur="";
 				if ($promociona == "1" and $n_curso==$curs_ant) {
@@ -713,35 +692,12 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 						}
 						for ($i=1;$i<3;$i++){
 							echo '<input type="radio" name = "promociona-'. $id .'" value="'.$i.'" ';
-								if($promociona == 1 and $i == 1){
+								if($promociona == $i){
 									echo " checked";
 								}
 							echo " />&nbsp;";
 						}
 						if ($val_notas > 0) {
-								echo "<span class='badge' data-bs='tooltip' title='Materias suspensas'> $val_notas</span>";		
-							}
-					}
-					
-					elseif (date('m')=='09' OR ($curs_ant == '4' and date('m')>6)){
-
-						$tr_not2 = explode(";", $nota[1]);
-						foreach ($tr_not2 as $val_asig) {
-							$tr_notas = explode(":", $val_asig);
-							foreach ($tr_notas as $key_nota=>$val_nota) {
-								if($key_nota == "1" and ($val_nota<'347' and $val_nota !=="339" and $val_nota !=="") or $val_nota == '397' ){
-									$val_notas=$val_notas+1;
-								}
-							}
-						}
-						for ($i=1;$i<3;$i++){
-							echo '<input type="radio" name = "promociona-'. $id .'" value="'.$i.'" ';
-								if($promociona == $i){
-									echo " checked";
-								}
-							echo " />&nbsp;";
-								}
-							if ($val_notas > 0) {
 								echo "<span class='badge' data-bs='tooltip' title='Materias suspensas'> $val_notas</span>";		
 							}
 					}
@@ -1006,29 +962,31 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 			 document.form2.itinerari.disabled = true; 
 			 document.form2.diversificacio.disabled = true;
 			 document.form2.promocion.disabled = true;
-			 document.form2.actividade.disabled = false;
+			 document.form2.actividade.disabled = true;
 			 document.form2.exencio.disabled = false;
 			}
 		 if (document.form2.curso.value=="2ESO"){ 
 			 document.form2.itinerari.disabled = true; 
 			 document.form2.promocion.disabled = false;
 			 document.form2.diversificacio.disabled = false;
-			 document.form2.actividade.disabled = false;
-			 document.form2.exencio.disabled = false;
+			 document.form2.actividade.disabled = true;
+			 document.form2.exencio.disabled = true;
+			 document.form2.idioma2.disabled = true;
 			}
 		 if (document.form2.curso.value=="3ESO"){ 
 			 document.form2.itinerari.disabled = true; 
-			 document.form2.matematica3.disabled = false;
-			 document.form2.actividade.disabled = false;
+			 document.form2.idioma2.disabled = true;
+			 document.form2.matematica3.disabled = true;
+			 document.form2.actividade.disabled = true;
 			 document.form2.exencio.disabled = true;
 			 document.form2.diversificacio.disabled = false;
 			 document.form2.promocion.disabled = false;
 			}
 		 if (document.form2.curso.value=="4ESO"){ 
 			 document.form2.actividade.disabled = true;
-			 document.form2.exencio.disabled = false;
+			 document.form2.idioma2.disabled = true;
+			 document.form2.exencio.disabled = true;
 			 document.form2.itinerari.disabled = false; 
-			 document.form2.matematica4.disabled = false;
 			 document.form2.diversificacio.disabled = false;
 			 document.form2.promocion.disabled = false;  
 			}

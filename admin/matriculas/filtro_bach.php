@@ -144,7 +144,7 @@ if ($_POST['grupo_actua']) {
 			<option>2</option>
 			<option>3</option>
 			<option>4</option>	
-			
+			<option>5</option>		
 		</select>
 		</div>
 </div>
@@ -156,7 +156,7 @@ if ($_POST['grupo_actua']) {
 <div class="form-group"><label>Optativas Modalidad </label><select class="form-control"  name="optativ">
 		<?php
 		if ($optativ) {
-			for ($i = 1; $i < 5; $i++) {
+			for ($i = 1; $i < 6; $i++) {
 			foreach(${opt.$n_curso.$i} as $key=>$val){
 			if ($optativ == $key) {
 				echo "<option value='$optativ'>$val</option>";
@@ -167,10 +167,17 @@ if ($_POST['grupo_actua']) {
 		?>
 			<option></option>
 		<?php
-		for ($i = 1; $i < 5; $i++) {
+		for ($i = 1; $i < 6; $i++) {
 			foreach(${opt.$n_curso.$i} as $key=>$val){
 			echo '<option value="'.$key.'">'.$val.'</option>';
 		}			
+		}
+		if($n_curso=="1"){
+		for ($i = 1; $i < 2; $i++) {
+			foreach(${opt15.$i} as $key=>$val){
+			echo '<option value="'.$key.'">'.$val.'</option>';
+		}
+		}
 		}
 
 			
@@ -199,6 +206,22 @@ if ($_POST['grupo_actua']) {
 else{
 	?>
 	<div class="col-sm-3">
+	<div class="form-group"><label>Optativa 2 (It. 2) </label><select class="form-control"  name="optativ121" >
+			<?php
+			if ($optativa121) {
+				echo "<option>$optativa121</option>";
+			}
+	?>
+			<option></option>
+	<?php
+			foreach($opt121 as $key=>$val){
+				echo '<option value="'.$key.'">'.$val.'</option>';
+			}
+			?>	
+			</select>
+			</div>
+	</div>
+	<div class="col-sm-3">
 	<div class="row">
 	<div class="col-sm-6">
 	<center>
@@ -225,7 +248,6 @@ else{
 			<option></option>
 			<option>Alemán</option>
 			<option>Francés</option>
-			<option>Alemán</option>
 		</select>
 		</div>
 		</div>
@@ -235,20 +257,6 @@ else{
 <?php }
 		?>
 
-		
-<div class="col-sm-3">
-<div class="form-group"><label>Promoción </label><select class="form-control"  name="promocion" >
-		<?php
-		if ($promocion) {
-			echo "<option>$promocion</option>";
-		}
-		?>
-			<option></option>
-			<option>SI</option>
-			<option>NO</option>			
-		</select>
-		</div>
-</div>
 <div class="col-sm-3">
 <div class="form-group"><label>Grupo de Origen </label><select class="form-control"  name="letra_grup">
 		<?php
@@ -395,6 +403,19 @@ else{
 		</select>
 </div>
 </div>
+	<div class="col-sm-4">
+	<div class="form-group"><label>Promoción </label><select class="form-control"  name="promocion" >
+			<?php
+			if ($promocion) {
+				echo "<option>$promocion</option>";
+			}
+			?>
+				<option></option>
+				<option>SI</option>
+				<option>NO</option>			
+			</select>
+			</div>
+	</div>
 
 </div>	
 <div class="row">
