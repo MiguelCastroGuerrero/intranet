@@ -25,7 +25,7 @@ class GranPDF extends PDF_MC_Table {
 		$this->Cell(75);
 		$this->SetFontSpacing(0);
 		$this->SetFont('Noto Sans HK','',10);
-		$this->Cell(80,5,'Consejería de Educación y Deporte',0,1);
+		$this->Cell(80,5,'Consejería de Desarrollo Educativo y Formación Profesional',0,1);
 		$this->Cell(75);
 		$this->SetTextColor(53, 110, 59);
 		$this->SetFont('Noto Sans HK','',7);

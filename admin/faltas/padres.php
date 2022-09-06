@@ -24,7 +24,7 @@ class GranPDF extends FPDF {
 		$this->SetFont('ErasDemiBT','B',10);
 		$this->SetY(15);
 		$this->Cell(90);
-		$this->Cell(80,5,'CONSEJERÍA DE EDUCACIÓN Y DEPORTE',0,1);
+		$this->Cell(80,5,'Consejería de Desarrollo Educativo y Formación Profesional',0,1);
 		$this->SetFont('ErasMDBT','I',10);
 		$this->Cell(90);
 		$this->Cell(80,4,$config['centro_denominacion'],0,1);

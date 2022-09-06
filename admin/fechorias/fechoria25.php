@@ -151,6 +151,19 @@ for ($i=0;$i<$num_a;$i++){
 		$tfno_u = trim ( $rowa [6] );
 		$message = "Su hijo/a ha cometido una falta contra las normas de convivencia del Centro. Hable con su hijo/a y, ante cualquier duda, consulte en http://".$config['dominio'];
 
+		// Comprobamos si se envía notificación para problemas leves
+		if ($grave == "leve") {
+			if (isset($config['convivencia']['notificaciones_padres_leves']) && $config['convivencia']['notificaciones_padres_leves'] == 1) {
+				$enviar_notificacion = 1;
+			}
+			else {
+				$enviar_notificacion = 0;
+			}
+		}
+		else { // Si el problema es grave o muy grave, envía SMS o email
+			$enviar_notificacion = 1;
+		}
+
 		// SMS
 
 		$ya_sms = mysqli_query($db_con, "select * from sms where profesor = '".$_SESSION['profi']."' and date(fecha)='$fecha3' and mensaje like '%falta contra las normas%' and (telefono = '$tfno' or telefono = '$tfno_u')");
@@ -164,7 +177,8 @@ for ($i=0;$i<$num_a;$i++){
 		if ($config['mod_sms'] && $sms_ya == 0 && (! isset($config['convivencia']['notificaciones_padres']) || (isset($config['convivencia']['notificaciones_padres']) && $config['convivencia']['notificaciones_padres']))) {
 
 			$hora_f = date ( "G" );
-			if (($grave == "grave" or $grave == "muy grave") and (substr ( $tfno, 0, 1 ) == "6" or substr ( $tfno, 0, 1 ) == "7" or substr ( $tfno_u, 0, 1 ) == "6" or substr ( $tfno_u, 0, 1 ) == "7") and $hora_f > '8' and $hora_f < '17') {
+
+			if (($enviar_notificacion == 1) and (substr ( $tfno, 0, 1 ) == "6" or substr ( $tfno, 0, 1 ) == "7" or substr ( $tfno_u, 0, 1 ) == "6" or substr ( $tfno_u, 0, 1 ) == "7") and $hora_f > '8' and $hora_f < '17') {
 				$sms_n = mysqli_query($db_con, "select max(id) from sms" );
 				$n_sms = mysqli_fetch_array ( $sms_n );
 				$extid = $n_sms [0] + 1;
@@ -219,7 +233,7 @@ for ($i=0;$i<$num_a;$i++){
 		// FIN SMS
 
 		// Envío de Email
-		if (($grave == "grave" || $grave == "muy grave") && (! isset($config['convivencia']['notificaciones_padres']) || (isset($config['convivencia']['notificaciones_padres']) && $config['convivencia']['notificaciones_padres']))) {
+		if (($enviar_notificacion == 1) && (! isset($config['convivencia']['notificaciones_padres']) || (isset($config['convivencia']['notificaciones_padres']) && $config['convivencia']['notificaciones_padres']))) {
 		 $cor_control = mysqli_query($db_con,"select correo from control where claveal='$claveal'");
 		 $cor_alma = mysqli_query($db_con,"select correo from alma where claveal='$claveal'");
 		 if(mysqli_num_rows($cor_alma)>0){

@@ -49,8 +49,8 @@ var tour = new Tour({
   },
   {
     element: "#bs-tour-consejeria",
-    title: "Consejería de Educación y Deporte",
-    content: "Consulta las últimas novedades de la Consejería de Educación y Deporte de la Junta de Andalucía o accede al portal Séneca.",
+    title: "Consejería de Desarrollo Educativo y Formación Profesional",
+    content: "Consulta las últimas novedades de la Consejería de Desarrollo Educativo y Formación Profesional de la Junta de Andalucía o accede al portal Séneca.",
     container: "body",
     placement: "bottom",
     template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Anterior</button>&nbsp;<button class='btn btn-default' data-role='next'>Siguiente »</button></div></div>",

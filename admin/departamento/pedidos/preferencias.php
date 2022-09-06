@@ -105,7 +105,7 @@ include("menu.php");
 									<li>Se solicitará en el momento de la compra una factura con todos los requisitos legales oportunos:
 										<ul>
 											<li>Factura a nombre del '.$config['centro_denominacion'].'</li>
-											<li>NIF de la Consejería de Educación y Deporte de la Junta de Andalucía: S4111001F</li>
+											<li>NIF de la Consejería de Desarrollo Educativo y Formación Profesional de la Junta de Andalucía: S4111001F</li>
 											<li>CIF o NIF del proveedor</li>
 											<li>Nombre del proveedor</li>
 											<li>Fecha y número de la factura</li>

@@ -608,7 +608,7 @@ if ($dni or $claveal or $id) {
 				class="img-responsive" src="../../img/encabezado.jpg" alt=""
 				width="350"></td>
 			<td colspan="3">
-			<h4 class="text-uppercase"><strong>Consejería de Educación y Deporte</strong></h4>
+			<h4 class="text-uppercase"><strong>Consejería de Desarrollo Educativo y Formación Profesional</strong></h4>
 			<h5 class="text-uppercase"><strong><?php echo $config['centro_denominacion']; ?></strong></h5>
 			</td>
 		</tr>
@@ -1023,13 +1023,11 @@ if ($dni or $claveal or $id) {
 			<div class="form-group">
 				<select class="form-control" name="optativa121"  <?php if(stristr($vacios,"optativas del Bachillerato general 1")==TRUE and $mod1 == "2"){echo 'style="background-color:#FFFF66;"';}?> id="optat121" >
 					<option><?php echo $optativa121; ?></option>
-					<?php
-						if($n_curso=="1"){
-								foreach($opt121 as $key=>$val){
-								echo '<option value="'.$key.'">'.$val.'</option>';
-							}
-						}	  
-					?>			
+					<option value='Al'>Alemán</option>
+					<option value='Fr'>Francés</option>
+					<option value='TIC'>TIC</option>
+					<option value='CDPC'>Creación Digital y Pensamiento Computacional</option>
+					<option value='EyP'>Estadística y Probabilidad</option>				
 				</select>					
 			</div>	
 			

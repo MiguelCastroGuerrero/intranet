@@ -962,14 +962,14 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 			 document.form2.itinerari.disabled = true; 
 			 document.form2.diversificacio.disabled = true;
 			 document.form2.promocion.disabled = true;
-			 document.form2.actividade.disabled = true;
-			 document.form2.exencio.disabled = false;
+			 document.form2.actividade.disabled = false;
+			 document.form2.exencio.disabled = true;
 			}
 		 if (document.form2.curso.value=="2ESO"){ 
 			 document.form2.itinerari.disabled = true; 
 			 document.form2.promocion.disabled = false;
 			 document.form2.diversificacio.disabled = false;
-			 document.form2.actividade.disabled = true;
+			 document.form2.actividade.disabled = false;
 			 document.form2.exencio.disabled = true;
 			 document.form2.idioma2.disabled = true;
 			}
@@ -981,6 +981,7 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 			 document.form2.exencio.disabled = true;
 			 document.form2.diversificacio.disabled = false;
 			 document.form2.promocion.disabled = false;
+			 document.form2.idioma2.disabled = true;
 			}
 		 if (document.form2.curso.value=="4ESO"){ 
 			 document.form2.actividade.disabled = true;
@@ -989,6 +990,7 @@ No hay alumnos que se ajusten a ese criterio. Prueba de nuevo.
 			 document.form2.itinerari.disabled = false; 
 			 document.form2.diversificacio.disabled = false;
 			 document.form2.promocion.disabled = false;  
+			 document.form2.idioma2.disabled = true;
 			}
   </script>
   <?php

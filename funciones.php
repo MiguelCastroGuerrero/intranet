@@ -6,7 +6,7 @@ function add_security_header() {
     header("X-Content-Type-Options: nosniff");
     header("X-Frame-Options: SAMEORIGIN");
     header("Referrer-Policy: strict-origin-when-cross-origin");
-    header("Permissions-Policy: accelerometer 'none'; camera 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; payment 'none'; usb 'none'");
+    header("Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()");
     header("X-XSS-Protection: 1;mode=block");
     header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' stackpath.bootstrapcdn.com code.jquery.com cdnjs.cloudflare.com cdn.jsdelivr.net cdn.tiny.cloud www.google.com maps.googleapis.com www.googletagmanager.com www.google-analytics.com www.gstatic.com platform.twitter.com syndication.twitter.com cdn.syndication.twimg.com app.bookitit.com connect.facebook.net; style-src 'self' 'unsafe-inline' stackpath.bootstrapcdn.com cdnjs.cloudflare.com cdn.tiny.cloud fonts.googleapis.com fonts.gstatic.com platform.twitter.com syndication.twitter.com cdn.syndication.twimg.com ton.twimg.com app.bookitit.com; img-src 'self' sp.tinymce.com www.google-analytics.com maps.gstatic.com maps.googleapis.com stats.g.doubleclick.net *.googleusercontent.com ton.twimg.com pbs.twimg.com platform.twitter.com syndication.twitter.com app.bookitit.com www.juntadeandalucia.es data: blob:; font-src 'self' fonts.googleapis.com fonts.gstatic.com; frame-src view.genial.ly www.youtube.com *.google.com maps.gstatic.com maps.googleapis.com platform.twitter.com syndication.twitter.com www.facebook.com drive.google.com");
 }

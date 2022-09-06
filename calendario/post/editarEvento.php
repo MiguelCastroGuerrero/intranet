@@ -120,6 +120,21 @@ $string_asignatura = "";
 
 // Es una actividad extraescolar
 if ($calendario_evento == 2) {
+
+	// Sólo se registran actividades con un minimo de 7 días de antelación.
+	$_fecha_hoy = date('Y-m-d');
+	$_fecha_actividad = $fechaini_evento_sql;
+	$_date_fecha_hoy = date_create($_fecha_actividad);
+	$_date_fecha_actividad = date_create($_fecha_hoy);
+	$_diff = date_diff($_date_fecha_hoy, $_date_fecha_actividad);
+	$dias_diferencia = $_diff->format("%a");
+
+	if (! isset($config['calendario']['limiteDiasEvento']) || (isset($config['calendario']['limiteDiasEvento']) && $config['calendario']['limiteDiasEvento'] == 0)) {
+		if ($dias_diferencia < 7 && ! acl_permiso($_SESSION['cargo'], array('1','5'))) {
+			header('Location:'.'http://'.$config['dominio'].'/intranet/calendario/index.php?mes='.$_GET['mes'].'&anio='.$_GET['anio'].'&msg_cal=13');
+			exit();
+		}
+	}
 	
 	$string_departamento = $departamento_evento;
 	
