@@ -113,8 +113,8 @@ header('HTTP/1.1 503 Service Temporarily Unavailable', true, 404);
 
 				<br>
 
-				<h2>Página en mantenimiento</h2>
-        <p>Esta página se encuentra cerrada temporalmente para llevar a cabo tareas de mantenimiento. Intente de nuevo más tarde.</p>
+				<h2>Página no disponible temporalmente</h2>
+        <p>Esta página no está disponible temporalmente. Intente de nuevo más tarde.</p>
 
 				<br>
 				<br>

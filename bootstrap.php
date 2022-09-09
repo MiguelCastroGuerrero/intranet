@@ -68,7 +68,13 @@ else {
 unset($server_name);
 
 // CONEXIÓN A LA BASE DE DATOS
-$db_con = mysqli_connect($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name']) or die("<h1>Error " . mysqli_connect_error() . "</h1>");
+$db_con = mysqli_connect($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name']);
+
+if (! $db_con) {
+	include('error503.php');
+	exit();
+}
+
 mysqli_query($db_con,"SET NAMES 'utf8'");
 
 if ($_SERVER['SCRIPT_NAME'] == '/intranet/validarCorreo.php' ) {
