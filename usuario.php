@@ -6,27 +6,20 @@ $result_profesor = mysqli_query($db_con, "SELECT `idprofesor` FROM `profesores_s
 $esProfesor = (mysqli_num_rows($result_profesor)) ? 1 : 0;
 
 // Comprobamos los dominios permitidos para registrar el correo electrónico
+$listaDominiosPermitidosCorreos = '';
+
 if (isset($config['mod_notificaciones_dominios']) && ! empty($config['mod_notificaciones_dominios'])) {
-	$listaDominiosPermitidosCorreos = '';
-
 	$correos_dominios_permitidos = explode(',', $config['mod_notificaciones_dominios']);
-	array_push($correos_dominios_permitidos, "g.educaand.es", "m.educaand.es");
-	foreach ($correos_dominios_permitidos as $correo_dominio_permitido) {
-		$listaDominiosPermitidosCorreos .= '@'.trim($correo_dominio_permitido).', ';
-	}
-	$listaDominiosPermitidosCorreos = rtrim($listaDominiosPermitidosCorreos, ', ');
 }
-else {
-	$listaDominiosPermitidosCorreos = '';
-
+else {	
 	$correos_dominios_permitidos = array();
-	array_push($correos_dominios_permitidos, "g.educaand.es", "m.educaand.es");
-	foreach ($correos_dominios_permitidos as $correo_dominio_permitido) {
-		$listaDominiosPermitidosCorreos .= '@'.trim($correo_dominio_permitido).', ';
-	}
-	$listaDominiosPermitidosCorreos = rtrim($listaDominiosPermitidosCorreos, ', ');
 }
-
+	
+array_push($correos_dominios_permitidos, "g.educaand.es", "m.educaand.es");
+foreach ($correos_dominios_permitidos as $correo_dominio_permitido) {
+	$listaDominiosPermitidosCorreos .= '@'.trim($correo_dominio_permitido).', ';
+}
+$listaDominiosPermitidosCorreos = rtrim($listaDominiosPermitidosCorreos, ', ');
 
 // Envío de formularios
 if (isset($_POST['registrarCorreo'])) {

@@ -79,55 +79,55 @@ if (isset($_POST['instalar']))
 {
 
 	// LIMPIAMOS CARACTERES
-	$intranet_secret	= generateRandomPassword(25);
-	$dominio_centro		= limpiar_string($_POST['dominio_centro']);
-	(isset($_POST['forzar_ssl'])) ? $forzar_ssl = 1 : $forzar_ssl = 0;
+	$intranet_secret = generateRandomPassword(25);
+	$dominio_centro = (isset($_POST['dominio_centro'])) ? limpiar_string($_POST['dominio_centro']) : limpiar_string($_SERVER['SERVER_NAME']);
+	$forzar_ssl = (isset($_POST['forzar_ssl'])) ? 1 : 0;
 
-	$nombre_centro		= limpiar_string($_POST['nombre_centro']);
-	$codigo_centro		= limpiar_string($_POST['codigo_centro']);
-	$email_centro		= limpiar_string($_POST['email_centro']);
-	$direccion_centro	= limpiar_string($_POST['direccion_centro']);
-	$codpostal_centro	= limpiar_string($_POST['codpostal_centro']);
-	$localidad_centro	= limpiar_string($_POST['localidad_centro']);
-	$provincia_centro	= limpiar_string($_POST['provincia_centro']);
-	$telefono_centro	= limpiar_string($_POST['telefono_centro']);
-	$fax_centro			= limpiar_string($_POST['fax_centro']);
+	$nombre_centro = (isset($_POST['nombre_centro'])) ? limpiar_string($_POST['nombre_centro']) : '';
+	$codigo_centro = (isset($_POST['codigo_centro'])) ? limpiar_string($_POST['codigo_centro']) : '';
+	$email_centro = (isset($_POST['email_centro'])) ? limpiar_string($_POST['email_centro']) : '';
+	$direccion_centro = (isset($_POST['direccion_centro'])) ? limpiar_string($_POST['direccion_centro']) : '';
+	$codpostal_centro = (isset($_POST['codpostal_centro'])) ? limpiar_string($_POST['codpostal_centro']) : '';
+	$localidad_centro = (isset($_POST['localidad_centro'])) ? limpiar_string($_POST['localidad_centro']) : '';
+	$provincia_centro = (isset($_POST['provincia_centro'])) ? limpiar_string($_POST['provincia_centro']) : '';
+	$telefono_centro = (isset($_POST['telefono_centro'])) ? limpiar_string($_POST['telefono_centro']) : '';
+	$fax_centro = (isset($_POST['fax_centro'])) ? limpiar_string($_POST['fax_centro']) : '';
 
-	$direccion_director			= limpiar_string($_POST['direccion_director']);
-	$direccion_jefe_estudios	= limpiar_string($_POST['direccion_jefe_estudios']);
-	$direccion_secretaria		= limpiar_string($_POST['direccion_secretaria']);
+	$direccion_director = (isset($_POST['direccion_director'])) ? limpiar_string($_POST['direccion_director']) : '';
+	$direccion_jefe_estudios = (isset($_POST['direccion_jefe_estudios'])) ? limpiar_string($_POST['direccion_jefe_estudios']) : '';
+	$direccion_secretaria = (isset($_POST['direccion_secretaria'])) ? limpiar_string($_POST['direccion_secretaria']) : '';
 
-	$db_host	= limpiar_string($_POST['db_host']);
-	$db_name	= limpiar_string($_POST['db_name']);
-	$db_user	= limpiar_string($_POST['db_user']);
-	$db_pass	= limpiar_string($_POST['db_pass']);
+	$db_host = (isset($_POST['db_host'])) ? limpiar_string($_POST['db_host']) : '';
+	$db_name = (isset($_POST['db_name'])) ? limpiar_string($_POST['db_name']) : '';
+	$db_user = (isset($_POST['db_user'])) ? limpiar_string($_POST['db_user']) : '';
+	$db_pass = (isset($_POST['db_pass'])) ? limpiar_string($_POST['db_pass']) : '';
 
-	$curso_escolar	= limpiar_string($_POST['curso_escolar']);
-	$fecha_inicio	= limpiar_string($_POST['fecha_inicio']);
-	$fecha_final	= limpiar_string($_POST['fecha_final']);
+	$curso_escolar = (isset($_POST['curso_escolar'])) ? limpiar_string($_POST['curso_escolar']) : '';
+	$fecha_inicio = (isset($_POST['fecha_inicio'])) ? limpiar_string($_POST['fecha_inicio']) : '';
+	$fecha_final = (isset($_POST['fecha_final'])) ? limpiar_string($_POST['fecha_final']) : '';
 
-	(isset($_POST['mod_biblioteca'])) ? $modulo_biblioteca = 1 : $modulo_biblioteca = 0;
-	$modulo_biblioteca_web	= limpiar_string($_POST['mod_biblioteca_web']);
+	$modulo_biblioteca = (isset($_POST['mod_biblioteca'])) ? 1 : 0;
+	$modulo_biblioteca_web = (isset($_POST['mod_biblioteca_web'])) ? limpiar_string($_POST['mod_biblioteca_web']) : '';
 
-	(isset($_POST['mod_bilingue'])) ? $modulo_bilingue = 1 : $modulo_bilingue = 0;
+	$modulo_bilingue = (isset($_POST['mod_bilingue'])) ? 1 : 0;
 
-	(isset($_POST['mod_centrotic'])) ? $modulo_centrotic = 1 : $modulo_centrotic = 0;
-	(isset($_POST['mod_centrotic_office365'])) ? $modulo_centrotic_office365 = 1 : $modulo_centrotic_office365 = 0;
-	(isset($_POST['mod_centrotic_gsuite'])) ? $modulo_centrotic_gsuite = 1 : $modulo_centrotic_gsuite = 0;
-	(isset($_POST['mod_centrotic_moodle'])) ? $modulo_centrotic_moodle = 1 : $modulo_centrotic_moodle = 0;
+	$modulo_centrotic = (isset($_POST['mod_centrotic'])) ? 1 : 0;
+	$modulo_centrotic_office365 = (isset($_POST['mod_centrotic_office365'])) ? 1 : 0;
+	$modulo_centrotic_gsuite = (isset($_POST['mod_centrotic_gsuite'])) ? 1 : 0;
+	$modulo_centrotic_moodle = (isset($_POST['mod_centrotic_moodle'])) ? 1 : 0;
 
-	(isset($_POST['mod_documentos'])) ? $modulo_documentos = 1 : $modulo_documentos = 0;
-	$modulo_documentos_dir	= limpiar_string($_POST['mod_documentos_dir']);
-	(isset($_POST['mod_documentos_biblioteca'])) ? $mod_documentos_biblioteca = 1 : $mod_documentos_biblioteca = 0;
-	(isset($_POST['mod_documentos_recursos'])) ? $mod_documentos_recursos = 1 : $mod_documentos_recursos = 0;
-	(isset($_POST['mod_documentos_departamentos'])) ? $mod_documentos_departamentos = 1 : $mod_documentos_departamentos = 0;
+	$modulo_documentos = (isset($_POST['mod_documentos'])) ? 1 : 0;
+	$modulo_documentos_dir = limpiar_string($_POST['mod_documentos_dir']);
+	$mod_documentos_biblioteca = (isset($_POST['mod_documentos_biblioteca'])) ? 1 : 0;
+	$mod_documentos_recursos = (isset($_POST['mod_documentos_recursos'])) ? 1 : 0;
+	$mod_documentos_departamentos = (isset($_POST['mod_documentos_departamentos'])) ? 1 : 0;
 
-	(isset($_POST['mod_sms'])) ? $modulo_sms = 1 : $modulo_sms = 0;
-	$modulo_sms_id		= limpiar_string($_POST['mod_sms_id']);
-	$modulo_sms_user	= limpiar_string($_POST['mod_sms_user']);
-	$modulo_sms_pass	= limpiar_string($_POST['mod_sms_pass']);
+	$modulo_sms = (isset($_POST['mod_sms'])) ? 1 : 0;
+	$modulo_sms_id = (isset($_POST['mod_sms_id'])) ? limpiar_string($_POST['mod_sms_id']) : '';
+	$modulo_sms_user = (isset($_POST['mod_sms_user'])) ? limpiar_string($_POST['mod_sms_user']) : '';
+	$modulo_sms_pass = (isset($_POST['mod_sms_pass'])) ? limpiar_string($_POST['mod_sms_pass']) : '';
 
-	(isset($_POST['mod_notificaciones'])) ? $modulo_notificaciones = 1 : $modulo_notificaciones = 0;
+	$modulo_notificaciones = (isset($_POST['mod_notificaciones'])) ? 1 : 0;
 
 	$modulo_notificaciones_dominios = '';
 	if (isset($_POST['mod_notificaciones_dominios'])) {
@@ -138,31 +138,31 @@ if (isset($_POST['instalar']))
 		$modulo_notificaciones_dominios = rtrim($modulo_notificaciones_dominios, ', ');
 	}
 
-	(isset($_POST['mod_notificaciones_asistencia'])) ? $modulo_notificaciones_asistencia = 1 : $modulo_notificaciones_asistencia = 0;
+	$modulo_notificaciones_asistencia = (isset($_POST['mod_notificaciones_asistencia'])) ? 1 : 0;
 
-	(isset($_POST['mod_asistencia'])) ? $modulo_asistencia = 1 : $modulo_asistencia = 0;
+	$modulo_asistencia = (isset($_POST['mod_asistencia'])) ? 1 : 0;
 
-	(isset($_POST['mod_horarios'])) ? $modulo_horarios = 1 : $modulo_horarios = 0;
+	$modulo_horarios = (isset($_POST['mod_horarios'])) ? 1 : 0;
 
-	(isset($_POST['mod_matriculacion'])) ? $modulo_matriculacion = 1 : $modulo_matriculacion = 0;
-	(isset($_POST['mod_transporte_escolar'])) ? $modulo_transporte_escolar = 1 : $modulo_transporte_escolar = 0;
+	$modulo_matriculacion = (isset($_POST['mod_matriculacion'])) ? 1 : 0;
+	$modulo_transporte_escolar = (isset($_POST['mod_transporte_escolar'])) ? 1 : 0;
 
-	$api_tinymce_key = limpiar_string($_POST['api_tinymce_key']);
 
-	$api_google_analytics_tracking_id = limpiar_string($_POST['api_google_analytics_tracking_id']);
+	$api_tinymce_key = (isset($_POST['api_tinymce_key'])) ? limpiar_string($_POST['api_tinymce_key']) : '';
 
-	$api_google_maps_key = limpiar_string($_POST['api_google_maps_key']);
-	$api_google_maps_latitude = limpiar_string($_POST['api_google_maps_latitude']);
-	$api_google_maps_longitude = limpiar_string($_POST['api_google_maps_longitude']);
-	$api_google_maps_zoom = limpiar_string($_POST['api_google_maps_zoom']);
+	$api_google_analytics_tracking_id = (isset($_POST['api_google_analytics_tracking_id'])) ? limpiar_string($_POST['api_google_analytics_tracking_id']) : '';
 
-	$api_google_recaptcha_key = limpiar_string($_POST['api_google_recaptcha_key']);
-	$api_google_recaptcha_secret = limpiar_string($_POST['api_google_recaptcha_secret']);
+	$api_google_maps_key = (isset($_POST['api_google_maps_key'])) ? limpiar_string($_POST['api_google_maps_key']) : '';
+	$api_google_maps_latitude = (isset($_POST['api_google_maps_latitude'])) ? limpiar_string($_POST['api_google_maps_latitude']) : '';
+	$api_google_maps_longitude = (isset($_POST['api_google_maps_longitude'])) ? limpiar_string($_POST['api_google_maps_longitude']) : '';
+	$api_google_maps_zoom = (isset($_POST['api_google_maps_zoom'])) ? limpiar_string($_POST['api_google_maps_zoom']) : '';
 
-	$api_facebook_chat_page_id = limpiar_string($_POST['api_facebook_chat_page_id']);
-	$api_facebook_chat_theme_color = limpiar_string($_POST['api_facebook_chat_theme_color']);
-	$api_facebook_chat_welcome = limpiar_string($_POST['api_facebook_chat_welcome']);
+	$api_google_recaptcha_key = (isset($_POST['api_google_recaptcha_key'])) ? limpiar_string($_POST['api_google_recaptcha_key']) : '';
+	$api_google_recaptcha_secret = (isset($_POST['api_google_recaptcha_secret'])) ? limpiar_string($_POST['api_google_recaptcha_secret']) : '';
 
+	$api_facebook_chat_page_id = (isset($_POST['api_facebook_chat_page_id'])) ? limpiar_string($_POST['api_facebook_chat_page_id']) : '';
+	$api_facebook_chat_theme_color = (isset($_POST['api_facebook_chat_theme_color'])) ? limpiar_string($_POST['api_facebook_chat_theme_color']) : '';
+	$api_facebook_chat_welcome = (isset($_POST['api_facebook_chat_welcome'])) ? limpiar_string($_POST['api_facebook_chat_welcome']) : '';
 
 	// CREACIÓN DEL ARCHIVO DE CONFIGURACIÓN
 	if($file = fopen(CONFIG_FILE, 'w+'))
@@ -325,8 +325,6 @@ if (isset($_POST['instalar']))
 			(2, 'Actividades extraescolares', '".date('Y-m-d')."', 'admin', '#18bc9c', 1),
 			(3, 'Administrador', '".date('Y-m-d')."', 'admin', '#3498db', 0)");
 
-			mysqli_close($db_con);
-
 			// Enviamos analíticas de uso al IES Monterroso
 			$analitica = array(
 				'centro_denominacion' => $config['centro_denominacion'],
@@ -348,6 +346,8 @@ if (isset($_POST['instalar']))
 				'mysql_version' => mysqli_get_server_info($db_con),
 				'intranet_version' => INTRANET_VERSION
 			);
+
+			mysqli_close($db_con);
 
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL,"https://iesmonterroso.org/intranet/analitica/baliza.php");
@@ -371,7 +371,7 @@ if (isset($_POST['instalar']))
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Intranet del <?php echo $config['centro_denominacion']; ?>">
+	<meta name="description" content="Instalación de la Intranet">
 	<meta name="author" content="IESMonterroso (https://github.com/IESMonterroso/intranet/)">
 	<meta name="robots" content="noindex, nofollow">
 
@@ -465,22 +465,12 @@ if (isset($_POST['instalar']))
 
 				    		<dl class="dl-horizontal">
 				    		  <dt>Versión de PHP</dt>
-				    		  <dd><?php echo (phpversion() < '5.5.38') ? '<span class="text-danger">Versión actual: '.phpversion().'. Actualice a la versión 5.5.38 o superior</span>' : '<span class="text-success">'.phpversion().'</span>'; ?></dd>
+				    		  <dd><?php echo (phpversion() < '7.4' || phpversion() > '8.1') ? '<span class="text-danger">Versión actual: '.phpversion().'. La aplicación requiere PHP 7.4 hasta 8.0</span>' : '<span class="text-success">'.phpversion().'</span>'; ?></dd>
 				    		</dl>
 
 				    		<dl class="dl-horizontal">
-				    		  <dt>Default charset</dt>
-				    		  <dd><?php echo (ini_get('default_charset') != 'UTF-8' && ini_get('default_charset') != 'UTF-8') ? '<span class="text-danger">'.ini_get('default_charset').'</span>' : '<span class="text-success">UTF-8</span>'; ?></dd>
-				    		</dl>
-
-				    		<dl class="dl-horizontal">
-				    		  <dt>Display errors</dt>
-				    		  <dd><?php echo (ini_get('display_errors') == 0) ? '<span class="text-success">Deshabilitado</span>' : '<span class="text-danger">Valor actual: Habilitado. Por seguridad, deshabilite la variable <em>display_errors</em></span>'; ?></dd>
-				    		</dl>
-
-				    		<dl class="dl-horizontal">
-				    		  <dt>Register globals</dt>
-				    		  <dd><?php echo (ini_get('register_globals') == 0) ? '<span class="text-success">Deshabilitado</span>' : '<span class="text-danger">Valor actual: Habilitado. Por seguridad, deshabilite la variable <em>register_globals</em></span>'; ?></dd>
+				    		  <dt>Display errors </dt>
+				    		  <dd><?php echo (ini_get('display_errors') == false) ? ini_get('display_errors').'<span class="text-success">Deshabilitado</span>' : '<span class="text-danger">Valor actual: Habilitado. Por seguridad, deshabilite la variable <em>display_errors</em></span>'; ?></dd>
 				    		</dl>
 
 				    		<dl class="dl-horizontal">
@@ -744,12 +734,149 @@ if (isset($_POST['instalar']))
 				    			<a href="#base-datos" aria-controls="base-datos" data-toggle="tab" class="btn btn-default"><i class="fas fa-chevron-left fa-fw"></i> Anterior</a>
 				    		</div>
 				    		<div class="pull-right">
-				    			<a href="#modulos" aria-controls="modulos" data-toggle="tab" class="btn btn-primary disabled">Continuar <i class="fas fa-chevron-right fa-fw"></i></a>
+				    			<a href="#apis" aria-controls="apis" data-toggle="tab" class="btn btn-primary disabled">Continuar <i class="fas fa-chevron-right fa-fw"></i></a>
 				    		</div>
 				    		<div class="clearfix"></div>
 				    	</div>
 
 				    </div>
+
+				    <!-- APIS -->
+					<div role="tabpanel" class="tab-pane" id="apis">
+						<div class="row">
+
+							<div class="col-sm-12">
+
+								<div class="well">
+									<h3><i class="fas fa-cubes"></i> APIs</h3>
+									<br>
+
+									<div class="row">
+										<div class="col-sm-4" style="border-right: 3px solid #dce4ec; margin-right: -3px;">
+											<ul class="nav nav-pills nav-stacked" role="tablist">
+												<li class="active"><a href="#api_tinymce" aria-controls="api_tinymce" role="tab" data-toggle="tab">Editor TinyMCE</a></li>
+											</ul>
+										</div>
+
+										<div class="tab-content col-sm-7" style="border-left: 3px solid #dce4ec; padding-left: 45px;">
+
+											<!-- API: TinyMCE -->
+										    <div role="tabpanel" class="tab-pane active" id="api_tinymce">
+
+										    	<div class="form-group">
+										    		<label for="cmp_api_tinymce_key">API Key</label>
+							    			    	<input type="text" class="form-control" id="cmp_api_tinymce_key" name="api_tinymce_key" placeholder="no-api-key" value="">
+						    			    	</div>
+						    			    </div><!-- /.tab-panel -->
+
+						    			    <?php if (isset($_SESSION['pagina_centro']) && $_SESSION['pagina_centro']): ?>
+						    			    <!-- API: Google Analytics -->
+										    <div role="tabpanel" class="tab-pane" id="api_google_analytics">
+
+										    	<div class="form-group">
+										    		<label for="cmp_api_google_analytics_tracking_id">GA Tracking ID</label>
+							    			    	<input type="text" class="form-control" id="cmp_api_google_analytics_tracking_id" name="api_google_analytics_tracking_id" placeholder="YOUR_GA_TRACKING_ID" value="">
+						    			    	</div>
+
+						    			    	<p class="help-block">Consigue el ID de seguimiento para usar la API de Google Analytics en <a href="https://analytics.google.com/analytics/" target="_blank">https://analytics.google.com/analytics/</a></p>
+						    			    </div><!-- /.tab-panel -->
+
+						    			     <!-- API: Google Maps -->
+										    <div role="tabpanel" class="tab-pane" id="api_google_maps">
+
+										    	<div class="form-group">
+										    		<label for="cmp_api_google_maps_key">API key</label>
+							    			    	<input type="text" class="form-control" id="cmp_api_google_maps_key" name="api_google_maps_key" placeholder="YOUR_API_KEY" value="">
+						    			    	</div>
+
+						    			    	<p class="help-block">Consigue la clave para usar la API de Google Maps Javascript en <a href="https://console.cloud.google.com/" target="_blank">https://console.cloud.google.com/</a></p>
+
+						    			    	<br>
+
+						    			    	<div class="form-group">
+										    		<label for="cmp_api_google_maps_latitude">Latitud</label>
+							    			    	<input type="text" class="form-control" id="cmp_api_google_maps_latitude" name="api_google_maps_latitude" placeholder="36.4295948" value="">
+						    			    	</div>
+
+						    			    	<div class="form-group">
+										    		<label for="cmp_api_google_maps_langitude">Longitud</label>
+							    			    	<input type="text" class="form-control" id="cmp_api_google_maps_langitude" name="api_google_maps_longitude" placeholder="-5.1544486" value="">
+						    			    	</div>
+
+						    			    	<div class="form-group">
+										    		<label for="cmp_api_google_maps_zoom">Zoom</label>
+							    			    	<select class="form-control" id="cmp_api_google_maps_zoom" name="api_google_maps_zoom">
+							    			    		<?php for ($zoom=0; $zoom < 19; $zoom++): ?>
+							    			    		<option value="<?php echo $zoom; ?>" <?php echo ($zoom == 15) ? ' selected' : ''; ?>><?php echo $zoom; ?></option>
+							    			    		<?php endfor; ?>
+							    			    	</select>
+						    			    	</div>
+
+						    			    	<p class="help-block">Puedes obtener las coordenadas de tu centro educativo en <a href="https://www.coordenadas-gps.com" target="_blank">https://www.coordenadas-gps.com</a></p>
+						    			    	
+						    			    </div><!-- /.tab-panel -->
+
+						    			    <!-- API: Google reCaptcha -->
+										    <div role="tabpanel" class="tab-pane" id="api_google_recaptcha">
+
+										    	<div class="form-group">
+										    		<label for="cmp_api_google_recaptcha_key">Site Key</label>
+							    			    	<input type="text" class="form-control" id="cmp_api_google_recaptcha_key" name="api_google_recaptcha_key" placeholder="YOUR_SITE_KEY" value="">
+						    			    	</div>
+
+						    			    	<div class="form-group">
+										    		<label for="cmp_api_google_recaptcha_secret">Secret Key</label>
+							    			    	<input type="text" class="form-control" id="cmp_api_google_recaptcha_secret" name="api_google_recaptcha_secret" placeholder="YOUR_SITE_KEY" value="">
+						    			    	</div>
+
+						    			    	<p class="help-block">Consigue la clave para usar la API de Google reCAPTCHA v2 en <a href="https://www.google.com/recaptcha/admin/create" target="_blank">https://www.google.com/recaptcha/admin/create</a></p>
+						    			    </div><!-- /.tab-panel -->
+
+						    			    <!-- API: Facebook Chat -->
+										    <div role="tabpanel" class="tab-pane" id="api_facebook_chat">
+
+										    	<div class="form-group">
+										    		<label for="cmp_api_facebook_chat_page_id">Page ID</label>
+							    			    	<input type="text" class="form-control" id="cmp_api_facebook_chat_page_id" name="api_facebook_chat_page_id" placeholder="YOUR_PAGE_ID" value="">
+						    			    	</div>
+
+						    			    	<p class="help-block">Lea la documentación <a href="https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin" target="_blank">https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin</a></p>
+
+						    			    	<br>
+
+						    			    	<div class="form-group">
+										    		<label for="cmp_api_facebook_chat_theme_color">Color del chat</label>
+							    			    	<input type="text" class="form-control" id="cmp_api_facebook_chat_theme_color" name="api_facebook_chat_theme_color" placeholder="#0084ff" value="#0084ff">
+						    			    	</div>
+
+						    			    	<div class="form-group">
+										    		<label for="cmp_api_facebook_chat_welcome">Mensaje de bienvenida</label>
+							    			    	<input type="text" class="form-control" id="cmp_api_facebook_chat_welcome" name="api_facebook_chat_welcome" placeholder="¡Hola! ¿En qué te podemos ayudar?" value="¡Hola! ¿En qué te podemos ayudar?">
+						    			    	</div>
+						    			    	
+						    			    </div><!-- /.tab-panel -->
+						    				<?php endif; ?>
+
+						    			</div><!-- /.tab-content -->
+						    		</div><!-- /.row -->
+
+						    		<br>
+
+						    		<div class="pull-left">
+						    			<a href="#curso-escolar" aria-controls="curso-escolar" data-toggle="tab" class="btn btn-default"><i class="fas fa-chevron-left fa-fw"></i> Anterior</a>
+						    		</div>
+						    		<div class="pull-right">
+						    			<a href="#modulos" aria-controls="modulos" data-toggle="tab" class="btn btn-primary disabled">Continuar <i class="fas fa-chevron-right fa-fw"></i></a>
+						    		</div>
+						    		<div class="clearfix"></div>
+
+						    	</div><!-- /.well -->
+
+							</div><!-- /.col-sm-6 -->
+
+						</div><!-- /.row -->
+					</div><!-- /.tab-panel -->
+
 
 				    <!-- SELECCIÓN DE MÓDULOS -->
 				    <div role="tabpanel" class="tab-pane" id="modulos">
@@ -1029,13 +1156,14 @@ if (isset($_POST['instalar']))
 					    			    </div>
 
 				    			    </div>
+
 				    			  </div>
 				    		</div>
 
 				    		<br><br>
 
 				    		<div class="pull-left">
-				    			<a href="#base-datos" aria-controls="base-datos" data-toggle="tab" class="btn btn-default"><i class="fas fa-chevron-left fa-fw"></i> Anterior</a>
+				    			<a href="#apis" aria-controls="api" data-toggle="tab" class="btn btn-default"><i class="fas fa-chevron-left fa-fw"></i> Anterior</a>
 				    		</div>
 				    		<div class="pull-right">
 				    			<button type="button" class="btn btn-success" id="instalar">Instalar</button>
@@ -1046,7 +1174,7 @@ if (isset($_POST['instalar']))
 				    	<div id="wrap_instalacion" class="well" style="display: none; padding: 50px 0; min-height: 300px;">
 
 				    		<div class="text-center text-success">
-				    			<i class="fas fa-cog fa-spin fa-5x"></span>
+				    			<i class="fas fa-cog fa-spin fa-5x"></i>
 				    		</div>
 				    		<h3 class="text-center text-success">Instalando la Intranet&hellip;</h3>
 
@@ -1056,131 +1184,6 @@ if (isset($_POST['instalar']))
 				    	</div>
 
 				    </div>
-
-				    <!-- APIS -->
-					<div role="tabpanel" class="tab-pane" id="apis">
-						<div class="row">
-
-							<div class="col-sm-12">
-
-								<div class="well">
-									<h3><i class="fas fa-cubes"></i> APIs</h3>
-									<br>
-
-									<div class="row">
-										<div class="col-sm-4" style="border-right: 3px solid #dce4ec; margin-right: -3px;">
-											<ul class="nav nav-pills nav-stacked" role="tablist">
-												<li class="active"><a href="#api_tinymce" aria-controls="api_tinymce" role="tab" data-toggle="tab">Editor TinyMCE</a></li>
-											</ul>
-										</div>
-
-										<div class="tab-content col-sm-7" style="border-left: 3px solid #dce4ec; padding-left: 45px;">
-
-											<!-- API: TinyMCE -->
-										    <div role="tabpanel" class="tab-pane active" id="api_tinymce">
-
-										    	<div class="form-group">
-										    		<label for="cmp_api_tinymce_key">API Key</label>
-							    			    	<input type="text" class="form-control" id="cmp_api_tinymce_key" name="api_tinymce_key" placeholder="no-api-key" value="">
-						    			    	</div>
-						    			    </div><!-- /.tab-panel -->
-
-						    			    <?php if (isset($_SESSION['pagina_centro']) && $_SESSION['pagina_centro']): ?>
-						    			    <!-- API: Google Analytics -->
-										    <div role="tabpanel" class="tab-pane" id="api_google_analytics">
-
-										    	<div class="form-group">
-										    		<label for="cmp_api_google_analytics_tracking_id">GA Tracking ID</label>
-							    			    	<input type="text" class="form-control" id="cmp_api_google_analytics_tracking_id" name="api_google_analytics_tracking_id" placeholder="YOUR_GA_TRACKING_ID" value="">
-						    			    	</div>
-
-						    			    	<p class="help-block">Consigue el ID de seguimiento para usar la API de Google Analytics en <a href="https://analytics.google.com/analytics/" target="_blank">https://analytics.google.com/analytics/</a></p>
-						    			    </div><!-- /.tab-panel -->
-
-						    			     <!-- API: Google Maps -->
-										    <div role="tabpanel" class="tab-pane" id="api_google_maps">
-
-										    	<div class="form-group">
-										    		<label for="cmp_api_google_maps_key">API key</label>
-							    			    	<input type="text" class="form-control" id="cmp_api_google_maps_key" name="api_google_maps_key" placeholder="YOUR_API_KEY" value="">
-						    			    	</div>
-
-						    			    	<p class="help-block">Consigue la clave para usar la API de Google Maps Javascript en <a href="https://console.cloud.google.com/" target="_blank">https://console.cloud.google.com/</a></p>
-
-						    			    	<br>
-
-						    			    	<div class="form-group">
-										    		<label for="cmp_api_google_maps_latitude">Latitud</label>
-							    			    	<input type="text" class="form-control" id="cmp_api_google_maps_latitude" name="api_google_maps_latitude" placeholder="36.4295948" value="">
-						    			    	</div>
-
-						    			    	<div class="form-group">
-										    		<label for="cmp_api_google_maps_langitude">Longitud</label>
-							    			    	<input type="text" class="form-control" id="cmp_api_google_maps_langitude" name="api_google_maps_longitude" placeholder="-5.1544486" value="">
-						    			    	</div>
-
-						    			    	<div class="form-group">
-										    		<label for="cmp_api_google_maps_zoom">Zoom</label>
-							    			    	<select class="form-control" id="cmp_api_google_maps_zoom" name="api_google_maps_zoom">
-							    			    		<?php for ($zoom=0; $zoom < 19; $zoom++): ?>
-							    			    		<option value="<?php echo $zoom; ?>" <?php echo ($zoom == 15) ? ' selected' : ''; ?>><?php echo $zoom; ?></option>
-							    			    		<?php endfor; ?>
-							    			    	</select>
-						    			    	</div>
-
-						    			    	<p class="help-block">Puedes obtener las coordenadas de tu centro educativo en <a href="https://www.coordenadas-gps.com" target="_blank">https://www.coordenadas-gps.com</a></p>
-						    			    	
-						    			    </div><!-- /.tab-panel -->
-
-						    			    <!-- API: Google reCaptcha -->
-										    <div role="tabpanel" class="tab-pane" id="api_google_recaptcha">
-
-										    	<div class="form-group">
-										    		<label for="cmp_api_google_recaptcha_key">Site Key</label>
-							    			    	<input type="text" class="form-control" id="cmp_api_google_recaptcha_key" name="api_google_recaptcha_key" placeholder="YOUR_SITE_KEY" value="">
-						    			    	</div>
-
-						    			    	<div class="form-group">
-										    		<label for="cmp_api_google_recaptcha_secret">Secret Key</label>
-							    			    	<input type="text" class="form-control" id="cmp_api_google_recaptcha_secret" name="api_google_recaptcha_secret" placeholder="YOUR_SITE_KEY" value="">
-						    			    	</div>
-
-						    			    	<p class="help-block">Consigue la clave para usar la API de Google reCAPTCHA v2 en <a href="https://www.google.com/recaptcha/admin/create" target="_blank">https://www.google.com/recaptcha/admin/create</a></p>
-						    			    </div><!-- /.tab-panel -->
-
-						    			    <!-- API: Facebook Chat -->
-										    <div role="tabpanel" class="tab-pane" id="api_facebook_chat">
-
-										    	<div class="form-group">
-										    		<label for="cmp_api_facebook_chat_page_id">Page ID</label>
-							    			    	<input type="text" class="form-control" id="cmp_api_facebook_chat_page_id" name="api_facebook_chat_page_id" placeholder="YOUR_PAGE_ID" value="">
-						    			    	</div>
-
-						    			    	<p class="help-block">Lea la documentación <a href="https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin" target="_blank">https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin</a></p>
-
-						    			    	<br>
-
-						    			    	<div class="form-group">
-										    		<label for="cmp_api_facebook_chat_theme_color">Color del chat</label>
-							    			    	<input type="text" class="form-control" id="cmp_api_facebook_chat_theme_color" name="api_facebook_chat_theme_color" placeholder="#0084ff" value="#0084ff">
-						    			    	</div>
-
-						    			    	<div class="form-group">
-										    		<label for="cmp_api_facebook_chat_welcome">Mensaje de bienvenida</label>
-							    			    	<input type="text" class="form-control" id="cmp_api_facebook_chat_welcome" name="api_facebook_chat_welcome" placeholder="¡Hola! ¿En qué te podemos ayudar?" value="¡Hola! ¿En qué te podemos ayudar?">
-						    			    	</div>
-						    			    	
-						    			    </div><!-- /.tab-panel -->
-						    				<?php endif; ?>
-
-						    			</div><!-- /.tab-content -->
-						    		</div><!-- /.row -->
-						    	</div><!-- /.well -->
-
-							</div><!-- /.col-sm-6 -->
-
-						</div><!-- /.row -->
-					</div><!-- /.tab-panel -->
 
 				    <?php else: ?>
 
@@ -1192,7 +1195,7 @@ if (isset($_POST['instalar']))
 
 				    		<?php if ($esError): ?>
 				    		<div class="text-center text-error">
-				    			<span class="far fa-mehfa-5x"></span>
+				    			<i class="far fa-mehfa-5x"></i>
 				    		</div>
 				    		<h3 class="text-center text-error">Error al conectar con la base de datos</h3>
 				    		<br>
@@ -1203,7 +1206,7 @@ if (isset($_POST['instalar']))
 				    		</div>
 				    		<?php else: ?>
 				    		<div class="text-center text-success">
-				    			<i class="fas fa-check fa-5x"></span>
+				    			<i class="fas fa-check fa-5x"></i>
 				    		</div>
 				    		<h3 class="text-center text-success">La Intranet ha sido instalada correctamente</h3>
 

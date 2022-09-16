@@ -98,6 +98,7 @@ if (isset($_POST['enviar'])) {
 		}
 	}
 
+
 	if(!$mail->Send()) {
 		$msg_class = "alert-danger";
 		$msg = "Error: " . $mail->ErrorInfo;
@@ -109,6 +110,20 @@ if (isset($_POST['enviar'])) {
 		else {
 			$msg_class = "alert-success";
 			$msg = "El mensaje ha sido enviado.";
+			
+
+			foreach($cambia as $eldni => $valor){
+				$mail0=mysqli_query($db_con, "select correo, PROFESOR from c_profes where dni='$eldni'");
+				if (mysqli_num_rows($mail0)>0) {
+					$numcor++;
+				}
+				$mail1=mysqli_fetch_row($mail0);
+				$direccion = $mail1[0];
+				if(filter_var($direccion, FILTER_VALIDATE_EMAIL)) {
+					$sql_mail = mysqli_query($db_con, "insert into `correos` (id, destino, correo, fecha, texto) VALUES ('','".$direccion."','".$mail_from."', NOW(),'".$contenido."')");
+				}
+			}
+
 		}
 	}
 }

@@ -51,15 +51,6 @@ include("menu.php");
 			<!-- COLUMNA CENTRAL -->
 			<div class="col-md-5">
 
-				<?php if ($_SERVER['SERVER_NAME'] != "iesmonterroso.org" && date('Y') < 2020 && date('m') == 12 && date('d') > 8): ?>
-				<div class="alert alert-info">
-					<h4>Importante:</h4>
-					<p>A partir del <strong>1 de enero de 2020</strong> la clave de acceso a la intranet pasa a ser la misma que la clave de Séneca para el <strong>personal docente</strong>. La mayoría de los usuarios ya comparten la misma contraseña en Séneca y en la intranet, por lo que no notarán ningún cambio. Pero aquellos usuarios que tenéis claves distintas en ambas plataformas debéis proceder a utilizar únicamente la clave de Séneca.</p>
-
-					<p>Si por alguna razón olvidáis o bloqueáis la clave de la intranet tenéis que utilizar el mismo sistema que seguís cuando se bloquea vuestra clave en Séneca: buscad a algún miembro del equipo directivo para que pueda reiniciar vuestra clave en Séneca o seguid las instrucciones de recuperación de contraseña de Séneca vía móvil o correo electrónico.</p>
-				</div>
-				<?php endif; ?>
-
 				<?php
 				if (acl_permiso($carg, array('2'))) {
 					if (file_exists('admin/tutoria/config.php')) {

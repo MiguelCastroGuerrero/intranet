@@ -39,22 +39,23 @@ if (isset($_SESSION['user_admin']) && $_SESSION['user_admin']) {
 
 <?php
 // COMIENZO VERIFICACION DE CORREO ELECTRÓNICO
-$result_verificacion_correo = mysqli_query($db_con, "SELECT `correo`, `correo_verificado` FROM `c_profes` WHERE `idea` = '".$_SESSION['ide']."' LIMIT 1"); ?>
+$result_verificacion_correo = mysqli_query($db_con, "SELECT `correo`, `correo_verificado` FROM `c_profes` WHERE `idea` = '".$_SESSION['ide']."' LIMIT 1");
 
-<?php if (mysqli_num_rows($result_verificacion_correo)): ?>
-	<?php $row_verificacion_correo = mysqli_fetch_array($result_verificacion_correo); ?>
+if (mysqli_num_rows($result_verificacion_correo)) {
+	$row_verificacion_correo = mysqli_fetch_array($result_verificacion_correo);
 
-	<?php
-	// Eliminamos la cuenta del profesor si no es corporativa
-
+	// Eliminamos dirección de email si no es corporativa o está permitida por el Centro
 	$esDominioPermitido = false;
 	if (isset($config['mod_notificaciones_dominios'])) {
 		$correos_dominios_permitidos = explode(',', $config['mod_notificaciones_dominios']);
-		array_push($correos_dominios_permitidos, "g.educaand.es", "m.educaand.es");
-		foreach ($correos_dominios_permitidos as $correo_dominio_permitido) {
-			if (strpos($row_verificacion_correo['correo'], '@'.trim($correo_dominio_permitido)) !== false) {
-				$esDominioPermitido = true;
-			}
+	}
+	else {
+		$correos_dominios_permitidos = array();
+	}
+	array_push($correos_dominios_permitidos, "g.educaand.es", "m.educaand.es");
+	foreach ($correos_dominios_permitidos as $correo_dominio_permitido) {
+		if (strpos($row_verificacion_correo['correo'], '@'.trim($correo_dominio_permitido)) !== false) {
+			$esDominioPermitido = true;
 		}
 	}
 
@@ -63,14 +64,15 @@ $result_verificacion_correo = mysqli_query($db_con, "SELECT `correo`, `correo_ve
 	if ($result_verificacion_correo_esProfesor && (strpos($row_verificacion_correo['correo'], '@'.'juntadeandalucia.es') === false && $esDominioPermitido === false)) {
 		mysqli_query($db_con, "UPDATE `c_profes` SET `correo` = '', `correo_verificado` = 0 WHERE `idea` = '".$_SESSION['ide']."' LIMIT 1");
 	}
-	?>
+}
+?>
 
-	<?php if (empty($row_verificacion_correo['correo'])): ?>
+<?php if (empty($row_verificacion_correo['correo'])): ?>
 <div class="alert alert-warning">
 	<h4>Acción requerida:</h4>
 	<p>Registre una cuenta de correo electrónico corporativa para recibir comunicaciones. <a href="https://<?php echo $config['dominio']; ?>/intranet/usuario.php?tab=cuenta&pane=email" class="alert-link">Registrar ahora</a></p>
 </div>
-	<?php elseif (empty($row_verificacion_correo['correo_verificado']) || $row_verificacion_correo['correo_verificado'] == 0): ?>
+<?php elseif (empty($row_verificacion_correo['correo_verificado']) || $row_verificacion_correo['correo_verificado'] == 0): ?>
 <div class="alert alert-warning">
 	<h4>Acción requerida:</h4>
 	<p>Verifique su cuenta de correo electrónico <strong><?php echo $row_verificacion_correo['correo']; ?></strong> para poder recibir comunicaciones. <a href="https://<?php echo $config['dominio']; ?>/intranet/index.php?action=reenviarEmail" class="alert-link">Reenviar correo de verificación</a></p>
@@ -78,7 +80,6 @@ $result_verificacion_correo = mysqli_query($db_con, "SELECT `correo`, `correo_ve
 	<p>Le hemos enviado un correo electrónico, compruebe su buzón de correo o buzón de SPAM.</p>
 	<?php endif; ?>
 </div>
-	<?php endif; ?>
 <?php endif; ?>
 
 <?php
@@ -88,8 +89,9 @@ $hoy = date("Y-m-d");
 $dia_semana = date('w');
 
 // Calendario personal
-$cal_personal = mysqli_query($db_con,"select * from calendario where categoria like (select distinct id from calendario_categorias where profesor = '".$_SESSION['ide']."') and fechaini = '$hoy'");
-if (mysqli_num_rows($cal_personal)>0) {
+$cal_personal = mysqli_query($db_con,"SELECT `id`, `nombre`, `descripcion`, `unidades` FROM `calendario` WHERE `categoria` LIKE (SELECT DISTINCT id FROM calendario_categorias WHERE profesor = '".$_SESSION['ide']."') AND fechaini = '$hoy'");
+
+if (mysqli_num_rows($cal_personal)) {
 		echo '
 <div id="alert_cal" class="alert alert-info">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -97,8 +99,7 @@ if (mysqli_num_rows($cal_personal)>0) {
 	<p>En tu Calendario personal aparecen actividades registradas para hoy. </p>
 	<br>
 	<ul>';
-	while($cal_pers = mysqli_fetch_array($cal_personal))
-	{
+	while($cal_pers = mysqli_fetch_array($cal_personal)) {
 		$actividad = $cal_pers['nombre'];
 		$id = $cal_pers['id'];
 		$unidad = $cal_pers['unidades'];
@@ -114,7 +115,7 @@ if (mysqli_num_rows($cal_personal)>0) {
 	echo "</div>";
 	}
 
-if ($dia_semana > 0 and $dia_semana < 6) {
+if ($dia_semana > 0 && $dia_semana < 6) {
 
 // Actividades extraescolares
 

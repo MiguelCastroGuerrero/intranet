@@ -478,7 +478,7 @@ if (file_exists('./admin/departamento/actas/config.php')) {
 	}
 }
 
-if (count($menu_actas['items'])>0 AND acl_permiso($_SESSION['cargo'], array(1,4,f,9,a))) {
+if (count($menu_actas['items']) > 0 && acl_permiso($_SESSION['cargo'], array('1','4','f','9','a'))) {
 	array_push($menu_profesores[0]['items'], $menu_actas);
 }
 
@@ -613,6 +613,7 @@ $paginas_interes = array(
 if (file_exists('menu_lateral_centro.php')) {
 	include('menu_lateral_centro.php');
 }
+
 
 
 $menu = array_merge($menu, $menu_centro, $menu_alumnos, $menu_profesores, $menu_utilidades, $paginas_interes);
