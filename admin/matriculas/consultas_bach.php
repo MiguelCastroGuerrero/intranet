@@ -91,11 +91,10 @@ INDEX (  `id_matriculas` )
 		$id_submit = $tr[1];
 		$col = $tr[0];
 		if (is_numeric($id_submit)) {
-
 			mysqli_query($db_con, "insert into matriculas_bach_temp VALUES ('$id_submit')");
 		}
 	}
-	include("caratulas_bach.php");
+	include("caratulas_bach.php");	
 	exit();
 }
 

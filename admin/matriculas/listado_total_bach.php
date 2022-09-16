@@ -1,4 +1,4 @@
-<?php
+º<?php
 require('../../bootstrap.php');
 
 acl_acceso($_SESSION['cargo'], array(1, 2, 8));
@@ -59,9 +59,12 @@ while($datatmp = mysqli_fetch_array($lista)) {
 $nc+=1;
 
 if ($curso=="2BACH") {
+
+	$optat_4h = '';
+
 for ($i = 3; $i < 11; $i++) {
 		if ($datatmp[$i]=="1") {
-			$datatmp[$i]="X";
+			$optat_4h = $i-2;
 		}
 		else{
 			$datatmp[$i]="";
@@ -135,41 +138,23 @@ for ($i = 3; $i < 11; $i++) {
 				'nombre'=>utf8_decode($datatmp[0]).$bil,
 				'c1'=>$religion,
 				'c2'=>$datatmp['itinerario2'],
-				'c3'=>$optas,
-				'c4'=>$datatmp[3],
-				'c5'=>$datatmp[4],
-				'c6'=>$datatmp[5],
-				'c7'=>$datatmp[6],
-				'c8'=>$datatmp[7],
-				'c9'=>$datatmp[8],
-				'c10'=>$datatmp[9],
-				'c11'=>$datatmp[10],
+				'c4'=>$optat_4h,
 				'c12'=>$opt_2h,
-				'c13'=>utf8_decode($datatmp['idioma1']),
 
 				);
 	$titles = array(
 				'num'=>'<b>NC</b>',
 				'nombre'=>'<b>Alumno</b>',
 				'c1'=>'R.Cat.',
-				'c2'=>'It2',
-				'c3'=>'Opt2',
-				'c4'=>'1',
-				'c5'=>'2',
-				'c6'=>'3',
-				'c7'=>'4',
-				'c8'=>'5',
-				'c9'=>'6',
-				'c10'=>'7',
-				'c11'=>'8',
-				'c12'=>'Opt_2H',
-				'c13'=>'Idioma',
+				'c2'=>'Itinerario',
+				'c4'=>'Optativa 4H',
+				'c12'=>'Optativa 2H',
 			);
 }
 if ($curso=="1BACH") {
 
 		if (strstr($datatmp['religion'],"Cat")==TRUE) {
-			$religion ="R. Cat.";
+			$religion ="+ R. Cat.";
 		}
 		elseif (strstr($datatmp['religion'],"Isl")==TRUE) {
 			$religion ="R. Isl.";
@@ -178,7 +163,7 @@ if ($curso=="1BACH") {
 			$religion ="R. Evan.";
 		}
 		elseif (strstr($datatmp['religion'],"Valo")==TRUE) {
-			$religion ="E. Ciud.";
+			$religion ="At. Ed.";
 		}
 		
 
@@ -226,17 +211,14 @@ if ($curso=="1BACH") {
 				'c1'=>$religion,
 				'c2'=>$datatmp[1],
 				'c3'=>$optas,
-				'c4'=>utf8_decode($datatmp[3]),
-				'c5'=>utf8_decode($datatmp[4]),
 				);
 	$titles = array(
 				'num'=>'<b>NC</b>',
 				'nombre'=>'<b>Alumno</b>',
 				'c1'=>utf8_decode('Religión'),
-				'c2'=>'It1',
-				'c3'=>'Opt1',
-				'c4'=>'Idioma1',
-				'c5'=>'Idioma2',
+				'c2'=>'Itinerario',
+				'c3'=>'Optativa',
+
 			);
 }
 }

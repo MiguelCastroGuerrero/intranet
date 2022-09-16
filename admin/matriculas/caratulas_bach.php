@@ -189,8 +189,6 @@ for($i=1;$i<2;$i++){
 	$MiPDF->Cell(98,5,"MATERIAS DE LA MODALIDAD",0,0,"C");
 	$MiPDF->Ln ( 5 );
 	
-	
-	
 	// Optativas extra de 1 de bach.
 	$opt="";
 	$opta1="";
@@ -223,7 +221,7 @@ for($i=1;$i<2;$i++){
 				if($itinerario1==2){
 					$opt = $opt.", ".$optativa121;
 				}
-
+}
 	
 	if ($n_curso=="2") {
 		$mod_registro = ${it2.$itinerario2}[1];
@@ -247,15 +245,15 @@ for($i=1;$i<2;$i++){
 				$opt_2b .= $o_bach[0].": ".$val."; ";				
 				}
 			}
+				
 		//$opt_o = "\nOptativas de Bachillerato".$opt_2b;
 	if ($curso=="1BACH") {
-	$MiPDF->Cell(80,5,$n_curso."º DE BACH. ( ".$mod_registro." )",1,0,'C');
+	$MiPDF->Cell(80,5,"1º DE BACH. ( ".$mod_registro." )",1,0,'C');
 	$MiPDF->MultiCell(88,5,$bil.$opt,1);
 	$MiPDF->Ln ( 2 );
 	}
-
-	if ($curso=="2BACH") {
-	$MiPDF->Cell(80,5,$n_curso."º DE BACH. ( ".$mod_registro." ".$optativa2." )",1,0,'C');
+	else {
+	$MiPDF->Cell(80,5,"2º DE BACH. ( ".$mod_registro." ".$optativa2." )",1,0,'C');
 	$MiPDF->MultiCell(88,5,$bil.$opt2b,1);
 	$MiPDF->Ln ( 5 );
 	$MiPDF->Cell(165,5,"MATERIAS OPTATIVAS",0,0,"C");
@@ -273,6 +271,7 @@ for($i=1;$i<2;$i++){
 	}
   }
 }
+
    $MiPDF->AutoPrint(true);     
    $MiPDF->Output ();
 

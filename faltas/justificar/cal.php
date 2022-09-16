@@ -137,11 +137,7 @@ las Horas para Justificar: <span class='text-success'> <?php echo "$zz-$month-$y
 	class="checkbox-inline"> <input type="checkbox" <?php if (strstr($hora_F,"5")==TRUE){ echo "checked"; }?>
 	name="5<?php echo "_".$zz;?>" value="5">5ª</label>  <label
 	class="checkbox-inline"> <input type="checkbox" <?php if (strstr($hora_F,"6")==TRUE){ echo "checked"; }?>
-	name="6<?php echo "_".$zz;?>" value="6">6ª</label><label
-	class="checkbox-inline"> <input type="checkbox" <?php if (strstr($hora_F,"7")==TRUE){ echo "checked"; }?>
-	name="7<?php echo "_".$zz;?>" value="7">7ª</label><label
-	class="checkbox-inline"> <input type="checkbox" <?php if (strstr($hora_F,"8")==TRUE){ echo "checked"; }?>
-	name="8<?php echo "_".$zz;?>" value="8">8ª</label>
+	name="6<?php echo "_".$zz;?>" value="6">6ª</label>
 </div>
 
 </div>

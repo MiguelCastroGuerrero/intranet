@@ -46,7 +46,6 @@ $asignatura = $exp_unidad[3];
 							<tr>
 								<th>Alumno/a</th>
 								<th>Usuario</th>
-								<th>Contraseña<br>Gesuser</th>
 								<th>Contraseña<br>Moodle</th>
 								<th>Correo electrónico<br>G-Suite y Microsoft 365</th>
 								<th>Contraseña<br>G-Suite y Microsoft 365</th>
@@ -90,7 +89,6 @@ $asignatura = $exp_unidad[3];
 							?>
 							<tr>
 								<td><?php echo $row['apellidos'].', '.$row['nombre']; ?></td>
-								<td><?php echo $row['claveal']; ?></td>
 								<td><?php echo $row['claveal']; ?></td>
 								<td><?php echo substr(sha1($row['claveal']),0,8); ?></td>
 								<td><?php echo $correo; ?></td>
