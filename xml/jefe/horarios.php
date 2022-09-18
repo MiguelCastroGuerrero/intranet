@@ -74,15 +74,16 @@ No se han podido insertar los datos en la tabla <strong>Horw</strong>. Ponte en 
 }
 
 // Eliminamos el Recreo como 4Âª Hora.
-/*$recreo = "update horw set hora = 'R' WHERE hora ='4'";
+$recreo = "update horw set hora = 'R' WHERE hora ='4'";
 mysqli_query($db_con,$recreo);
 $hora4 = "UPDATE  horw SET  hora =  '4' WHERE  hora = '5'";
 mysqli_query($db_con,$hora4);
 $hora5 = "UPDATE  horw SET  hora =  '5' WHERE  hora = '6'";
 mysqli_query($db_con,$hora5);
 $hora6 = "UPDATE  horw SET  hora =  '6' WHERE  hora = '7'";
-mysqli_query($db_con,$hora6);*/
-mysqli_query($db_con,"OPTIMIZE TABLE  `horw`");
+mysqli_query($db_con,$hora6);
+	
+mysqli_query($db_con,"OPTIMIZE TABLE `horw`");
 
 // Quitamos las S del codigo de las Actividades
 $s_cod = mysqli_query($db_con,"select distinct c_asig from horw where c_asig like 'S%'");
@@ -253,12 +254,6 @@ mysqli_query($db_con, "update horw set a_asig = 'GU' where c_asig = '25'");
 mysqli_query($db_con, "update horw set a_asig = 'GUREC' where c_asig = '353'");
 mysqli_query($db_con, "update horw set a_asig = 'GUBIB' where c_asig = '26'");
 
-// Horw para Faltas
-mysqli_query($db_con, "drop table horw_faltas");
-mysqli_query($db_con, "create table horw_faltas select * from horw where a_grupo in (select distinct nomunidad from unidades) and c_asig not in (select distinct idactividad from actividades_seneca where idactividad not like '2' and idactividad not like '386' and idactividad not like '21')");
-mysqli_query($db_con,"ALTER TABLE `horw_faltas` ADD PRIMARY KEY(`id`)");
-mysqli_query($db_con,"ALTER TABLE  `horw_faltas` CHANGE  `id`  `id` INT( 11 ) NOT NULL AUTO_INCREMENT");
-
 // Cargos varios
 $carg = mysqli_query($db_con, "select distinct prof from horw");
 while ($cargo = mysqli_fetch_array($carg)) {
@@ -292,6 +287,31 @@ while ($cargo = mysqli_fetch_array($carg)) {
 	if (mysqli_num_rows($dep_ya)>0) {
 		mysqli_query($db_con,"update departamentos set cargo='$cargos' where nombre = '$cargo[0]'");
 	}
+
+	// Duplicamos materias comunes de Bachillerato para Sociales y Ciencias	
+$hbr = mysqli_query($db_con, "select distinct nomunidad, count(*) as num from unidades group by nomunidad");
+	while($grupo_hbr = mysqli_fetch_array($hbr)){
+		$grupo_bach='';
+		if($grupo_hbr[1]>1){
+			
+			$grupo_bach=$grupo_hbr[0];
+
+			$hr =mysqli_query($db_con,"SELECT * FROM `materias` WHERE `GRUPO` LIKE '$grupo_bach' and codigo not in (SELECT distinct c_asig FROM `horw` WHERE a_grupo LIKE '$grupo_bach' )");
+				while ($hrf =mysqli_fetch_array($hr)) {
+					$codasig = $hrf[0];
+					$ht =mysqli_query($db_con,"select * from horw where asig='$hrf[1]' and a_asig='$hrf[2]' and a_grupo = '$grupo_bach' and c_asig not like '$hrf[0]'");
+						while($insert = mysqli_fetch_array($ht)){
+			 				$out = mysqli_query($db_con, "INSERT INTO `horw` (`id`, `dia`, `hora`, `a_asig`, `asig`, `c_asig`, `prof`, `no_prof`, `c_prof`, `a_aula`, `n_aula`, `a_grupo`, `nivel`, `n_grupo`, `clase`, `idactividad`) VALUES ('', '$insert[1]', '$insert[2]', '$insert[3]', '$insert[4]', '$codasig', '$insert[6]', '$insert[7]', '$insert[8]', '$insert[9]', '$insert[10]', '$insert[11]', '$insert[12]', '$insert[13]', '$insert[14]', '$insert[15]')");
+			}
+		}
+	}
+}
+
+// Horw para Faltas
+mysqli_query($db_con, "drop table horw_faltas");
+mysqli_query($db_con, "create table horw_faltas select * from horw where a_grupo in (select distinct nomunidad from unidades) and c_asig not in (select distinct idactividad from actividades_seneca where idactividad not like '2' and idactividad not like '386' and idactividad not like '21')");
+mysqli_query($db_con,"ALTER TABLE `horw_faltas` ADD PRIMARY KEY(`id`)");
+mysqli_query($db_con,"ALTER TABLE  `horw_faltas` CHANGE  `id`  `id` INT( 11 ) NOT NULL AUTO_INCREMENT");
 
 	// Tutores
 	$tabla_tut = mysqli_query($db_con, "select * from FTUTORES where tutor = '$cargo[0]'");
