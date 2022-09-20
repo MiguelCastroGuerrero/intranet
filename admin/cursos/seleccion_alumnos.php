@@ -163,6 +163,12 @@ include("../informes/menu_alumno.php");
                                 <div class="panel-body">
 
                                     <?php while ($row_alumno = mysqli_fetch_array($result_alumnos)): ?>
+									<?php 
+									$bilingue = "";
+									$matr = mysqli_fetch_array(mysqli_query($db_con,"select bilinguismo from matriculas_bach where claveal= '".$row_alumno['claveal']."'")); 
+									$bil = $matr[0];
+									if($bil == "Si"){ $bilingue = " (Bil.)";}
+									?>
                                     <?php
                                     $nombre_checkbox = 'checkbox;'.$row['codigo'].';'.$row['grupo'].';'.$row_alumno['claveal'];
                                     if (mysqli_num_rows($result_alumnos_seleccionados) > 0 && in_array($row_alumno['claveal'], $nc_alumnos_seleccionados)) {
@@ -176,7 +182,7 @@ include("../informes/menu_alumno.php");
                                     ?>
                                     <div class="checkbox">
                                         <label for="<?php echo $nombre_checkbox; ?>">
-                                            <input type="checkbox" name="<?php echo $nombre_checkbox; ?>" id="<?php echo $nombre_checkbox; ?>" value="1" <?php echo $checkbox_checked; ?>> <?php echo $row_alumno['apellidos'].', '.$row_alumno['nombre']; ?>
+                                            <input type="checkbox" name="<?php echo $nombre_checkbox; ?>" id="<?php echo $nombre_checkbox; ?>" value="1" <?php echo $checkbox_checked; ?>> <?php echo $row_alumno['apellidos'].', '.$row_alumno['nombre'].$bilingue; ?>
                                         </label>
                                     </div>
                                     <?php endwhile; ?>
