@@ -241,11 +241,7 @@ las Horas de la Ausencia: </h4>
 	class="checkbox-inline"> <input type="checkbox"
 	name="5<?php echo "_".$zz;?>" value="5">5ª</label> <label
 	class="checkbox-inline"> <input type="checkbox"
-	name="6<?php echo "_".$zz;?>" value="6">6ª</label><label
-	class="checkbox-inline"> <input type="checkbox"
-	name="7<?php echo "_".$zz;?>" value="7">7ª</label><label
-	class="checkbox-inline"> <input type="checkbox"
-	name="8<?php echo "_".$zz;?>" value="8">8ª</label>
+	name="6<?php echo "_".$zz;?>" value="6">6ª</label>
 </div>
 
 </div>
