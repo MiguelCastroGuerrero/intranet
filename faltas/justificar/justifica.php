@@ -24,12 +24,12 @@ else
 			foreach ($_POST as $clave => $valor){
 				if (strstr($clave,"_")==TRUE) {
 					$tr_dia = explode("_",$clave);	
-					if(((stristr($_POST['curso-alumno'],'1º de E') OR stristr($_POST['curso-alumno'],'2º de E')) AND $valor<>'5') OR ((stristr($_POST['curso-alumno'],'1º de E')==FALSE AND stristr($_POST['curso-alumno'],'2º de E')==FALSE) AND $valor<>'3')){
+					
 						if ($valor==$faltones[3]) {
 							$justificacion = "UPDATE  FALTAS SET  FALTA =  'J' WHERE  FECHA = '$year-$month-$today' and FALTAS.claveal = '$alumno' and FALTAS.FALTA = 'F' and hora='$valor'";
 							//echo $justificacion."<br>";
 							mysqli_query($db_con, $justificacion);
-						}
+						
 					}
 				}
 			}		
@@ -102,7 +102,7 @@ else
             <button type="button" class="close" data-dismiss="alert">&times;</button>Parece que tenemos un problema: no has seleccionado el Grupo, Alumno o Día para justificar las Faltas de Asistencia. Si lo has hecho, quizás deberías buscar ayuda si este mensaje aparece de nuevo.</div></div>';
 			}
 			else {
-				for ($i=1;$i<9;$i++)
+				for ($i=1;$i<7;$i++)
 				{
 					?>
 					<?php
@@ -156,10 +156,10 @@ else
 								}
 								
 								$enviada = "$year-$month-$today";
-if(((stristr($_POST['curso-alumno'],'1º de E') OR stristr($_POST['curso-alumno'],'2º de E')) AND $valor<>'5') OR ((stristr($_POST['curso-alumno'],'1º de E')==FALSE AND stristr($_POST['curso-alumno'],'2º de E')==FALSE) AND $valor<>'3')){								$justifica10 = "insert INTO  FALTAS (  CLAVEAL , unidad  ,  FECHA ,  HORA , DIA,  PROFESOR ,  CODASI ,  FALTA ) VALUES ('$alumno',  '$unidad', '$year-$month-$hoy_mismo', '$i', '$nombredia', '$profeso',  '$codasi', 'F')";
+								$justifica10 = "insert INTO  FALTAS (  CLAVEAL , unidad  ,  FECHA ,  HORA , DIA,  PROFESOR ,  CODASI ,  FALTA ) VALUES ('$alumno',  '$unidad', '$year-$month-$hoy_mismo', '$i', '$nombredia', '$profeso',  '$codasi', 'F')";
 								//echo $justifica10."<br>";
 								mysqli_query($db_con, $justifica10) or die("No se ha podido justificar las faltas.");
-								}
+								
 							}
 						}
 					}
