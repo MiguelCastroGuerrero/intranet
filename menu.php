@@ -81,7 +81,7 @@ $novedadesConsejeria = obtenerNovedadesConsejeria();
 					<span class="icon-bar"></span>
 				</button>
 
-				<a class="navbar-brand" href="//<?php echo $config['dominio']; ?>/intranet/"><?php echo $config['centro_denominacion']; ?></a>
+				<a class="navbar-brand" href="//<?php echo $config['dominio']; ?>/intranet/index.php"><?php echo $config['centro_denominacion']; ?></a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
