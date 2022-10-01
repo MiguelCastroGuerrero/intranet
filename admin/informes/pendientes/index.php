@@ -192,6 +192,7 @@ include("menu.php");
 				<legend>Nuevo informe</legend>
 				
 				<div class="well">
+					<?php 	//echo $materia.":".$materia2."<br>";?>
 					
 					<form action="index.php" method="post">
 
@@ -200,7 +201,9 @@ include("menu.php");
 							<div class="form-group">
 								<label for="curso">Curso</label>
 								<select id="curso" name="curso" class="form-control" onchange="submit()" required>
-									<option value=""></option>
+									<?php if(strlen($id_informe)>0){ ?>
+									<option value="<?php echo $curso;?>"></option>
+									<?php } ?>
 									<?php foreach ($cursos as $curso_cmp): ?>
 									<option value="<?php echo $curso_cmp; ?>" <?php echo ($curso_cmp == $curso) ? 'selected': ''; ?>><?php echo $curso_cmp; ?></option>
 									<?php endforeach; ?>
@@ -209,8 +212,11 @@ include("menu.php");
 
 							<div class="form-group">
 								<label for="asignatura">Asignatura</label>
+								
 								<select id="asignatura" name="asignatura" class="form-control" onchange="submit()" required>
-									<option value=""></option>
+									<?php if(strlen($id_informe)>0){ ?>
+									<option value="<?php echo $materia;?>"><?php echo $materia;?></option>
+									<?php } ?>
 									<?php if (isset($curso) OR $edita==1): ?>
 									<?php foreach ($materias as $materia_cmp): ?>
 									<option value="<?php echo $materia_cmp; ?>" <?php echo ($materia_cmp == $materia) ? 'selected': ''; ?>><?php echo $materia_cmp; ?></option>
