@@ -174,3 +174,12 @@ if (! mysqli_num_rows($actua)) {
   mysqli_query($db_con, "INSERT INTO `actualizacion` (`modulo`, `fecha`) VALUES ('Actualizacion campos tabla alma', NOW())");
 }
 
+/*
+  @descripcion: Ampliación campo nomunidad en tabla unidades
+  @fecha: 2 de octubre de 2022
+*/
+$actua = mysqli_query($db_con, "SELECT `modulo` FROM `actualizacion` WHERE `modulo` = 'Ampliación campo nomunidad en tabla unidades'");
+if (! mysqli_num_rows($actua)) {
+  mysqli_query($db_con, "ALTER TABLE `unidades` CHANGE `nomunidad` `nomunidad` VARCHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;");
+  mysqli_query($db_con, "INSERT INTO `actualizacion` (`modulo`, `fecha`) VALUES ('Ampliación campo nomunidad en tabla unidades', NOW())");
+}
