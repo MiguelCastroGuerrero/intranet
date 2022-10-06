@@ -24,6 +24,13 @@ else {
 	}
 }
 
+// RESETEADO DE DATOS
+if($_POST['delButton']=="Borrar datos"){
+	$delete = mysqli_query($db_con, "delete from puestos_alumnos where unidad='".$_SESSION['mod_tutoria']['unidad']."'");
+		if(! $delete) $msg_error = "El borrado de datos de puestos en el aula no se ha podido realizar. Error: ".mysqli_error($db_con);
+	else $msg_success = "Los datos de puestos de alumnos de tu grupo han sido eliminados.";
+}
+
 // ESTRUCTURA DE LA CLASE, SE AJUSTA AL NUMERO DE ALUMNOS
 $result = mysqli_query($db_con, "SELECT apellidos, nombre, claveal FROM alma WHERE unidad='".$_SESSION['mod_tutoria']['unidad']."' ORDER BY apellidos ASC, nombre ASC");
 $n_alumnos = mysqli_num_rows($result);
@@ -50,7 +57,7 @@ function obtenerAlumno($var_nie, $var_grupo){
 }
 
 // ACTUALIZAR PUESTOS
-if (isset($_POST['listOfItems'])){
+if (isset($_POST['listOfItems']) AND !isset($_POST['delButton'])){
 	$result_update = mysqli_query($db_con, "UPDATE puestos_alumnos SET estructura='".$mesas_estructura."',puestos='".$_POST['listOfItems']."' WHERE unidad='".$_SESSION['mod_tutoria']['unidad']."'");
 	if(! $result_update) $msg_error = "La asignación de puestos en el aula no se ha podido actualizar. Error: ".mysqli_error($db_con);
 	else $msg_success = "La asignación de puestos en el aula se ha actualizado correctamente.";
@@ -303,6 +310,7 @@ include("menu.php");
 					<form id="myForm" name="myForm" method="post" action="" onsubmit="saveDragDropNodes()">
 						<input type="hidden" name="listOfItems" value="">
 						<button type="submit" class="btn btn-primary" name="saveButton">Guardar cambios</button>
+						<input type="submit" class="btn btn-info" name="delButton" value="Borrar datos"/>
 						<a href="#" class="btn btn-default" onclick="javascript:print();">Imprimir</a>
 						<a class="btn btn-default" href="index.php">Volver</a>
 					</form>

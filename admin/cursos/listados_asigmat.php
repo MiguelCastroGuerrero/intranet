@@ -128,7 +128,7 @@ foreach ($unidades as $unidad) {
 
 		$result_asignaturas = mysqli_query($db_con, "SELECT codigo, abrev FROM asignaturas WHERE abrev NOT LIKE '%\_%' AND abrev <> 'TCA' AND curso = '".$curso."' ORDER BY abrev ASC");
 		while ($row_asignaturas = mysqli_fetch_array($result_asignaturas)) {
-			if ($esPMAR && stristr($row_asignaturas['abrev'], '**') == true) {
+			if ($esPMAR && (stristr($row_asignaturas['abrev'], '**') == true OR $row_asignaturas['abrev'] == 'ACT'  OR $row_asignaturas['abrev'] == 'ALS')) {
 				$codasig_pmar = $row_asignaturas['codigo'];
 			}
 

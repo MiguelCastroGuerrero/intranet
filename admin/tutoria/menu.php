@@ -113,12 +113,9 @@ $curso_tutor=$query2[0];
 		$inf_t = mysqli_query($db_con,"select idcurso from unidades where nomunidad = '".$_SESSION['mod_tutoria']['unidad']."'"); 
 		$id_t = mysqli_fetch_array($inf_t);
 		$id_curso = $id_t[0];
-		if (strstr($id_curso,"10114")==TRUE or $id_curso=="105806" or $id_curso=="105825"):
 		?>
 		<li><a href="../tutoria/informe_evaluaciones.php">Informes de Evaluación</a></li>
 		<li class="divider"></li>
-		<?php endif; ?>
-		
 		<?php 
 		if ($id_curso=="101140"):
 		?>
