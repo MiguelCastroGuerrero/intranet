@@ -62,6 +62,8 @@ if (isset($_POST['config']))
 	$db_user	= limpiar_string($_POST['db_user']);
 	$db_pass	= limpiar_string($_POST['db_pass']);
 
+	$ip_blacklist = (isset($_POST['ip_blacklist'])) ? limpiar_string($_POST['ip_blacklist']) : '';
+
 	$email_smtp 			= (isset($_POST['email_smtp'])) ? 1 : 0;
 	$email_smtp_hostname	= limpiar_string($_POST['email_smtp_hostname']);
 	$email_smtp_port		= intval($_POST['email_smtp_port']);
@@ -170,6 +172,9 @@ if (isset($_POST['config']))
 		fwrite($file, "\$config['curso_actual']\t= '$curso_escolar';\r\n");
 		fwrite($file, "\$config['curso_inicio']\t= '$fecha_inicio';\r\n");
 		fwrite($file, "\$config['curso_fin']\t= '$fecha_final';\r\n");
+
+		fwrite($file, "\r\n// BLACKLIST INICIOS DE SESION\r\n");
+		fwrite($file, "\$config['ip_blacklist']\t= '$ip_blacklist';\r\n");
 
 		fwrite($file, "\r\n// SERVIDOR SMTP\r\n");
 		fwrite($file, "\$config['email_smtp']['isSMTP']\t\t\t= $email_smtp;\r\n");
@@ -472,6 +477,15 @@ include('../menu.php');
 										<input type="checkbox" name="mantenimiento" value="1" <?php echo (isset($config['mantenimiento']) && $config['mantenimiento']) ? 'checked' : ''; ?>>
 										<strong>Modo mantenimiento.</strong> Solo equipo directivo tiene acceso a la Intranet.
 									</label>
+								</div>
+
+								<br>
+
+								<div class="form-group">
+									<label for="ip_blacklist" class="col-sm-<?php echo $tam_label; ?> control-label">IP Blacklist</label>
+									<div class="col-sm-<?php echo $tam_control; ?>">
+										<input type="text" class="form-control" id="ip_blacklist" name="ip_blacklist" value="<?php echo isset($config['ip_blacklist']) ? $config['ip_blacklist'] : ''; ?>" maxlength="255">
+									</div>
 								</div>
 
 							</div>
