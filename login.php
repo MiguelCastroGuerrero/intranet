@@ -129,6 +129,26 @@ if (isset($_POST['submit']) && ! (strlen($_POST['USUARIO']) < 5 || strlen($_POST
 				}
 			}
 
+			// Comprobamos si la dirección IP está en la lista negra
+			if (isset($config['ip_blacklist']) && $config['ip_blacklist']) {
+
+				// Obtenemos los datos de navegación del usuario
+				$direccionIP = getRealIP();
+
+				$ip_blacklist = file_get_contents($config['ip_blacklist']);
+
+				$ip_blacklist_pos = strpos($ip_blacklist, $direccionIP);
+
+				if ($ip_blacklist_pos !== false) {
+
+					$sesionIntranet = 0;
+
+					if (! isset($msg_error)) {
+						$msg_error = "No se permite el inicio de sesión desde esta dirección IP";
+					}
+				}
+			}
+
 			// CONSTRUIMOS LA SESIÓN EN LA INTRANET
 			if ($sesionIntranet) {
 				$_SESSION['intranet_auth'] = 1;
@@ -180,9 +200,7 @@ if (isset($_POST['submit']) && ! (strlen($_POST['USUARIO']) < 5 || strlen($_POST
 					$_SESSION['fondo'] = "navbar-default";
 				}
 
-				// Obtenemos los datos de navegación del usuario
-				$direccionIP = getRealIP();
-				$useragent = limpiarInput($_SERVER['HTTP_USER_AGENT'], 'alphanumericspecial');
+				
 				
 				// Registramos la sesión
 				mysqli_query($db_con, "INSERT INTO reg_intranet (profesor, fecha, ip, useragent) VALUES ('".$_SESSION['ide']."','".date('Y-m-d H:i:s')."','".$direccionIP."', '".$useragent."')");
