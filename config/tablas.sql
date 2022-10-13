@@ -1864,6 +1864,13 @@ CREATE TABLE IF NOT EXISTS `reservas_hor` (
   `hora5` varchar(24) DEFAULT NULL,
   `hora6` varchar(24) DEFAULT NULL,
   `hora7` varchar(24) DEFAULT NULL,
+  `hora8` varchar(24) DEFAULT NULL,
+  `hora9` varchar(24) DEFAULT NULL,
+  `hora10` varchar(24) DEFAULT NULL,
+  `hora11` varchar(24) DEFAULT NULL,
+  `hora12` varchar(24) DEFAULT NULL,
+  `hora13` varchar(24) DEFAULT NULL,
+  `hora14` varchar(24) DEFAULT NULL,
   `servicio` varchar(32) NOT NULL,
   PRIMARY KEY (`dia`,`servicio`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
