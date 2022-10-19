@@ -161,7 +161,7 @@ while ($unidad = mysqli_fetch_array($unidades)) {
 	$pdf->Row(array("\n\n\n\n",'','','',''));
 	
 	
-	$pdf->Ln(5);
+	$pdf->Ln(3);
 	$pdf->SetFont('NewsGotT','B',9);
 	$pdf->Cell(273,5,"A - Ir al Aseo. B - Ir a beber agua. F - Falta de Asistencia. R - Retraso injustificado. J - Viene de Jefatura.",0,0,'C');
 	
