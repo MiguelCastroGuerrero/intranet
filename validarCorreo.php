@@ -1,7 +1,7 @@
 <?php
 require('bootstrap.php');
 
-$verificacion = str_replace(' ', '+', urldecode($_GET['verificar']));
+$verificacion = base64_decode(urldecode($_GET['verificar']));
 
 $cadena = descifrarTexto($verificacion);
 $exp_cadena = explode('|', $cadena);

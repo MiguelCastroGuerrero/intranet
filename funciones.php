@@ -1085,7 +1085,7 @@ function correoValidacion() {
             $nombre_profesor = $nombre_completo_profesor;
         }
 
-        $codigo_verificacion = cifrarTexto($id_profesor.'|'.$correo_profesor);
+        $codigo_verificacion = base64_encode(cifrarTexto($id_profesor.'|'.$correo_profesor));
 
         $url_verificacion = "https://".$config['dominio']."/intranet/validarCorreo.php?verificar=".urlencode($codigo_verificacion);
 
