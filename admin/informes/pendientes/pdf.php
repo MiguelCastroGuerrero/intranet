@@ -52,10 +52,23 @@ define("DOMPDF_ENABLE_PHP", true);
 
 	$asigna_pend = mysqli_query($db_con,"select distinct codigo from pendientes where claveal='$claveal'");
 	while($nom_asig = mysqli_fetch_array($asigna_pend)){
-			
-		$asignat = mysqli_fetch_array(mysqli_query($db_con,"select distinct nombre, curso from asignaturas where codigo='$nom_asig[0]' and abrev not like '%\_%' limit 1"));
-			$asignatura_pend = $asignat['nombre'];
-			$curso_pend = $asignat['curso'];
+				
+		$a_pend = mysqli_query($db_con,"select distinct nombre, curso from asignaturas where codigo='$nom_asig[0]' and abrev not like '%\_%' limit 1");
+								
+								if(mysqli_num_rows($a_pend)<1){
+								$a_pend = mysqli_query($db_con,"select distinct nombre, curso from asignaturas where codigo='$nom_asig[0]' limit 1");
+								}
+								$asignat = mysqli_fetch_array($a_pend);
+								
+								$asignatura_pend = $asignat['nombre'];
+								
+								if(stristr($asignat['curso'], "Bachill")==TRUE){
+									$curso_pend = "1".substr($asignat['curso'],1,100);
+								}
+								else{
+									$curso_pend = $asignat['curso'];
+								}
+									
 							
 		$n_inf = mysqli_query($db_con,"select id_informe from informe_pendientes where asignatura like '$asignatura_pend' and curso like '$curso_pend'");
 		while($id_inf = mysqli_fetch_array($n_inf)){

@@ -43,15 +43,27 @@ include("menu.php");
 						
 						$al_pendiente = mysqli_query($db_con,"select distinct pendientes.claveal, alma.apellidos, alma.nombre, alma.unidad from pendientes, alma where pendientes.claveal = alma.claveal $extra_curso order by alma.unidad, apellidos, nombre asc");	
 						while ($alumno_informe = mysqli_fetch_array($al_pendiente)) {
-							$cod = mysqli_query($db_con,"select distinct codigo from pendientes where claveal='$alumno_informe[0]'");
-							
+							$cod = mysqli_query($db_con,"select distinct codigo from pendientes where claveal='$alumno_informe[0]'");							
 							while($cod_pend = mysqli_fetch_array($cod)){
 								
-								$asignat = mysqli_fetch_array(mysqli_query($db_con,"select distinct nombre, curso from asignaturas where codigo='$cod_pend[0]' and abrev not like '%\_%' limit 1"));
+								$a_pend = mysqli_query($db_con,"select distinct nombre, curso from asignaturas where codigo='$cod_pend[0]' and abrev not like '%\_%' limit 1");
+								
+								if(mysqli_num_rows($a_pend)<1){
+								$a_pend = mysqli_query($db_con,"select distinct nombre, curso from asignaturas where codigo='$cod_pend[0]' limit 1");
+								}
+								$asignat = mysqli_fetch_array($a_pend);
+								
 								$asignatura_pend = $asignat['nombre'];
-								$curso_pend = $asignat['curso'];
-							
+								
+								if(stristr($asignat['curso'], "Bachill")==TRUE){
+									$curso_pend = "1".substr($asignat['curso'],1,100);
+								}
+								else{
+									$curso_pend = $asignat['curso'];
+								}
+															
 								$n_inf = mysqli_query($db_con,"select id_informe from informe_pendientes where asignatura like '$asignatura_pend' and curso like '$curso_pend' $extra_dep1");
+								//echo "select id_informe from informe_pendientes where asignatura like '$asignatura_pend' and curso like '$curso_pend' $extra_dep1<br>";
 								
 								if(mysqli_num_rows($n_inf)>0){							
 						?>						
