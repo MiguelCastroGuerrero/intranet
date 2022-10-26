@@ -9,6 +9,11 @@ include("../menu.php");
 
 if (isset($_POST['enviar']) or isset($_GET['enviar'])) {
 
+	$control = mysqli_query($db_con,"select hora8 from reservas_hor");
+	if(!$control){
+		mysqli_query($db_con,"ALTER TABLE `reservas_hor` ADD `hora8` VARCHAR(24) NULL AFTER `hora7`, ADD `hora9` VARCHAR(24) NULL AFTER `hora8`, ADD `hora10` VARCHAR(24) NULL AFTER `hora9`, ADD `hora11` VARCHAR(24) NULL AFTER `hora10`, ADD `hora12` VARCHAR(24) NULL AFTER `hora11`, ADD `hora13` VARCHAR(24) NULL AFTER `hora12`, ADD `hora14` VARCHAR(24) NULL AFTER `hora13`");
+	}
+	
 	for ($i=1;$i<=15;$i++)
 	{
 		if (isset($_POST['day_event'.$i]) and
@@ -85,7 +90,6 @@ WHERE event1 = '' and event2 = ''  and event3 = ''  and event4 = ''  and event5
 (eventdate,dia,event1,event2,event3,event4,event5,event6,event7,event8,event9,event10,event11,event12,event13,event14, servicio) VALUES
 ('$sql_date','$numero_dia','".$day_event1."','".$day_event2."','".$day_event3."'
 ,'".$day_event4."','".$day_event5."','".$day_event6."','".$day_event7."','".$day_event8."','".$day_event9."','".$day_event10."','".$day_event11."','".$day_event12."','".$day_event13."','".$day_event14."', '$servicio')";
-		 //echo $postQuery;
 		$postExec = mysqli_query($db_con, $postQuery) or die('Error al insertar la información de reservas. MySQL Error: '.mysqli_error($db_con));
 
 		mysqli_query($db_con, "DELETE FROM `reservas`
