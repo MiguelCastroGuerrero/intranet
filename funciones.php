@@ -11,6 +11,14 @@ function add_security_header() {
     header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' stackpath.bootstrapcdn.com code.jquery.com cdnjs.cloudflare.com cdn.jsdelivr.net cdn.tiny.cloud www.google.com maps.googleapis.com www.googletagmanager.com www.google-analytics.com www.gstatic.com platform.twitter.com syndication.twitter.com cdn.syndication.twimg.com app.bookitit.com connect.facebook.net; style-src 'self' 'unsafe-inline' stackpath.bootstrapcdn.com cdnjs.cloudflare.com cdn.tiny.cloud fonts.googleapis.com fonts.gstatic.com platform.twitter.com syndication.twitter.com cdn.syndication.twimg.com ton.twimg.com app.bookitit.com; img-src 'self' sp.tinymce.com www.google-analytics.com maps.gstatic.com maps.googleapis.com stats.g.doubleclick.net *.googleusercontent.com ton.twimg.com pbs.twimg.com platform.twitter.com syndication.twitter.com app.bookitit.com www.juntadeandalucia.es data: blob:; font-src 'self' fonts.googleapis.com fonts.gstatic.com; frame-src view.genial.ly www.youtube.com *.google.com maps.gstatic.com maps.googleapis.com platform.twitter.com syndication.twitter.com www.facebook.com drive.google.com");
 }
 
+function base64url_encode($data) {
+  return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+}
+
+function base64url_decode($data) {
+  return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
+}
+
 function cifrarTexto($plaintext) {
   global $config;
 
@@ -1085,9 +1093,9 @@ function correoValidacion() {
             $nombre_profesor = $nombre_completo_profesor;
         }
 
-        $codigo_verificacion = base64_encode(cifrarTexto($id_profesor.'|'.$correo_profesor));
+        $codigo_verificacion = base64url_encode(cifrarTexto($id_profesor.'|'.$correo_profesor));
 
-        $url_verificacion = "https://".$config['dominio']."/intranet/validarCorreo.php?verificar=".urlencode($codigo_verificacion);
+        $url_verificacion = "https://".$config['dominio']."/intranet/validarCorreo.php?verificar=".$codigo_verificacion;
 
         $mail->IsHTML(true);
 
