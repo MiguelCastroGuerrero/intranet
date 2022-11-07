@@ -355,7 +355,7 @@ function acl_acceso($cargo_usuario, $cargo_requerido) {
 
 function generateRandomPassword($long = 13)
 {
-	$alfabeto = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+	$alfabeto = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789!#$%&*+-.:;=?@_";
     $pass = array();
     $long_alfabeto = strlen($alfabeto) - 1;
     for ($i = 0; $i < $long; $i++) {

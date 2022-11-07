@@ -53,15 +53,23 @@ while ($unidad = mysqli_fetch_array($unidades)) {
 	$x_image=20;
 	$y_image=21;
 	while ($alumno = mysqli_fetch_object($result)) {
+
 		if($i%5==0) $ln=1; else $ln=0;
 		
 		$pdf->Cell(37,42,'',1,$ln,'C'); // Dibuja una cuadrícula
+		
+		try {
+			if ($foto = obtener_foto_alumno($alumno->claveal)) {
+				$exp_foto = explode('.', $foto);
+				$extension_foto = trim($exp_foto[1]);
 
-		if ($foto = obtener_foto_alumno($alumno->claveal)) {
-			$exp_foto = explode('.', $foto);
-			$extension_foto = trim($exp_foto[1]);
-
-			$pdf->Image("../../xml/fotos/".$foto,$x_image,$y_image,23,30,$extension_foto);
+				$pdf->Image("../../xml/fotos/".$foto,$x_image,$y_image,23,30,$extension_foto);
+			}
+		}
+		catch (Exception $e){
+			$pdf->SetFont('NewsGotT','',8);
+			$pdf->Text($x_image,$y_image+15,"Sin foto o error al cargar");
+			//echo "Exception to load file ". $foto . "\n";
 		}
 		$pdf->SetFont('NewsGotT','B',9);
 		$pdf->Text($x_texto1-strlen($alumno->apellidos)/2,$y_texto1,$alumno->apellidos);
@@ -94,5 +102,5 @@ while ($unidad = mysqli_fetch_array($unidades)) {
 		
 }
 
+
 $pdf->Output('Fotos de alumnos.pdf','I');
-?>
