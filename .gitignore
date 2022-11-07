@@ -1,44 +1,50 @@
+# System and IDE temp files
 .DS_Store
 .settings
 .project
-*.xml
+*.sublime-project
+*.sublime-workspace
+.buildpath
+
+# PHP settings
+php.ini
+
+# Backup files
+*_seg*
+*.gz
+
+# Cache and logs
+/cache/*
+/pdf/lib/fonts/log.htm
+
+# Images
 xml/fotos/*.jpg
 xml/fotos/*.jpeg
 xml/fotos_profes/*.jpg
 xml/fotos_profes/*.jpeg
+
+# Temp files
 xml/jefe/TIC/*.txt
-cache/*
-/config.php
-/config_datos.php
-*_seg*
-*.gz
-pdf/lib/fonts/log.htm
-.buildpath
 xml/primaria/*.txt
 *.txt
-php.ini
-
-admin/jefatura/index_prof.php
-admin/jefatura/insertar_prof.php
-pruebas/*
-
-prueba.php
-
-admin/departamento/actas/config.php
-admin/evaluaciones/config.php
-
-admin/guardias/config.php
-
-admin/fechorias/config.php
-
-admin/matriculas/config.php
-
-*.sublime-project
-
-*.sublime-workspace
-
+*.xml
 *.csv
 
-calendario/config.php
-pruebas.php
+# Configuration files
+/config.php
+/config_datos.php
+/admin/departamento/actas/config.php
+/admin/evaluaciones/config.php
+/admin/guardias/config.php
+/admin/fechorias/config.php
+/admin/matriculas/config.php
+/admin/jefatura/index_prof.php
+/admin/jefatura/insertar_prof.php
+/calendario/config.php
+
+# Testing folder
+/pruebas/*
+prueba*.php
+
+# Others
 xml/alumnado/*
