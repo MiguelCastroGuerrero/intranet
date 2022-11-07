@@ -138,11 +138,10 @@ include '../../menu.php';
 
 					// Borramos archivos antiguos
 					$files = glob('../exporta/*');
-						foreach($files as $file)
-						{
-  						if(is_file($file) and stristr($file, "index")==FALSE)
-    						unlink($file);
-						}
+					foreach($files as $file) {
+						if(is_file($file) and stristr($file, "index")==FALSE)
+						unlink($file);
+					}
 
 					$archive = new PclZip($_FILES['archivo2']['tmp_name']);
 					if ($archive->extract(PCLZIP_OPT_PATH, '../exporta') == 0)
@@ -213,6 +212,13 @@ include '../../menu.php';
 
 					// Asignaturas y alumnos con pendientes
 					include("asignaturas.php");
+
+					// Borramos archivos antiguos
+					$files = glob('../exporta/*');
+					foreach($files as $file) {
+						if(is_file($file) and stristr($file, "index")==FALSE)
+						unlink($file);
+					}
 
 				}
 				else{
