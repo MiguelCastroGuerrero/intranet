@@ -66,7 +66,7 @@ elseif (isset($_GET['alumno'])) {
 else {
 	$alumno = "";
 }
-
+$alumno = str_ireplace("'","",$alumno);
 
 if (isset($_POST['observaciones'])) {
 	$observaciones = $_POST['observaciones'];
