@@ -454,7 +454,6 @@ foreach ($array_unidades as $hora2) {
 						$tr = mysqli_query($db_con,"select * from calendario where id = '$actividad[0]' and  (hour(horaini)<= '".$ini_extra[0]."' or hour(horaini)='00:00:00') and (hour(horafin)>= '".$fin_extra[0]."' or hour(horafin)='00:00:00')");
 						if (mysqli_num_rows($tr)>0) {
 							$hay_actividad = 1;
-							echo "Tarari: ".$hay_actividad;
 						}
 					}
 				}
