@@ -1499,6 +1499,8 @@ if (headers_sent()) {
   // Request is a file download.
   if (!empty($_GET['method']) && $_GET['method'] == 'getfile' && !empty($_GET['file'])) {
 
+  	$realpath = ft_get_dir().'/'.basename($_GET['file']);
+  	
     ft_sanitize_request();
     // Make sure we don't run out of time to send the file.
     @ignore_user_abort();
@@ -1506,7 +1508,7 @@ if (headers_sent()) {
     @ini_set("zlib.output_compression", "Off");
     @session_write_close();
     // Open file for reading
-    if(!$fdl=@fopen(ft_get_dir().'/'.$_GET['file'],'rb')){
+    if(!$fdl=@fopen($realpath,'rb')){
         die("Cannot Open File!");
     } else {
       ft_invoke_hook('download', ft_get_dir(), $_GET['file']);

@@ -341,6 +341,10 @@ $menu_alumnos = array(
 					array(
 						'href'   => 'admin/departamento/adaptaciones/index.php',
 						'titulo' => 'Adaptaciones curriculares (ACNS)',
+					),
+					array(
+						'href'   => 'admin/departamento/refuerzo/index.php',
+						'titulo' => 'Informes PRA',
 					)
 				)
 			),

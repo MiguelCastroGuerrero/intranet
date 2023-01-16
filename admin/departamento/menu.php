@@ -33,6 +33,7 @@
 			
 		<li<?php if (strstr($_SERVER['REQUEST_URI'],'actividades/indexextra.php')==TRUE) echo ' class="active"'; ?>><a href="//<?php echo $config['dominio']; ?>/intranet/admin/actividades/indexextra.php">Actividades extraescolares</a></li>
 		<li<?php if (strstr($_SERVER['REQUEST_URI'],'adaptaciones/')==TRUE) echo ' class="active"'; ?>><a href="//<?php echo $config['dominio']; ?>/intranet/admin/departamento/adaptaciones/">Adaptaciones curriculares (ACNS)</a></li>
+		<li<?php if (strstr($_SERVER['REQUEST_URI'],'refuerzo/')==TRUE) echo ' class="active"'; ?>><a href="//<?php echo $config['dominio']; ?>/intranet/admin/departamento/refuerzo/">Informes PRA</a></li>
 		<li role="presentation" class="dropdown">
 	    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 	      Material <span class="caret"></span>

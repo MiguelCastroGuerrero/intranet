@@ -55,7 +55,7 @@ $novedadesConsejeria = obtenerNovedadesConsejeria();
 	<link href="//<?php echo $config['dominio']; ?>/intranet/css/otros.css" rel="stylesheet">
 
 	<!-- PLUGINS CSS -->
-	<link href="//<?php echo $config['dominio']; ?>/intranet/vendor/fontawesome-free-5.13.0-web/css/all.css" rel="stylesheet">
+	<link href="//<?php echo $config['dominio']; ?>/intranet/vendor/fontawesome-free-5.15.4-web/css/all.css" rel="stylesheet">
 	<link href="//<?php echo $config['dominio']; ?>/intranet/js/datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet">
 	<?php if(isset($PLUGIN_DATATABLES) && $PLUGIN_DATATABLES): ?>
 	<link href="//<?php echo $config['dominio']; ?>/intranet/js/datatables/dataTables.bootstrap.min.css" rel="stylesheet">

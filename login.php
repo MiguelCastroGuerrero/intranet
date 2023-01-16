@@ -259,7 +259,7 @@ $html_token = outputToken();
 	<title>Intranet &middot; <?php echo $config['centro_denominacion']; ?></title>
 
 	<link href="//<?php echo $config['dominio']; ?>/intranet/css/bootstrap.min.css" rel="stylesheet">
-	<link href="//<?php echo $config['dominio']; ?>/intranet/vendor/fontawesome-free-5.13.0-web/css/all.css" rel="stylesheet">
+	<link href="//<?php echo $config['dominio']; ?>/intranet/vendor/fontawesome-free-5.15.4-web/css/all.css" rel="stylesheet">
 	<link href="//<?php echo $config['dominio']; ?>/intranet/css/animate.css" rel="stylesheet">
 	<link href="//<?php echo $config['dominio']; ?>/intranet/css/login.css" rel="stylesheet">
 	<?php if (isset($background_color)): ?>
@@ -283,7 +283,7 @@ $html_token = outputToken();
 				<h4>Inicia sesión para acceder</h4>
 			</div>
 
-	        <form name="login" class="form-signin" method="post" autocomplete="off">
+	        <form name="login" class="form-signin" method="post">
 				<?php if($msg_error): ?>
 				<p class="text-error text-danger"><?php echo $msg_error; ?></p>
 				<?php endif; ?>
