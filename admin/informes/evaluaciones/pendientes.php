@@ -51,14 +51,21 @@ mysqli_free_result($result);
 if ($existenNotas) {
 	
 	// Comprobamos si se ha creado el informe
-	$result_informe = mysqli_query($db_con, "SELECT * FROM `informe_evaluaciones_pendientes_".$evaluacion_seleccionada."` JOIN cursos ON `informe_evaluaciones_pendientes_".$evaluacion_seleccionada."`.idcurso = cursos.idcurso JOIN unidades ON `informe_evaluaciones_asignaturas_".$evaluacion_seleccionada."`.idunidad = unidades.idunidad");
+	$result_informe = mysqli_query($db_con, "SELECT `idcurso`, `idunidad`, `total_alumnos`, `asignaturas` FROM `informe_evaluaciones_pendientes_".$evaluacion_seleccionada."`");
 	if (mysqli_num_rows($result_informe)) {
 		$i = 0;
 		while ($row_resultados_evaluaciones = mysqli_fetch_array($result_informe, MYSQLI_ASSOC)) {
+
+			$result_nomcurso = mysqli_query($db_con, "SELECT `nomcurso` FROM `cursos` WHERE `idcurso` = '".$row_resultados_evaluaciones['idcurso']."' LIMIT 1");
+			$row_result_nomcurso = mysqli_fetch_array($result_nomcurso, MYSQLI_ASSOC);
+
+			$result_nomunidad = mysqli_query($db_con, "SELECT `nomunidad` FROM `unidades` WHERE `idunidad` = '".$row_resultados_evaluaciones['idunidad']."' LIMIT 1");
+			$row_result_nomunidad = mysqli_fetch_array($result_nomunidad, MYSQLI_ASSOC);
+
 			$resultados_evaluaciones[$i]['idcurso'] = $row_resultados_evaluaciones['idcurso'];
-			$resultados_evaluaciones[$i]['nomcurso'] = $row_resultados_evaluaciones['nomcurso'];
+			$resultados_evaluaciones[$i]['nomcurso'] = $row_result_nomcurso['nomcurso'];
 			$resultados_evaluaciones[$i]['idunidad'] = $row_resultados_evaluaciones['idunidad'];
-			$resultados_evaluaciones[$i]['nomunidad'] = $row_resultados_evaluaciones['nomunidad'];
+			$resultados_evaluaciones[$i]['nomunidad'] = $row_result_nomunidad['nomunidad'];
 			$resultados_evaluaciones[$i]['total_alumnos'] = $row_resultados_evaluaciones['total_alumnos'];
 			$resultados_evaluaciones[$i]['asignaturas'] = unserialize($row_resultados_evaluaciones['asignaturas']);
 			$i++;
@@ -262,9 +269,9 @@ include("menu.php");
 						<tr>
 							<th>Totales</th>
 							<?php for ($i = 0; $i < $num_columnas; $i++): ?>
-							<th class="text-center text-success"><?php echo ${matriculados.$i}; ?></th>
-							<th class="text-center text-success"><?php echo ${aprobados.$i}; ?><br><small>(<?php echo number_format((${aprobados.$i} * 100) / ${matriculados.$i}, 0); ?>%)</small></th>
-							<th class="text-center text-danger"><?php echo ${suspensos.$i}; ?><br><small>(<?php echo number_format((${suspensos.$i} * 100) / ${matriculados.$i}, 0); ?>%)</small></th>
+							<th class="text-center"><?php echo ${matriculados.$i}; ?></th>
+							<th class="text-center text-success"><?php echo ${aprobados.$i}; ?><br><small>(<?php echo ceil(number_format((${aprobados.$i} * 100) / ${matriculados.$i}, 1)); ?>%)</small></th>
+							<th class="text-center text-danger"><?php echo ${suspensos.$i}; ?><br><small>(<?php echo ceil(number_format((${suspensos.$i} * 100) / ${matriculados.$i}, 1)); ?>%)</small></th>
 							<?php unset(${matriculados.$i}); ?>
 							<?php unset(${aprobados.$i}); ?>
 							<?php unset(${suspensos.$i}); ?>

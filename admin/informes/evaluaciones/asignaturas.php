@@ -273,8 +273,8 @@ include("menu.php");
 							<th>Totales</th>
 							<th><?php echo $total_alumnos; ?></th>
 							<?php for ($i = 0; $i < $num_columnas; $i++): ?>
-							<th class="text-center text-success"><?php echo ${aprobados.$i}; ?><br><small>(<?php echo number_format((${aprobados.$i} * 100) / ${matriculados.$i}, 0); ?>%)</small></th>
-							<th class="text-center text-danger"><?php echo ${suspensos.$i}; ?><br><small>(<?php echo number_format((${suspensos.$i} * 100) / ${matriculados.$i}, 0); ?>%)</small></th>
+							<th class="text-center text-success"><?php echo ${aprobados.$i}; ?><br><small>(<?php echo ceil(number_format((${aprobados.$i} * 100) / ${matriculados.$i}, 1)); ?>%)</small></th>
+							<th class="text-center text-danger"><?php echo ${suspensos.$i}; ?><br><small>(<?php echo ceil(number_format((${suspensos.$i} * 100) / ${matriculados.$i}, 1)); ?>%)</small></th>
 							<?php unset(${matriculados.$i}); ?>
 							<?php unset(${aprobados.$i}); ?>
 							<?php unset(${suspensos.$i}); ?>
