@@ -42,12 +42,6 @@ $menu = array(
 				'titulo' => 'Administración de la Intranet',
 			),
 			array(
-				'href'   => 'admin/matriculas/index.php',
-				'titulo' => 'Matriculación de alumnos',
-				'modulo'  => $config['mod_matriculacion'],
-				'meses'	 => array(6, 7, 8, 9),
-			),
-			array(
 				'href'   => 'admin/jefatura/index.php',
 				'titulo' => 'Intervenciones',
 			),
@@ -207,12 +201,17 @@ $menu_centro = array(
 			),
 			array(
 				'href'   => '#',
-				'titulo' => 'Centro TIC',
+				'titulo' => 'Centro TDE',
 				'modulo' => $config['mod_centrotic'],
 				'items' => array(
+								
+					
+					
+					
+																		
 					array(
 						'href'   => 'TIC/index.php',
-						'titulo' => 'Incidencias TIC',
+						'titulo' => 'Incidencias TDE',
 					),
 					array(
 						'href'   => 'TIC/incidencia.php',
@@ -271,7 +270,16 @@ if ($_SERVER['SERVER_NAME'] == "iesmonterroso.org") {
 						'titulo' => 'Plan de centro',
 						'target' => '_blank',
 				);
-	array_push($menu_centro[0]['items'], $monterroso1, $monterroso2);
+	$monterroso3 = array(
+						'href'   => 'TIC/comp_dig/index.php',
+						'titulo' => 'Competencia Digital',
+					);
+	$monterroso4 = array(
+						'href'   => 'TIC/AEPD/index.php',
+						'titulo' => 'Tratamiento de Datos',
+					);
+    array_push($menu_centro[0]['items'], $monterroso1, $monterroso2);
+	array_unshift($menu_centro[0]['items'][3]['items'], $monterroso3, $monterroso4);
 }
 
 $menu_alumnos = array(
@@ -333,18 +341,11 @@ $menu_alumnos = array(
 					array(
 						'href'   => 'admin/informes/extraordinaria/index.php',
 						'titulo' => 'Informes de evaluación extraordinaria',
-					),					
-					array(
-						'href'   => 'admin/informes/pendientes/index.php',
-						'titulo' => 'Informes de materias pendientes',
+						'meses'	 => array(5, 6),
 					),
 					array(
 						'href'   => 'admin/departamento/adaptaciones/index.php',
 						'titulo' => 'Adaptaciones curriculares (ACNS)',
-					),
-					array(
-						'href'   => 'admin/departamento/refuerzo/index.php',
-						'titulo' => 'Informes PRA',
 					)
 				)
 			),
@@ -356,7 +357,7 @@ $menu_alumnos = array(
 				'href'   => 'admin/matriculas/index.php',
 				'titulo' => 'Matriculación',
 				'modulo'  => $config['mod_matriculacion'],
-				'cargos' => array(7),
+				'cargos' => array(1,7),
 				)
 			)
 		)
@@ -482,7 +483,7 @@ if (file_exists('./admin/departamento/actas/config.php')) {
 	}
 }
 
-if (count($menu_actas['items']) > 0 && acl_permiso($_SESSION['cargo'], array('1','4','f','9','a'))) {
+if (count($menu_actas['items'])>0 AND acl_permiso($_SESSION['cargo'], array(1,4,f,9,a))) {
 	array_push($menu_profesores[0]['items'], $menu_actas);
 }
 
@@ -591,7 +592,7 @@ $paginas_interes = array(
 			),
 			array(
 				'href'   => 'http://www.juntadeandalucia.es/educacion/portals/web/ced',
-				'titulo' => 'Consejería de Desarrollo Educativo y Formación Profesional',
+				'titulo' => 'Consejería de Educación y Deporte',
 				'target' => '_blank',
 			),
 			array(
@@ -617,7 +618,6 @@ $paginas_interes = array(
 if (file_exists('menu_lateral_centro.php')) {
 	include('menu_lateral_centro.php');
 }
-
 
 
 $menu = array_merge($menu, $menu_centro, $menu_alumnos, $menu_profesores, $menu_utilidades, $paginas_interes);
